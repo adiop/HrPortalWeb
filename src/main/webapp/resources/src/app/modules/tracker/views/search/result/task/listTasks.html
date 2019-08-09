@@ -1,0 +1,111 @@
+<div class="row bg-white ml-0 mr-0 p-2" ng-if="ctrl.search.form.result">
+
+    <div class="col-sm-12" ng-if="ctrl.search.form.result.length === 0">
+        <div class="alert alert-danger m-1" role="alert">
+            <h4><i class="fa fa-exclamation-triangle fa-2x"></i> No tasks found!</h4>
+        </div>
+    </div>
+
+    <div class="col-sm-12" ng-if="ctrl.search.form.result.length > 0">
+
+        <h3>Found {{ctrl.search.form.result.length}} {{ctrl.search.form.searchType.toLowerCase()}} tasks</h3>
+
+        <!-- Header -->
+        <div class="row rounded bg-white m-2 shadow">
+
+            <div class="col-sm-2 border-right">
+                <div class="text-left text-primary sort" ng-click="ctrl.search.orderByStaffName()">
+                    Staff Name <span class="sortorder" ng-show="ctrl.search.form.isSortedBy('taskStaff.preferredName')" ng-class="{reverse: ctrl.search.form.isSortedAsc()}"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 border-right">
+                <div class="text-left text-primary sort" ng-click="ctrl.search.orderByCreatedByName()">
+                    Created By  <span class="sortorder" ng-show="ctrl.search.form.isSortedBy('createdBy.preferredName')" ng-class="{reverse: ctrl.search.form.isSortedAsc()}"></span>
+                </div>
+            </div>
+            <div class="col-sm-2 border-right">
+                <div class="text-left text-primary sort" ng-click="ctrl.search.orderByCreatedDate()">
+                    Created Date  <span class="sortorder" ng-show="ctrl.search.form.isSortedBy('createdDate')" ng-class="{reverse: ctrl.search.form.isSortedAsc()}"></span>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="text-left text-primary sort" ng-click="ctrl.search.orderByEffectiveDate()">
+                    Effective Date  <span class="sortorder" ng-show="ctrl.search.form.isSortedBy('effectiveDate')" ng-class="{reverse: ctrl.search.form.isSortedAsc()}"></span>
+                </div>
+            </div>
+            <div class="col-sm-1 text-right">
+            </div>
+            <div class="col-sm-3">
+            </div>
+        </div>
+        <!-- Header -->
+
+        <div ng-repeat="task in ctrl.search.form.result | orderBy:id:false">
+
+            <div class="row rounded bg-white m-2 shadow">
+
+                <div class="col-sm-12">
+
+                    <!-- Header -->
+                    <div class="row pt-2">
+
+                        <div class="col-sm-4 border-right">
+                            <div class="border-bottom">
+                                <strong class="text-primary">
+                                    <span ng-if="task.type === 'NEW_STAFF'">Create Staff:</span>
+                                    <span ng-if="task.type === 'UPDATE_STAFF'">Update Staff:</span>
+                                    <span ng-if="task.type === 'TERM_STAFF'">Term Staff:</span>
+                                </strong>
+                                {{task.taskStaff.fullName}}
+                            </div>
+                            <div>
+                                <strong class="text-primary">Created by:</strong> {{task.createdBy.fullName}}
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div>
+                                <strong>
+                                    Created Date:
+                                </strong>
+                                {{task.createdDate | date:'MM/dd/yyyy'}}
+                            </div>
+                            <div>
+                                <strong>
+                                    Effective Date:
+                                </strong>
+                                {{task.effectiveDate | date:'MM/dd/yyyy'}}
+                            </div>
+                        </div>
+                        <div class="col-sm-1 text-right">
+                            Progress:
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{task.progressPercentage}}%" aria-valuenow="{{task.progressPercentage}}" aria-valuemin="0" aria-valuemax="100">{{task.progressPercentage}}%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pt-1 border-top">
+                        <div class="col-sm-6">
+                            <h3 class="display-4" style="font-size: 1.0rem">View Tickets</h3>
+                        </div>
+                        <div class="col-md-6 text-right" ng-init="collapsed = true">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse_{{$index}}" ng-init="task.collapsed = true" ng-click="task.collapsed = !task.collapsed; ctrl.loadTaskDetails(!task.collapsed, task);">
+                                <i class="fa fa-caret-down fa-1x" ng-show="task.collapsed === true"></i>
+                                <i class="fa fa-caret-up fa-1x" ng-show="task.collapsed === false"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Header -->
+
+                    <div ng-include="'/resources/src/app/modules/tracker/views/search/result/task/taskDetail.html'"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,121 @@
+<page-template>
+
+    <page-title>Staff Resources</page-title>
+
+    <page-right-menu>
+        <button type="button" class="btn btn-primary btn-xs border-left" ng-click="ctrl.insert.show();" data-toggle="modal" data-target="#insertModal" data-tooltip="tooltip" data-placement="bottom" title="Add new asset">
+            <i class="fa fa-plus fa-1x"></i>
+        </button>
+    </page-right-menu>
+
+    <page-content>
+
+        <!-- Search Form -->
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <form name="searchForm">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Name:</label>
+                                <input type="text" name="name" class="form-control" ng-model="ctrl.search.form.name" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Type:</label>
+                                <select name="type" class="form-control" ng-model="ctrl.search.form.type" ng-options="type as type.label for type in ctrl.search.form.typeList track by type.value">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label>Default:</label>
+                                <select name="type" class="form-control" ng-model="ctrl.search.form.defaultResource" ng-options="defaultResource as defaultResource.label for defaultResource in ctrl.search.form.defaultResourceList track by defaultResource.value">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary pull-right" ng-click="ctrl.search.do()">
+                            <i class="fa fa-search fa-1x"></i> Search
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <!-- Search Form -->
+
+        <!-- Search Results -->
+        <search-panel paginated-result="ctrl.search.paginatedResult">
+
+            <search-panel-content>
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+
+                        <th class="text-left text-primary sort" ng-click="ctrl.search.orderByName()">
+                            Resource Name <span class="sortorder" ng-show="ctrl.search.paginatedResult.isSortedBy('name')" ng-class="{reverse: ctrl.search.paginatedResult.isSortedAsc()}"></span>
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+                        <th>Description</th>
+                        <th class="text-center">View</th>
+                        <th class="text-center">Edit</th>
+                        <th class="text-center">Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="result in ctrl.search.paginatedResult.pageValues">
+                        <td style="width: 30%;">
+                            {{result.name}}
+                        </td>
+                        <td style="width: 30%;">
+                            <span ng-if="result.type === 'APPLICATION_ACCESS'">Application Access</span>
+                            <span ng-if="result.type === 'ASSET'">Asset</span>
+                            <span ng-if="result.type === 'EMAIL_GROUP'">Email Group</span>
+                        </td>
+                        <td style="width: 50%;">
+                            {{result.description}}
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-primary btn-sm active" aria-pressed="true" data-title="View" data-toggle="modal" data-target="#viewModal" ng-click="ctrl.view.show(result.id)"><i class="fa fa-eye fa-1x"></i></button>
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-primary btn-sm active" aria-pressed="true" data-title="Edit" data-toggle="modal" data-target="#updateModal" ng-click="ctrl.update.show(result.id);"><i class="fa fa-edit fa-1x"></i></button>
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-danger btn-sm active" aria-pressed="true" data-title="Delete" data-toggle="modal" data-target="#deleteModal" ng-click="ctrl.delete.show(result.id)"><i class="fa fa-trash-alt fa-1x"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </search-panel-content>
+
+        </search-panel>
+        <!-- Search Results -->
+
+        <!-- Modals -->
+
+        <div ng-include="'/resources/src/app/modules/staffResource/views/modal/viewStaffResourceModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/staffResource/views/modal/insertStaffResourceModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/staffResource/views/modal/updateStaffResourceModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/staffResource/views/modal/deleteStaffResourceModal.html'"></div>
+
+        <!-- Modals -->
+
+    </page-content>
+
+</page-template>

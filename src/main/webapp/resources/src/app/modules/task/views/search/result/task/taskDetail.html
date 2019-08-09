@@ -1,0 +1,92 @@
+<!-- Body -->
+<div class="collapse" id="collapse_{{$index}}">
+
+    <!-- Loading Details -->
+    <div class="row bg-white" ng-show="task.loadingDetails === true">
+        <div class="col-lg-12 text-center">
+            <div>
+                <img src="/resources/images/seup-application.gif">
+            </div>
+            <div>
+                <h2>
+                    <small class="text-muted">Loading...</small>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <!-- Loading Details -->
+
+    <!-- Staff Information and Tickets -->
+    <div ng-show="task.loadingDetails === false">
+
+        <div class="col-sm-12" ng-if="task.hasError">
+            <div class="alert alert-danger m-1" role="alert">
+                <h5><i class="fa fa-exclamation-triangle fa-1x"></i> {{task.errorMessage}}</h5>
+            </div>
+        </div>
+
+        <!-- Staff Information -->
+        <div class="row p-2 bg-light shadow" ng-if="!task.hasError">
+
+            <div class="col-sm-1" >
+                <img src="{{task.details.taskStaff.image}}" class="img-thumbnail w-75">
+            </div>
+            <div class="col-sm-4">
+                <div class="text-primary text-primary">
+                    <h5>Employee: {{task.taskStaff.fullName}}</h5>
+                </div>
+                <div>
+                    <strong>Number:</strong> 1{{task.details.taskStaff.staffNumber}}
+                </div>
+                <div>
+                    <strong>Title:</strong> {{task.details.taskStaff.jobTitle.name}}
+                </div>
+                <div>
+                    <strong>Department:</strong> {{task.details.taskStaff.jobTitle.department.name}}
+                </div>
+                <div ng-show="task.details.taskStaff.email">
+                    <strong>Email:</strong> {{task.details.taskStaff.email}}@warn.com
+                </div>
+                <div ng-show="task.details.taskStaff.phone">
+                    <strong>Phone:</strong> {{task.details.taskStaff.phone}}
+                </div>
+                <div>
+                    <strong>Shift:</strong>
+                    <span>
+                        <t ng-if="task.details.taskStaff.shift === 'DAY_5_8'">Day 5 x 8</t>
+                        <t ng-if="task.details.taskStaff.shift === 'DAY_4_10'">Day 4 x 10 </t>
+                        <t ng-if="task.details.taskStaff.shift === 'SWING_5_8'">Swing 5 x 8</t>
+                        <t ng-if="task.details.taskStaff.shift === 'SWING_4_10'">Swing 4 x 10</t>
+                    </span>
+                </div>
+                <div ng-show="task.details.taskStaff.keyCardNumber">
+                    <strong>KeyCard Number:</strong> {{task.details.taskStaff.keyCardNumber}}
+                </div>
+            </div>
+            <div class="col-sm-4" ng-init="ctrl.loadManager(task.employee)">
+                <div class="text-primary text-primary">
+                    <h5>
+                        Manager: {{task.details.taskStaff.manager.preferredName}} {{task.details.taskStaff.manager.lastName}}
+                    </h5>
+                </div>
+                <div ng-show="task.details.taskStaff.manager.email">
+                    <strong>Email:</strong> {{task.details.taskStaff.manager.email}}@warn.com
+                </div>
+                <div ng-show="task.details.taskStaff.manager.phone">
+                    <strong>Phone:</strong> {{task.details.taskStaff.manager.phone}}
+                </div>
+            </div>
+            <div class="col-sm-3">
+            </div>
+        </div>
+        <!-- Staff Information -->
+
+        <showEditTickets ng-init="showEditTickets = ctrl.search.form.searchType === 'OPEN'" />
+
+        <div ng-include="'/resources/src/app/modules/task/views/search/result/ticket/listTickets.html'" ng-if="!showEditTickets"></div>
+        <div ng-include="'/resources/src/app/modules/task/views/search/result/ticket/listTicketsEdit.html'" ng-if="showEditTickets"></div>
+
+    </div>
+    <!-- Staff Information and Tickets -->
+
+</div>

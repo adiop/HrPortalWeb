@@ -1,0 +1,364 @@
+<!-- Update Modal -->
+<modal modal-id="'updateModal'" modal-title="'Update Temporary'">
+
+    <modal-content>
+
+        <form name="updateForm" class="validateForm">
+
+            <!-- Personal Information -->
+            <fieldset class="border rounded p-3" ng-show="ctrl.update.form.step === 1">
+
+                <legend>Personal Information</legend>
+
+                <div  ng-show="ctrl.update.form.image" class="row pb-2">
+                    <div class="col-md-2">
+                        <img src="{{ctrl.update.form.image}}" class="img-thumbnail">
+                    </div>
+                    <div class="col-md-10">
+                    </div>
+                </div>
+
+                <!-- First name -->
+                <div class="form-group">
+                    <label>First Name:</label>
+                    <input type="text" name="firstName" class="form-control" maxlength="255" ng-model="ctrl.update.form.firstName" ng-required="true" autocomplete="off">
+                    <div role="alert" ng-messages="updateForm.firstName.$error" role="alert">
+                        <div class="text-danger" ng-message="required">The first name is required.</div>
+                    </div>
+                </div>
+                <!-- First name -->
+
+                <!-- Preferred Name -->
+                <div class="form-group">
+                    <label>Preferred Name:</label>
+                    <input type="text" name="preferredName" class="form-control" maxlength="255" ng-model="ctrl.update.form.preferredName" autocomplete="off">
+                </div>
+                <!-- Preferred Name -->
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <label>Last Name:</label>
+                    <input type="text" name="lastName" class="form-control" maxlength="255" ng-model="ctrl.update.form.lastName" ng-required="true" autocomplete="off">
+                    <div role="alert" ng-messages="updateForm.lastName.$error" role="alert">
+                        <div class="text-danger" ng-message="required">The last name is required.</div>
+                    </div>
+                </div>
+                <!-- Last Name -->
+
+                <!-- Picture -->
+                <div class="form-group">
+                    <label>Picture:</label>
+                    <div class="alert alert-danger" role="alert" ng-show="ctrl.update.form.pictureErrorMessage">
+                        <i class="fa fa-exclamation-triangle fa-1x"></i> {{ctrl.update.form.pictureErrorMessage}}
+                    </div>
+                    <div class="custom-file">
+                        <input class="custom-file-input" type="file" ng-model="ctrl.update.form.pictureFile" ng-change="ctrl.uploadPicture(ctrl.update.form)" file-upload>
+                        <label class="custom-file-label">{{ctrl.update.form.pictureFile.name}}</label>
+                    </div>
+                </div>
+                <!-- Picture -->
+
+            </fieldset>
+
+            <!-- Temporary Information -->
+            <fieldset class="border rounded p-3 mt-3" ng-show="ctrl.update.form.step === 2">
+
+                <legend>Temporary Information</legend>
+
+                <!-- Company name -->
+                <div class="form-group">
+                    <label>Company Name:</label>
+                    <input type="text" name="companyName" class="form-control" maxlength="255" ng-model="ctrl.update.form.companyName" ng-required="true">
+                    <div role="alert" ng-messages="updateForm.companyName.$error" role="alert">
+                        <div class="text-danger" ng-message="required">The company name is required.</div>
+                    </div>
+                </div>
+                <!-- Company name -->
+
+                <!-- Shift and Key Card Number -->
+                <div class="form-row">
+
+                    <!-- Shift -->
+                    <div class="col-md-4  mb-3">
+                        <label>Shift:</label>
+                        <select name="shift" class="form-control" ng-model="ctrl.update.form.shift" ng-required="true">
+                            <option value="DAY_5_8">Day 5 x 8</option>
+                            <option value="DAY_4_10">Day 4 x 10 </option>
+                            <option value="SWING_5_8">Swing 5 x 8</option>
+                            <option value="SWING_4_10">Swing 4 x 10</option>
+                        </select>
+                        <div role="alert" ng-messages="updateForm.shift.$error" role="alert">
+                            <div class="text-danger" ng-message="required">The shift is required.</div>
+                        </div>
+                    </div>
+                    <!-- Shift -->
+
+                    <!-- Key Card Number -->
+                    <div class="col-md-4  mb-3">
+                        <label>Key Card Number:</label>
+                        <input type="number" name="keyCardNumber" class="form-control" ng-model="ctrl.update.form.keyCardNumber" maxlength="10" autocomplete="off">
+                        <div role="alert" ng-messages="updateForm.keyCardNumber.$error" role="alert">
+                            <div class="text-danger" ng-message="maxlength">The key card number can't exceed 10 digits</div>
+                        </div>
+                    </div>
+                    <!-- Key Card Number -->
+
+                    <!-- Temporary Number -->
+                    <div class="col-md-4  mb-3">
+                        <label>Temporary Number:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">1</span>
+                            </div>
+                            <input type="text" name="temporaryNumber" class="form-control required" ng-model="ctrl.update.form.temporaryNumber" ng-required="true" maxlength="4" autocomplete="off" disabled>
+                            <div role="alert" ng-messages="updateForm.temporaryNumber.$error" role="alert">
+                                <div class="text-danger" ng-message="required">The temporary number is required</div>
+                                <div class="text-danger" ng-message="maxlength">The temporary number can't exceed 4 digits</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Temporary Number -->
+
+                </div>
+                <!-- Shift and Key Card Number -->
+
+                <!-- Temporary Email and Login  -->
+                <div class="form-row">
+                    <!-- Email -->
+                    <div class="col-md-4  mb-3">
+                        <label>Email:</label>
+                        <div class="input-group">
+                            <input type="text" name="email" class="form-control" ng-model="ctrl.update.form.email" maxlength="20" autocomplete="off">
+                            <div class="input-group-append">
+                                <span class="input-group-text">@warn.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Email -->
+
+                    <!-- Login -->
+                    <div class="col-md-4  mb-3">
+                        <label>Login:</label>
+                        <input type="text" name="login" class="form-control" ng-model="ctrl.update.form.login" maxlength="6" autocomplete="off" disabled>
+                    </div>
+                    <!-- Login -->
+
+                    <!-- Phone -->
+                    <div class="col-md-4  mb-3">
+                        <label>Phone:</label>
+                        <input type="text" name="phone" class="form-control" ng-model="ctrl.update.form.phone" maxlength="15" autocomplete="off">
+                    </div>
+                    <!-- Phone -->
+
+                </div>
+                <!-- Temporary Email and Login  -->
+
+                <!-- Team Leader -->
+                <div class="form-group">
+                    <label>Team Leader: </label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="teamLeader" ng-model="ctrl.update.form.teamLeader" ng-value="true" ng-change="ctrl.update.form.changeStaffResourcesMessage = true">
+                        <label class="form-check-label">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="teamLeader" ng-model="ctrl.update.form.teamLeader" ng-value="false" ng-change="ctrl.update.form.changeStaffResourcesMessage = true">
+                        <label class="form-check-label">No</label>
+                    </div>
+                    <div role="alert" ng-messages="updateForm.teamLeader.$error" role="alert">
+                        <div class="text-danger" ng-message="required">The team leader is required</div>
+                    </div>
+                </div>
+                <!-- Team Leader -->
+
+                <div class="form-row">
+                    <!-- Contract Start Date -->
+                    <div class="col-md-6  mb-3">
+                        <label>Contract Start Date:</label>
+                        <input type="date" name="startDate" class="form-control" ng-model="ctrl.update.form.contractStartDate" ng-required="true" disabled>
+                        <div role="alert" ng-messages="updateForm.contractStartDate.$error" role="alert">
+                            <div class="text-danger" ng-message="required">The start date is required</div>
+                        </div>
+                    </div>
+                    <!-- Contract Start Date -->
+
+                    <!-- Contract End Date -->
+                    <div class="col-md-6  mb-3">
+                        <label>Contract End Date:</label>
+                        <input type="date" name="endDate" class="form-control" ng-model="ctrl.update.form.contractEndDate" ng-required="true">
+                        <div role="alert" ng-messages="updateForm.contractEndDate.$error" role="alert">
+                            <div class="text-danger" ng-message="required">The start date is required</div>
+                        </div>
+                    </div>
+                    <!-- Contract End Date -->
+                </div>
+
+                <!-- Manager -->
+                <div class="form-group" ng-show="ctrl.update.form.manager">
+
+                    <label>Manager: </label>
+
+                    <show-employee-selected employee="ctrl.update.form.manager"></show-employee-selected>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Select a Manager: </label>
+
+                    <employee-selector holder="ctrl.update.form" on-select="ctrl.selectManager(form, selectedEmployee)">
+                    </employee-selector>
+
+                </div>
+                <!-- Manager -->
+
+                <!-- Department -->
+                <div class="form-group">
+                    <label>Department:</label>
+                    <select class="form-control required" ng-model="ctrl.update.form.department" ng-options="department as department.label for department in ctrl.update.form.departmentList track by department.value" ng-change="ctrl.update.form.selectDepartment(ctrl.update.form.department.value)">
+                    </select>
+                    <input type="hidden" name="department" ng-model="ctrl.update.form.department.value" ng-required="true">
+                    <div role="alert" ng-messages="updateForm.department.$error" role="alert">
+                        <div class="text-danger" ng-message="required">The department is required</div>
+                    </div>
+                </div>
+                <!-- Department -->
+
+                <!-- Job Title -->
+                <div class="form-group">
+                    <label>Job Title:</label>
+                    <select class="form-control required" ng-model="ctrl.update.form.jobTitle" ng-options="jobTitle as jobTitle.label for jobTitle in ctrl.update.form.jobTitleList track by jobTitle.value" ng-change="ctrl.loadStaffResourcesOnJobChange(ctrl.update.form)">
+                    </select>
+                    <input type="hidden" name="jobTitle" ng-model="ctrl.update.form.jobTitle.value" ng-required="true">
+                    <div role="alert" ng-messages="updateForm.jobTitle.$error" role="alert">
+                        <div class="text-danger" ng-message="required">The job title is required</div>
+                    </div>
+                </div>
+                <!-- Job Title -->
+
+            </fieldset>
+
+            <!-- Staff Resources -->
+            <fieldset class="border rounded p-3 mt-3" ng-show="ctrl.update.form.step === 3">
+
+                <div class="alert alert-warning" role="alert" ng-show="ctrl.update.form.changeStaffResourcesMessage">
+                    <i class="fa fa-exclamation-triangle fa-1x"></i>
+                    It seems that you have changed the Job Title or the Team Leader status for this employee, it is recommended to review the staff resources.
+                </div>
+
+                <!-- Applications -->
+                <div class="form-group" ng-if="ctrl.update.form.applicationAccessList.length > 0">
+
+                    <label>Default Applications:</label>
+
+                    <div class="d-flex flex-row d-flex flex-wrap">
+
+                        <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.update.form.applicationAccessList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                            <label class="custom-control-label">{{resource.name}}</label>
+                            <input ng-model="resource.selected"  type="checkbox" id="chkApplication-{{resource.id}}" value="{{resource.value}}" >
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Applications -->
+
+                <!-- Assets -->
+                <div class="form-group" ng-if="ctrl.update.form.assetList.length > 0">
+
+                    <label>Default Assets:</label>
+
+                    <div class="d-flex flex-row d-flex flex-wrap">
+
+                        <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.update.form.assetList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                            <label class="custom-control-label">{{resource.name}}</label>
+                            <input ng-model="resource.selected"  type="checkbox" id="chkAsset-{{resource.id}}" value="{{resource.id}}" >
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Assets -->
+
+                <!-- Email Groups -->
+                <div class="form-group" ng-if="ctrl.update.form.emailGroupList.length > 0">
+
+                    <label>Default Email Groups:</label>
+
+                    <div class="d-flex flex-row d-flex flex-wrap">
+
+                        <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.update.form.emailGroupList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                            <label class="custom-control-label">{{resource.name}}</label>
+                            <input ng-model="resource.selected"  type="checkbox" id="chkEmailGoup-{{resource.id}}" value="{{resource.id}}" >
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Email Groups -->
+
+            </fieldset>
+
+            <!-- Additional details -->
+            <fieldset class="border rounded p-3 mt-3" ng-show="ctrl.update.form.step === 4">
+
+                <legend>Additional Information</legend>
+
+                <!-- Flag this employee -->
+                <div class="form-row">
+
+                    <div class="col-md-3  mb-3">
+                        <label>Flag this employee:</label>
+                    </div>
+                    <div class="col-md-8  mb-3">
+                        <div class="w-25 border rounded" ng-init="ctrl.update.form.flagged = false" ng-click="ctrl.update.form.flagged = !ctrl.update.form.flagged" style="height: 40px;">
+                            <button type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" autocomplete="off" ng-show="ctrl.update.form.flagged === false">
+                                No
+                            </button>
+                            <button type="button" class="btn btn-success float-right" data-toggle="button" aria-pressed="false" autocomplete="off" ng-show="ctrl.update.form.flagged === true">
+                                Yes
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Flag this employee -->
+
+                <div ng-show="ctrl.update.form.flagged">
+
+                    <!-- Comments -->
+                    <div class="form-group">
+                        <label>Comments:</label>
+                        <textarea name="comments" class="form-control" ng-model="ctrl.update.form.comments" rows="5" ></textarea>
+                    </div>
+                    <!-- Comments -->
+
+                </div>
+
+            </fieldset>
+
+        </form>
+
+        <init-form ng-init="ctrl.updateForm = updateForm" />
+
+    </modal-content>
+
+    <modal-footer>
+
+        <!-- Buttons - Next and Previous -->
+        <div ng-show="ctrl.update.form.step < 4">
+            <button type="button" class="btn btn-danger mr-auto" ng-click="ctrl.update.form.step = (ctrl.update.form.step - 1)" ng-show="ctrl.update.form.step > 1">Previous</button>
+            <button type="button" class="btn btn-primary" ng-click="ctrl.update.form.step = (ctrl.update.form.step + 1)" >Next</button>
+        </div>
+        <!-- Buttons - Next and Previous -->
+
+        <!-- Buttons - Cancel and update -->
+        <div ng-show="ctrl.update.form.step === 4">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="ctrl.update.do()" ng-disabled="!ctrl.updateForm.$valid">Update</button>
+        </div>
+        <!-- Buttons - Cancel and update -->
+
+    </modal-footer>
+
+</modal>
+<!-- Update Modal -->

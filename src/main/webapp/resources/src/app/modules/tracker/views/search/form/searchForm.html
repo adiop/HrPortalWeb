@@ -1,0 +1,23 @@
+<!-- Search Form -->
+<form>
+
+    <div class="row white ml-0 mr-0 pt-4 p-2">
+
+        <input type="hidden" ng-model="ctrl.search.form.isListAll" ng-init="ctrl.search.form.isListAll = true">
+        <input type="hidden" ng-model="ctrl.search.form.searchType" ng-init="ctrl.search.form.searchType = 'OPEN'">
+
+        <div class="col-lg-12">
+
+            <div class="input-group">
+                <input type="text" class="form-control bg-light" placeholder="Staff Name" aria-label="Staff Name" ng-model="ctrl.search.form.name">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary" ng-click="ctrl.search.do()" ng-init="ctrl.search.do()"><i class="fa fa-search fa-1x"></i> Search</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+<!-- Search Form -->

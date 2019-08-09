@@ -1,0 +1,41 @@
+<!-- Search Form -->
+<form>
+
+    <div class="row white ml-0 mr-0 pt-4 p-2">
+
+        <div class="col-lg-2 pt-1">
+
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" ng-model="ctrl.search.form.isListAll" ng-value="true" id="isListAllTasks" ng-init="ctrl.search.form.isListAll = false">
+                <label class="custom-control-label" for="isListAllTasks">All tasks</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" ng-model="ctrl.search.form.isListAll" ng-value="false" id="isListMyTasks">
+                <label class="custom-control-label" for="isListMyTasks">My tasks</label>
+            </div>
+
+        </div>
+
+        <div class="col-lg-2">
+            <select class="custom-select custom-select-md" ng-model="ctrl.search.form.searchType" ng-init="ctrl.search.form.searchType = 'OPEN'">
+                <option value="OPEN" selected>Open</option>
+                <option value="CLOSED">Closed</option>
+                <option value="FUTURE">Future</option>
+            </select>
+        </div>
+
+        <div class="col-lg-8">
+
+            <div class="input-group">
+                <input type="text" class="form-control bg-light" placeholder="Staff Name" aria-label="Staff Name" ng-model="ctrl.search.form.name">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary" ng-click="ctrl.search.do()" ng-init="ctrl.search.do()"><i class="fa fa-search fa-1x"></i> Search</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+<!-- Search Form -->

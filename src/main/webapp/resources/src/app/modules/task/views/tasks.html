@@ -1,0 +1,31 @@
+<page-template>
+
+    <page-title>Task Management</page-title>
+
+    <page-content>
+
+        <div class="row">
+            <div class="col-lg-12 bg-white rounded">
+                <div ng-include="'/resources/src/app/modules/task/views/search/form/searchForm.html'" />
+                <div ng-include="'/resources/src/app/modules/task/views/search/result/task/listTasks.html'" />
+            </div>
+        </div>
+
+        <!-- Task -->
+        <div ng-include="'/resources/src/app/modules/task/views/search/result/ticket/modal/taskCommentsModal.html'"></div>
+        <!-- Task -->
+
+        <!-- Tickets -->
+        <div ng-include="'/resources/src/app/modules/task/views/search/result/ticket/modal/ticketHistoryModal.html'"></div>
+        <div ng-include="'/resources/src/app/modules/task/views/search/result/ticket/modal/ticketReassignModal.html'"></div>
+        <div ng-include="'/resources/src/app/modules/task/views/search/result/ticket/modal/ticketCloseModal.html'"></div>
+        <div ng-include="'/resources/src/app/modules/task/views/search/result/ticket/modal/ticketReopenModal.html'"></div>
+        <!-- Tickets -->
+
+        <!-- Active Directory -->
+        <div ng-include="'/resources/src/app/modules/task/views/search/result/ticket/modal/activeDirectorySyncModal.html'"></div>
+        <!-- Active Directory -->
+
+    </page-content>
+
+</page-template>

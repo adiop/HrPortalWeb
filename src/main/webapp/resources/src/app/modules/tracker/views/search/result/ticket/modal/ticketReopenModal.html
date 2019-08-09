@@ -1,0 +1,14 @@
+<!-- Reopen Modal -->
+<modal-dialog modal-id="'reopenModal'" on-confirm="ctrl.reopenTicket(ctrl.reopenReason)">
+
+    <p>Are you sure that you want to reopen the ticket?</p>
+
+    <!-- Reason -->
+    <div class="form-group">
+        <label>Reason:</label>
+        <textarea name="comments" class="form-control" ng-model="ctrl.reopenReason" rows="5" ></textarea>
+    </div>
+    <!-- Reason -->
+
+</modal-dialog>
+<!-- Reopen Modal -->

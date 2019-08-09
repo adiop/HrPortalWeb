@@ -1,0 +1,64 @@
+<div ng-show="task.details.ticketTasks && task.details.ticketTasks.length">
+
+    <!-- Tickets -->
+    <div class="row p-2 bg-light border-top border-bottom">
+
+        <div class="col-sm-3 border-right">
+            <input type="text" class="form-control" placeholder="Technician" ng-init="task.technicianFilter = ''" ng-model="task.technicianFilter">
+        </div>
+
+        <div class="col-sm-6 border-right">
+            <input type="text" class="form-control" placeholder="Description" ng-init="task.descriptionFilter = ''" ng-model="task.descriptionFilter">
+        </div>
+
+        <div class="col-sm-2 border-right text-right">
+
+            <div class="btn-group" role="group" ng-show="!task.details.isUpdating">
+                <button type="button" class="btn btn-primary border-primary ml-auto" data-toggle="modal" data-target="#commentsModal" ng-click="ctrl.selectedTask = task; ctrl.comment = ''" ng-disabled="task.details.comments.length === 0">
+                    <i class="fa fa-comments fa-1x"></i> Comments <span class="badge badge-warning">{{task.details.comments.length}}</span>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="col-sm-1">
+            <input type="text" class="form-control" placeholder="Status" ng-init="task.statusFilter = ''" ng-model="task.statusFilter">
+        </div>
+
+    </div>
+
+    <div class="row p-2 bg-light border-bottom shadow" ng-repeat="ticketTask in task.details.ticketTasks" ng-show="ctrl.filterTickets(task, ticketTask)">
+
+        <div class="col-sm-3 border-right">
+            {{ticketTask.technician.fullName}}
+        </div>
+
+        <div class="col-sm-6 border-right">
+            {{ticketTask.description}}
+        </div>
+
+        <div class="col-sm-2 text-right border-right" >
+            <button type="button" class="btn btn-primary border-primary ml-auto" data-toggle="modal" data-target="#ticketTaskHistoryModal" ng-click="ctrl.selectedTask = task; ctrl.selectedTicketTask = ticketTask;" ng-disabled="ticketTask.history.length === 0">
+                <i class="fa fa-file-alt fa-1x"></i> <span class="badge badge-warning">{{ticketTask.history.length}}</span>
+            </button>
+        </div>
+
+        <div class="col-sm-1">
+
+            <div class="text-center h-100" ng-if="ticketTask.status === 'OPEN'">
+                <i class="fa fa-exclamation-circle fa-2x text-warning"></i>
+                <br/>
+                Pending
+            </div>
+
+            <div class="text-center h-100" ng-if="ticketTask.status === 'CLOSED'">
+                <i class="fa fa-check-circle fa-2x text-success"></i>
+                <br/>
+                Closed
+            </div>
+        </div>
+
+    </div>
+    <!-- Tickets -->
+
+</div>

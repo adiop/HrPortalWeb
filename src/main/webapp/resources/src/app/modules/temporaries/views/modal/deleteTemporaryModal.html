@@ -1,0 +1,43 @@
+<!-- Delete Modal -->
+<modal-dialog modal-id="'deleteModal'" on-confirm="ctrl.delete.do()">
+
+    <p>Are you sure that you want to term the temporary?</p>
+
+    <form name="deleteForm" class="validateForm">
+
+        <!-- Term employee -->
+        <div class="form-group">
+            <label>When do you want to term the employee: </label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="termFuture" ng-model="ctrl.delete.form.termType" ng-value="'now'" ng-change="ctrl.onTermTypeChange(ctrl.delete.form)" ng-required="true">
+                <label class="form-check-label">Now</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="termFuture" ng-model="ctrl.delete.form.termType" ng-value="'endOfDay'" ng-change="ctrl.onTermTypeChange(ctrl.delete.form)" ng-required="true">
+                <label class="form-check-label">End of day</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="termFuture" ng-model="ctrl.delete.form.termType" ng-value="'future'" ng-change="ctrl.onTermTypeChange(ctrl.delete.form)" ng-required="true">
+                <label class="form-check-label">Future date</label>
+            </div>
+            <div role="alert" ng-messages="deleteForm.termType.$error" role="alert">
+                <div class="text-danger" ng-message="required">The time when you want to term the employee is required</div>
+            </div>
+        </div>
+        <!-- Term employee -->
+
+        <div class="form-group" ng-show="ctrl.delete.form.termType === 'future'">
+            <label>Effective Date:</label>
+            <input type="date" name="termDate" class="form-control" ng-model="ctrl.delete.form.termDate" ng-required="true">
+            <div role="alert" ng-messages="deleteForm.termDate.$error" >
+                <div class="text-danger" ng-message="required">The effective date is required</div>
+            </div>
+            <div role="alert" ng-show="ctrl.delete.form.termDate < ctrl.delete.form.now">
+                <div class="text-danger">The effective date must be greater or equal today</div>
+            </div>
+        </div>
+
+    </form>
+
+</modal-dialog>
+<!-- Delete Modal -->

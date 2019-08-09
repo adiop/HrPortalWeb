@@ -1,0 +1,100 @@
+<!-- Insert Modal -->
+<modal modal-id="'insertModal'" modal-title="'Insert a New Staff Resource'">
+
+    <modal-content>
+
+        <form name="insertForm" class="validateForm">
+
+            <!-- Name -->
+            <div class="form-group">
+
+                <label>Name:</label>
+
+                <input type="text" name="name" class="form-control required" ng-model="ctrl.insert.form.name" ng-required="true" autocomplete="off">
+
+                <!-- Required message -->
+                <div role="alert" ng-messages="insertForm.name.$error" role="alert">
+                    <div class="text-danger" ng-message="required">The name is required</div>
+                </div>
+
+            </div>
+            <!-- Name -->
+
+            <!-- Type -->
+            <div class="form-group">
+
+                <label>Type:</label>
+
+                <select class="form-control" ng-model="ctrl.insert.form.type" ng-options="type as type.label for type in ctrl.insert.form.typeList track by type.value">
+                </select>
+
+                <!-- Required message -->
+                <input type="hidden" name="resourceType" ng-model="ctrl.insert.form.type.value" ng-required="true">
+                <div role="alert" ng-messages="insertForm.resourceType.$error" role="alert">
+                    <div class="text-danger" ng-message="required">The Type is required</div>
+                </div>
+
+            </div>
+            <!-- Type -->
+
+            <!-- Default -->
+            <div class="form-group">
+
+                <label>Default:</label>
+
+                <select name="type" class="form-control" ng-model="ctrl.insert.form.defaultResource" ng-options="defaultResource as defaultResource.label for defaultResource in ctrl.insert.form.defaultResourceList track by defaultResource.value">
+                </select>
+
+            </div>
+            <!-- Default -->
+
+            <!-- Technician -->
+            <div class="form-group" ng-show="ctrl.insert.form.technician">
+
+                <label>Technician: </label>
+
+                <show-employee-selected employee="ctrl.insert.form.technician"></show-employee-selected>
+
+            </div>
+
+            <div class="form-group">
+                <label>Select a Technician: </label>
+
+                <employee-selector holder="ctrl.insert.form" on-select="ctrl.selectTechnician(form, selectedEmployee)">
+                </employee-selector>
+
+
+                <input type="hidden" name="technician" ng-model="ctrl.insert.form.technician" ng-required="true">
+                <div role="alert" ng-messages="insertForm.technician.$error" role="alert">
+                    <div class="text-danger" ng-message="required">The Technician is required</div>
+                </div>
+
+            </div>
+            <!-- Technician -->
+
+            <!-- Description -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="insertDescription">Description:</label>
+                        <textarea type="text" name="insertDescription" class="form-control" id="insertDescription" ng-model="ctrl.insert.form.description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Description -->
+
+        </form>
+
+        <init-form ng-init="ctrl.insertForm = insertForm" />
+
+    </modal-content>
+
+    <modal-footer>
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="ctrl.insert.do()" ng-disabled="!ctrl.insertForm.$valid">Insert</button>
+
+    </modal-footer>
+
+</modal>
+<!-- Insert Modal -->

@@ -1,0 +1,141 @@
+<!-- AD Sync Modal -->
+<modal modal-id="'adSyncModal'" modal-title="'Sync with AD'">
+
+    <modal-content>
+
+        <div class="alert alert-success" ng-show="ctrl.adSync.dbStaff.syncSuccessMessage">
+            {{ctrl.adSync.dbStaff.syncSuccessMessage}}
+        </div>
+
+        <div class="alert alert-danger" ng-show="ctrl.adSync.dbStaff.syncErrorMessage">
+            {{ctrl.adSync.dbStaff.syncErrorMessage}}
+        </div>
+
+        <div class="row p-2 mb-2">
+
+            <!-- Database Employee Information -->
+            <div class="col-sm-5 bg-light pt-2 pb-2  border-left" ng-show="ctrl.adSync.loadingDbStaff">
+                <div class="text-primary text-md-center">
+                    <h5>Synchronizing...</h5>
+                </div>
+            </div>
+
+            <div class="col-sm-5 bg-light pt-2 pb-2 border-right" ng-show="ctrl.adSync.dbStaff && !ctrl.adSync.loadingDbStaff">
+
+                <div class="text-primary">
+                    <h5>HR Portal Information:</h5>
+                </div>
+
+                <div class="w-50" >
+                    <div>
+                        <input type="checkbox" ng-model="ctrl.adSync.pushFields[0]" ng-true-value="'image'" ng-false-value="''">
+                        <strong class="text-black-50">Image:</strong>
+                    </div>
+                    <img src="{{ctrl.adSync.dbStaff.image}}" class="img-thumbnail w-75">
+                </div>
+                <hr/>
+                <div class="text-primary">
+                    <input type="checkbox" ng-model="ctrl.adSync.pushFields[1]" ng-true-value="'name'" ng-false-value="''">
+                    <strong class="text-black-50">Name:</strong> {{ctrl.adSync.dbStaff.fullName}}
+                </div>
+                <hr/>
+                <div>
+                    <input type="checkbox" ng-model="ctrl.adSync.pushFields[2]" ng-true-value="'jobTitle'" ng-false-value="''">
+                    <strong class="text-black-50">Title:</strong> {{ctrl.adSync.dbStaff.jobTitle.name}}
+                </div>
+                <hr/>
+                <div>
+                    <input type="checkbox" ng-model="ctrl.adSync.pushFields[3]" ng-true-value="'department'" ng-false-value="''">
+                    <strong class="text-black-50">Department:</strong> {{ctrl.adSync.dbStaff.jobTitle.department.name}}
+                </div>
+                <hr ng-show="ctrl.adSync.dbStaff.email"/>
+                <div ng-show="ctrl.adSync.dbStaff.email">
+                    <input type="checkbox" ng-model="ctrl.adSync.pushFields[4]" ng-true-value="'email'" ng-false-value="''">
+                    <strong class="text-black-50">Email:</strong> {{ctrl.adSync.dbStaff.email}}@warn.com
+                </div>
+                <hr ng-show="ctrl.adSync.dbStaff.phone"/>
+                <div ng-show="ctrl.adSync.dbStaff.phone">
+                    <input type="checkbox" ng-model="ctrl.adSync.pushFields[5]" ng-true-value="'phone'" ng-false-value="''">
+                    <strong class="text-black-50">Phone:</strong> {{ctrl.adSync.dbStaff.phone}}
+                </div>
+                <hr ng-show="ctrl.adSync.dbStaff.manager"/>
+                <div class="text-primary text-primary" ng-show="ctrl.adSync.dbStaff.manager">
+                    <input type="checkbox" ng-model="ctrl.adSync.pushFields[6]" ng-true-value="'manager'" ng-false-value="''">
+                    <strong class="text-black-50">Manager:</strong> {{ctrl.adSync.dbStaff.manager.preferredName}} {{ctrl.adSync.dbStaff.manager.lastName}}
+                </div>
+            </div>
+
+            <div class="col-sm-2 my-auto">
+                <div class="text-center" ng-show="ctrl.adSync.activeDirectoryUser && !ctrl.adSync.loadingAdUser && !ctrl.adSync.loadingDbStaff">
+                    <button type="button" class="btn btn-primary" ng-disabled="!ctrl.adSync.pushFields" ng-click="ctrl.adSync.push()"><i class="fa fa-angle-double-right fa-1x p-1"></i></button>
+                    <button type="button" class="btn btn-primary mt-2" ng-disabled="!ctrl.adSync.pullFields" ng-click="ctrl.adSync.pull()"><i class="fa fa-angle-double-left fa-1x p-1"></i></button>
+                </div>
+            </div>
+
+            <!-- Active Directory Employee Information -->
+            <div class="col-sm-5 bg-light pt-2 pb-2  border-left" ng-show="ctrl.adSync.loadingAdUser">
+                <div class="text-primary text-md-center">
+                    <h5>Synchronizing...</h5>
+                </div>
+            </div>
+
+            <div class="col-sm-5 bg-light pt-2 pb-2 border-left" ng-show="ctrl.adSync.activeDirectoryUser === null && !ctrl.adSync.loadingAdUser">
+                <div class="text-danger">
+                    <h5>Active Directory Information not found!</h5>
+                </div>
+            </div>
+
+            <div class="col-sm-5 bg-light pt-2 pb-2 border-left" ng-show="ctrl.adSync.hasError">
+                <div class="text-danger">
+                    <h5>{{ctrl.adSync.errorMessage}}</h5>
+                </div>
+            </div>
+
+            <div class="col-sm-5 bg-light pt-2 pb-2 border-left" ng-show="ctrl.adSync.activeDirectoryUser && !ctrl.adSync.loadingAdUser">
+
+                <div class="text-primary">
+                    <h5>Active Directory Information:</h5>
+                </div>
+
+                <div class="w-50" >
+                    <div>
+                        <strong class="text-black-50">Image:</strong>
+                    </div>
+                    <img src="data:image/jpeg;base64,{{ctrl.adSync.activeDirectoryUser.base64Image}}" class="img-thumbnail w-75">
+                </div>
+                <hr/>
+                <div class="text-primary">
+                    <strong class="text-black-50">Name:</strong> {{ctrl.adSync.activeDirectoryUser.firstName}} {{ctrl.adSync.activeDirectoryUser.lastName}}
+                </div>
+                <hr/>
+                <div>
+                    <strong class="text-black-50">Title:</strong> {{ctrl.adSync.activeDirectoryUser.jobTitle.name}}
+                </div>
+                <hr/>
+                <div>
+                    <strong class="text-black-50">Department:</strong> {{ctrl.adSync.activeDirectoryUser.department.name}}
+                </div>
+                <hr ng-show="ctrl.adSync.activeDirectoryUser.email"/>
+                <div ng-show="ctrl.adSync.activeDirectoryUser.email">
+                    <input type="checkbox" ng-model="ctrl.adSync.pullFields[0]" ng-true-value="'email'" ng-false-value="''">
+                    <strong class="text-black-50">Email:</strong> {{ctrl.adSync.activeDirectoryUser.email}}
+                </div>
+                <hr ng-show="ctrl.adSync.activeDirectoryUser.phone"/>
+                <div ng-show="ctrl.adSync.activeDirectoryUser.phone">
+                    <input type="checkbox" ng-model="ctrl.adSync.pullFields[1]" ng-true-value="'phone'" ng-false-value="''">
+                    <strong class="text-black-50">Phone:</strong> {{ctrl.adSync.activeDirectoryUser.phone}}
+                </div>
+                <hr ng-show="ctrl.adSync.dbStaff.manager"/>
+                <div class="text-primary text-primary" ng-show="ctrl.adSync.dbStaff.manager">
+                    <strong class="text-black-50">Manager:</strong> {{ctrl.adSync.activeDirectoryUser.manager.firstName}} {{ctrl.adSync.activeDirectoryUser.manager.lastName}}
+                </div>
+            </div>
+        </div>
+
+        <modal-footer>
+        </modal-footer>
+
+    </modal-content>
+
+</modal>
+<!-- AD Sync Modal -->

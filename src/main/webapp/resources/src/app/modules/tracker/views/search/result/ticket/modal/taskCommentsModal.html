@@ -1,0 +1,38 @@
+<!-- Comments Modal -->
+<modal modal-id="'commentsModal'" modal-title="'Task Comments'">
+
+    <modal-content>
+
+
+
+        <form class="mb-2">
+
+            <!-- Comments -->
+            <div class="form-group">
+                <label>Comment:</label>
+                <textarea name="comments" class="form-control" ng-model="ctrl.comment" rows="5" ></textarea>
+            </div>
+            <!-- Comments -->
+
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="ctrl.insertComment(ctrl.comment)" ng-disabled="ctrl.comment === ''">Add</button>
+
+        </form>
+
+        <div class="border rounded bg-light p-1 m-1 comment" ng-repeat="comment in ctrl.selectedTask.details.comments | orderBy:'-createdDate'" >
+
+            <h6>
+                <strong>Creator:</strong> {{comment.createdBy.preferredName}} {{comment.createdBy.lastName}}
+            </h6>
+            <p>{{comment.comment}}</p>
+            <h6>
+                <strong>Date:</strong> {{comment.createdDate | date:  'MM/dd/yyyy HH:mm'}}
+            </h6>
+
+        </div>
+
+
+    </modal-content>
+
+</modal>
+<!-- Comments Modal -->

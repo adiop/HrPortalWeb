@@ -1,0 +1,27 @@
+<!-- Close Modal -->
+<modal modal-id="'closeModal'" modal-title="'Close the ticket'">
+
+    <modal-content>
+
+        <form>
+
+            <!-- Comments -->
+            <div class="form-group">
+                <label>Resolution:</label>
+                <textarea name="comments" class="form-control" ng-model="ctrl.resolution" rows="5" ></textarea>
+            </div>
+            <!-- Comments -->
+
+        </form>
+
+        <modal-footer>
+
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="ctrl.closeTicket(ctrl.resolution)" ng-disabled="ctrl.resolution === ''">Close</button>
+
+        </modal-footer>
+
+    </modal-content>
+
+</modal>
+<!-- Close Modal -->

@@ -1,0 +1,25 @@
+<page-template>
+
+    <page-title>Task Tracker</page-title>
+
+    <page-content>
+
+        <div class="row">
+            <div class="col-lg-12 bg-white rounded">
+                <div ng-include="'/resources/src/app/modules/tracker/views/search/form/searchForm.html'" />
+                <div ng-include="'/resources/src/app/modules/tracker/views/search/result/task/listTasks.html'" />
+            </div>
+        </div>
+
+        <!-- Task -->
+        <div ng-include="'/resources/src/app/modules/tracker/views/search/result/ticket/modal/taskCommentsModal.html'"></div>
+        <!-- Task -->
+
+        <!-- Tickets -->
+        <div ng-include="'/resources/src/app/modules/tracker/views/search/result/ticket/modal/ticketHistoryModal.html'"></div>
+        <div ng-include="'/resources/src/app/modules/tracker/views/search/result/ticket/modal/ticketReopenModal.html'"></div>
+        <!-- Tickets -->
+
+    </page-content>
+
+</page-template>

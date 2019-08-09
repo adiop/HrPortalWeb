@@ -1,0 +1,277 @@
+<!-- Update Modal -->
+<modal modal-id="'viewModal'" modal-title="'View Employee'" loading="ctrl.view.form.loading">
+
+    <modal-content>
+
+        <form>
+
+            <div class="row">
+
+                <!-- ID -->
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label>ID: {{ctrl.view.form.id}}</label>
+                    </div>
+                </div>
+                <!-- ID -->
+
+            </div>
+
+            <!-- Personal Information -->
+            <fieldset class="border rounded p-3">
+
+                <legend>Personal Information</legend>
+
+                <div  ng-show="ctrl.view.form.image" class="row pb-2">
+                    <div class="col-md-2">
+                        <img src="{{ctrl.view.form.image}}" class="img-thumbnail">
+                    </div>
+                    <div class="col-md-10">
+                    </div>
+                </div>
+
+                <!-- First name -->
+                <div class="form-group">
+                    <label>First Name:</label>
+                    <input type="text" name="firstName" class="form-control" maxlength="255" ng-model="ctrl.view.form.firstName" ng-readonly="true">
+                </div>
+                <!-- First name -->
+
+                <!-- Preferred Name -->
+                <div class="form-group">
+                    <label>Preferred Name:</label>
+                    <input type="text" name="preferredName" class="form-control" maxlength="255" ng-model="ctrl.view.form.preferredName" ng-readonly="true">
+                </div>
+                <!-- Preferred Name -->
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <label>Last Name:</label>
+                    <input type="text" name="lastName" class="form-control" maxlength="255" ng-model="ctrl.view.form.lastName" ng-readonly="true">
+                 </div>
+                <!-- Last Name -->
+
+            </fieldset>
+
+            <!-- Employee Information -->
+            <fieldset class="border rounded p-3 mt-3">
+
+                <legend>Employee Information</legend>
+
+                <!-- Company name -->
+                <div class="form-group">
+                    <label>Company Name:</label>
+                    <input type="text" name="companyName" class="form-control" maxlength="255" ng-model="ctrl.view.form.companyName" ng-disabled="true">
+                    <div role="alert" ng-messages="updateForm.companyName.$error" role="alert">
+                        <div class="text-danger" ng-message="required">The company name is required.</div>
+                    </div>
+                </div>
+                <!-- Company name -->
+
+                <!-- Shift and Key Card Number -->
+                <div class="form-row">
+
+                    <!-- Shift -->
+                    <div class="col-md-4  mb-3">
+                        <label>Shift:</label>
+                        <select name="shift" class="form-control" ng-model="ctrl.view.form.shift" ng-disabled="true">
+                            <option value="DAY_5_8">Day 5 x 8</option>
+                            <option value="DAY_4_10">Day 4 x 10 </option>
+                            <option value="SWING_5_8">Swing 5 x 8</option>
+                            <option value="SWING_4_10">Swing 4 x 10</option>
+                        </select>
+                    </div>
+                    <!-- Shift -->
+
+                    <!-- Key Card Number -->
+                    <div class="col-md-4 mb-3">
+                        <label>Key Card Number:</label>
+                        <input type="text" name="keyCardNumber" class="form-control" ng-model="ctrl.view.form.keyCardNumber" ng-readonly="true">
+                    </div>
+                    <!-- Key Card Number -->
+
+                    <!-- Employee Number -->
+                    <div class="col-md-4  mb-3">
+                        <label>Temporary Number:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">1</span>
+                            </div>
+                            <input type="text" name="temporaryNumber" class="form-control required" ng-model="ctrl.view.form.temporaryNumber" ng-readonly="true">
+                        </div>
+                    </div>
+                    <!-- Employee Number -->
+
+                </div>
+                <!-- Shift and Key Card Number -->
+
+                <!-- Employee Number, Email and Login  -->
+                <div class="form-row">
+
+                    <!-- Email -->
+                    <div class="col-md-4  mb-3">
+                        <label>Email:</label>
+                        <div class="input-group">
+                            <input type="text" name="email" class="form-control" ng-model="ctrl.view.form.email" ng-readonly="true">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">@warn.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Email -->
+
+                    <!-- Login -->
+                    <div class="col-md-4  mb-3">
+                        <label>Login:</label>
+                        <input type="text" name="login" class="form-control" ng-model="ctrl.view.form.login" ng-readonly="true">
+                    </div>
+                    <!-- Login -->
+
+                    <!-- Phone -->
+                    <div class="col-md-4  mb-3">
+                        <label>Phone:</label>
+                        <input type="text" name="phone" class="form-control" ng-model="ctrl.view.form.phone" ng-readonly="true">
+                    </div>
+                    <!-- Phone -->
+
+                </div>
+                <!-- Employee Number, Email and Login  -->
+
+                <!-- Team Leader -->
+                <div class="form-group">
+                    <label>Team Leader: </label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="teamLeader" ng-model="ctrl.view.form.teamLeader" ng-value="true" ng-disabled="true">
+                        <label class="form-check-label">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="teamLeader" ng-model="ctrl.view.form.teamLeader" ng-value="false" ng-disabled="true">
+                        <label class="form-check-label">No</label>
+                    </div>
+                </div>
+                <!-- Team Leader -->
+
+                <div class="form-row">
+                    <!-- Contract Start Date -->
+                    <div class="col-md-6  mb-3">
+                        <label>Contract Start Date:</label>
+                        <input type="date" name="startDate" class="form-control" ng-model="ctrl.view.form.contractStartDate" ng-disabled="true">
+                    </div>
+                    <!-- Contract Start Date -->
+
+                    <!-- Contract End Date -->
+                    <div class="col-md-6  mb-3">
+                        <label>Contract End Date:</label>
+                        <input type="date" name="endDate" class="form-control" ng-model="ctrl.view.form.contractEndDate" ng-disabled="true">
+                    </div>
+                    <!-- Contract End Date -->
+                </div>
+
+                <!-- Manager -->
+                <div class="form-group" ng-show="ctrl.view.form.manager">
+
+                    <label>Manager: </label>
+
+                    <show-employee-selected employee="ctrl.view.form.manager"></show-employee-selected>
+
+                </div>
+                <!-- Manager -->
+
+                <!-- Department -->
+                <div class="form-group">
+                    <label>Department:</label>
+                    <select class="form-control" ng-model="ctrl.view.form.department" ng-options="department as department.label for department in ctrl.view.form.departmentList track by department.value" ng-disabled="true">
+                    </select>
+                    <input type="hidden" name="department" ng-model="ctrl.view.form.department.value" ng-required="true">
+                    <div role="alert" ng-messages="updateForm.department.$error" role="alert">
+                        <div class="text-danger" ng-message="required">The department is required</div>
+                    </div>
+                </div>
+                <!-- Department -->
+
+                <!-- Job Title -->
+                <div class="form-group">
+                    <label>Job Title:</label>
+                    <select class="form-control" ng-model="ctrl.view.form.jobTitle" ng-options="jobTitle as jobTitle.label for jobTitle in ctrl.view.form.jobTitleList track by jobTitle.value" ng-disabled="true">
+                    </select>
+                </div>
+                <!-- Job Title -->
+
+            </fieldset>
+
+            <!-- Staff Resources -->
+            <fieldset class="border rounded p-3 mt-3">
+
+                <!-- Applications -->
+                <div class="form-group" ng-if="ctrl.view.form.applicationAccessList.length > 0">
+
+                    <label>Default Applications:</label>
+
+                    <div class="d-flex flex-row d-flex flex-wrap">
+
+                        <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.view.form.applicationAccessList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                            <label>{{resource.name}}</label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Applications -->
+
+                <!-- Assets -->
+                <div class="form-group" ng-if="ctrl.view.form.assetList.length > 0">
+
+                    <label>Default Assets:</label>
+
+                    <div class="d-flex flex-row d-flex flex-wrap">
+
+                        <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.view.form.assetList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                            <label>{{resource.name}}</label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Assets -->
+
+                <!-- Email Groups -->
+                <div class="form-group" ng-if="ctrl.view.form.emailGroupList.length > 0">
+
+                    <label>Default Email Groups:</label>
+
+                    <div class="d-flex flex-row d-flex flex-wrap">
+
+                        <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.view.form.emailGroupList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                            <label>{{resource.name}}</label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Email Groups -->
+
+            </fieldset>
+
+            <!-- Additional details -->
+            <fieldset class="border rounded p-3 mt-3">
+
+                <legend>Additional Information</legend>
+
+                <!-- Comments -->
+                <div class="form-group">
+                    <label>Comments:</label>
+                    <textarea name="comments" class="form-control" ng-model="ctrl.view.form.comments" rows="5" ng-disabled="true"></textarea>
+                </div>
+                <!-- Comments -->
+
+            </fieldset>
+
+        </form>
+
+    </modal-content>
+
+    <modal-footer>
+    </modal-footer>
+
+</modal>
+<!-- Update Modal -->

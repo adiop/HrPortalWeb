@@ -1,0 +1,72 @@
+<!-- view Modal -->
+<modal modal-id="'viewModal'" modal-title="'view Staff Resource'" loading="ctrl.view.form.loading">
+
+    <modal-content>
+
+        <form>
+
+            <div class="row">
+
+                <!-- ID -->
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label>ID: {{ctrl.view.form.id}}</label>
+                    </div>
+                </div>
+                <!-- ID -->
+
+            </div>
+
+            <!-- Name -->
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" name="name" class="form-control" ng-model="ctrl.view.form.name" ng-readonly="true">
+            </div>
+            <!-- Name -->
+
+            <!-- Type -->
+            <div class="form-group">
+                <label>Type:</label>
+                <select name="type" class="form-control" ng-model="ctrl.view.form.type" ng-readonly="true" ng-options="type as type.label for type in ctrl.view.form.typeList track by type.value">
+                </select>
+            </div>
+            <!-- Type -->
+
+            <!-- Default -->
+            <div class="form-group">
+                <label>Default:</label>
+                <select name="type" class="form-control" ng-model="ctrl.view.form.defaultResource" ng-readonly="true" ng-options="defaultResource as defaultResource.label for defaultResource in ctrl.view.form.defaultResourceList track by defaultResource.value">
+                </select>
+            </div>
+            <!-- Default -->
+
+            <!-- Technician -->
+            <div class="form-group" ng-show="ctrl.view.form.technician">
+
+                <label>Technician: </label>
+
+                <show-employee-selected employee="ctrl.view.form.technician"></show-employee-selected>
+
+            </div>
+            <!-- Technician -->
+
+            <!-- Description -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label>Description:</label>
+                        <textarea type="text" name="viewDescription" class="form-control" ng-model="ctrl.view.form.description" ng-readonly="true"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Description -->
+
+        </form>
+
+    </modal-content>
+
+    <modal-footer>
+    </modal-footer>
+
+</modal>
+<!-- view Modal -->

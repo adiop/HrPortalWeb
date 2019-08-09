@@ -1,0 +1,21 @@
+<!-- History Modal -->
+<modal modal-id="'ticketTaskHistoryModal'" modal-title="'Ticket History'">
+
+    <modal-content>
+
+        <div class="border rounded bg-light p-1 m-1 comment" ng-repeat="history in ctrl.selectedTicketTask.history | orderBy:'-createdDate '">
+
+            <h6>
+                <strong>Creator:</strong> {{history.createdBy.preferredName}} {{history.createdBy.lastName}}
+            </h6>
+            <p>{{history.details}}</p>
+            <h6>
+                <strong>Date:</strong> {{history.createdDate | date:  'MM/dd/yyyy HH:mm'}}
+            </h6>
+
+        </div>
+
+    </modal-content>
+
+</modal>
+<!-- History Modal -->

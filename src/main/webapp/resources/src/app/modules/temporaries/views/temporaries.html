@@ -1,0 +1,184 @@
+<page-template>
+
+    <page-title>Temporaries</page-title>
+
+    <page-right-menu>
+
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary btn-xs border-left" ng-click="ctrl.insert.show();" data-toggle="modal" data-target="#insertModal">
+                <i class="fa fa-plus fa-1x"></i>
+            </button>
+        </div>
+
+    </page-right-menu>
+
+    <page-content>
+
+        <!-- Search Form -->
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <form name="searchForm">
+
+                    <div class="form-row">
+
+                        <div class="col-md-8">
+                            <label>Name:</label>
+                            <input type="text" name="name" class="form-control" ng-model="ctrl.search.form.fullName" autocomplete="off">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Company:</label>
+                            <input type="text" name="name" class="form-control" ng-model="ctrl.search.form.companyName" autocomplete="off">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Department:</label>
+                                <select name="department" class="form-control" ng-model="ctrl.search.form.department" ng-options="department as department.label for department in ctrl.search.form.departmentList track by department.value" ng-change="ctrl.search.form.selectDepartment(ctrl.search.form.department.value)">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Job Title:</label>
+                                <select name="jobTitle" class="form-control" ng-model="ctrl.search.form.jobTitle" ng-options="jobTitle as jobTitle.label for jobTitle in ctrl.search.form.jobTitleList track by jobTitle.value">
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-6">
+                            <label>Contract Date (from) :</label>
+                            <input type="date" name="name" class="form-control" ng-model="ctrl.search.form.startHireDate">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Contract Date (to) :</label>
+                            <input type="date" name="name" class="form-control" ng-model="ctrl.search.form.endHireDate">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group text-right mt-3">
+                        <button type="submit" class="btn btn-primary" ng-click="ctrl.search.do()">
+                            <i class="fa fa-search fa-1x"></i> Search
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+        <!-- Search Form -->
+
+        <!-- Search Results -->
+        <search-panel paginated-result="ctrl.search.paginatedResult">
+
+            <search-panel-content>
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>
+                            <!-- Employee Picture -->
+                        </th>
+                        <th class="text-left text-primary sort" ng-click="ctrl.search.orderByPreferredName()">
+                            Temporary <span class="sortorder" ng-show="ctrl.search.paginatedResult.isSortedBy('preferredName')" ng-class="{reverse: ctrl.search.paginatedResult.isSortedAsc()}"></span>
+                        </th>
+                        <th class="text-center text-primary sort" ng-click="ctrl.search.orderByContractStartDate()">
+                            Contract Start Date <span class="sortorder" ng-show="ctrl.search.paginatedResult.isSortedBy('contractStartDate')" ng-class="{reverse: ctrl.search.paginatedResult.isSortedAsc()}"></span>
+                        </th>
+                        <th class="text-center text-primary sort" ng-click="ctrl.search.orderByContractEndDate()">
+                            Contract End Date <span class="sortorder" ng-show="ctrl.search.paginatedResult.isSortedBy('contractEndDate')" ng-class="{reverse: ctrl.search.paginatedResult.isSortedAsc()}"></span>
+                        </th>
+                        <th class="text-left text-primary sort" ng-click="ctrl.search.orderByDepartment()">
+                            Department <span class="sortorder" ng-show="ctrl.search.paginatedResult.isSortedBy('department.name')" ng-class="{reverse: ctrl.search.paginatedResult.isSortedAsc()}"></span>
+                        </th>
+                        <th class="text-left text-primary sort" ng-click="ctrl.search.orderByJobTitle()">
+                            Job Title <span class="sortorder" ng-show="ctrl.search.paginatedResult.isSortedBy('jobTitle.name')" ng-class="{reverse: ctrl.search.paginatedResult.isSortedAsc()}"></span>
+                        </th>
+                        <th class="text-center">
+                            View
+                        </th>
+                        <th class="text-center">
+                            Edit
+                        </th>
+                        <th class="text-center">
+                            Term
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="result in ctrl.search.paginatedResult.pageValues">
+                        <td style="width: 10%;">
+
+                            <div class="text-danger rounded-circle bg-light border position-absolute p-2 m-2" ng-show="result.flagged === true" >
+                                <i class="fa fa-flag fa-2x" data-tooltip="tooltip" data-placement="bottom" title="{{result.comments}}"></i>
+                            </div>
+
+                            <img ng-src="{{result.image}}" ng-init="ctrl.loadPicture(result)" class="img-thumbnail">
+
+                        </td>
+
+                        <td style="width: 20%;">
+                            <h4 class="text-primary">{{result.preferredName}} {{result.lastName}}</h4>
+                            <strong>Email:</strong> <span ng-show="result.email">{{result.email}}@warn.com</span> <br/>
+                            <strong>Phone:</strong> {{result.phone}}<br/>
+                            <strong>Login:</strong> {{result.login}}<br/>
+                        </td>
+                        <td class="text-center" style="width: 15%;">
+                            {{result.contractStartDate | date : 'MM/dd/yyyy'}}
+                        </td>
+                        <td class="text-center" style="width: 15%;">
+                            {{result.contractEndDate | date : 'MM/dd/yyyy'}}
+                        </td>
+                        <td style="width: 20%;">
+                            {{result.jobTitle.department.name}}
+                        </td>
+                        <td style="width: 20%;">
+                            {{result.jobTitle.name}}
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-primary btn-sm active" aria-pressed="true" data-title="View" data-toggle="modal" data-target="#viewModal" ng-click="ctrl.view.show(result.id)"><i class="fa fa-eye fa-1x"></i></button>
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-primary btn-sm active" aria-pressed="true" data-title="Edit" data-toggle="modal" data-target="#updateModal" ng-click="updateForm.$setUntouched(); ctrl.update.show(result.id);"><i class="fa fa-edit fa-1x"></i></button>
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-danger btn-sm active" aria-pressed="true" data-title="Delete" data-toggle="modal" data-target="#deleteModal" ng-click="ctrl.delete.show(result.id)"><i class="fa fa-trash-alt fa-1x"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </search-panel-content>
+
+        </search-panel>
+        <!-- Search Results -->
+
+        <!-- Modals -->
+
+        <div ng-include="'/resources/src/app/modules/temporaries/views/modal/viewTemporaryModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/temporaries/views/modal/insertTemporaryModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/temporaries/views/modal/updateTemporaryModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/temporaries/views/modal/deleteTemporaryModal.html'"></div>
+
+        <!-- Modals -->
+
+    </page-content>
+
+</page-template>
