@@ -1,0 +1,444 @@
+<page-template>
+
+    <page-title>ADP Report</page-title>
+
+    <page-right-menu>
+    </page-right-menu>
+
+    <page-content>
+
+        <!-- Upload Form -->
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <form name="uploadForm">
+
+                    <div class="form-row">
+
+                        <div class="col-md-12">
+
+                            <!-- File -->
+                            <div class="form-group">
+                                <label>ADP File:</label>
+                                <div class="custom-file">
+                                    <input class="custom-file-input" type="file" ng-model="ctrl.upload.form.adpFile" ng-change="ctrl.uploadAdpFile(ctrl.upload.form)" file-upload>
+                                    <label class="custom-file-label">{{ctrl.upload.form.adpFile.name}}</label>
+                                </div>
+                            </div>
+                            <!-- File -->
+
+                            <div class="form-group text-right mt-3">
+                                <button type="submit" class="btn btn-primary" ng-click="ctrl.upload.do()">
+                                    <i class="fa fa-upload fa-1x"></i> Upload
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+        <!-- Upload Form -->
+
+        <!-- Upload results -->
+        <div ng-show="ctrl.upload.form.image" class="bg-white text-center rounded">
+            <img src="{{ctrl.upload.form.image}}">
+        </div>
+        <div ng-show="ctrl.upload.form.map">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist" ng-init="tabSelected = 'update'">
+                    <a class="nav-item nav-link" ng-class="{true:'active',false:''}[tabSelected === 'update']" ng-click="tabSelected = 'update'" style="cursor: pointer;" id="nav-update-tab" data-toggle="tab" role="tab" aria-controls="nav-update" aria-selected="true">Updated</a>
+                    <a class="nav-item nav-link" ng-class="{true:'active',false:''}[tabSelected === 'insert']" ng-click="tabSelected = 'insert'" style="cursor: pointer;" id="nav-insert-tab" data-toggle="tab" role="tab" aria-controls="nav-insert" aria-selected="false">Inserted</a>
+                    <a class="nav-item nav-link" ng-class="{true:'active',false:''}[tabSelected === 'delete']" ng-click="tabSelected = 'delete'" style="cursor: pointer;" id="nav-delete-tab" data-toggle="tab" role="tab" aria-controls="nav-delete" aria-selected="false">Removed</a>
+                </div>
+            </nav>
+            <div class="tab-content bg-white p-2" id="nav-tabContent">
+                <div class="tab-pane fade" ng-class="{true:'show active',false:''}[tabSelected === 'update']" id="nav-update" role="tabpanel" aria-labelledby="nav-update-tab">
+
+                    <!-- Updated employees -->
+                    <div class="row pt-2 pb-2 border-bottom" ng-repeat="updatedEmployee in ctrl.upload.form.map.UPDATED | orderBy:'preferredName'">
+
+                        <init ng-init="ctrl.update.validate(updatedEmployee)"></init>
+
+                        <div class="col-sm-1">
+
+                            <div class="text-danger rounded-circle bg-light border position-absolute p-2 m-2" ng-show="!updatedEmployee.isValid" >
+                                <i class="fa fa-exclamation-triangle fa-2x" data-tooltip="tooltip" data-placement="bottom" title="{{result.comments}}"></i>
+                            </div>
+
+                            <img ng-src="{{updatedEmployee.image}}" class="img-thumbnail">
+
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="text-primary text-primary">
+                                <h5>Employee:
+                                    <span ng-class="{true:'badge badge-danger',false:''}[updatedEmployee.hasNameChange]">
+                                        {{updatedEmployee.preferredName}} {{updatedEmployee.lastName}}
+                                    </span>
+                                </h5>
+                            </div>
+                            <div ng-show="updatedEmployee.employeeNumber">
+                                <strong>Number:</strong>
+                                1{{updatedEmployee.employeeNumber}}
+                            </div>
+                            <div>
+                                <strong>Title:</strong>
+                                <span ng-class="{true:'badge badge-danger',false:''}[updatedEmployee.hasJobTitleChange]">
+                                    {{updatedEmployee.jobTitle.name}}
+                                </span>
+                            </div>
+                            <div>
+                                <strong>Department:</strong>
+                                <span ng-class="{true:'badge badge-danger',false:''}[updatedEmployee.hasDepartmentChange]">
+                                    {{updatedEmployee.department.name}}
+                                </span>
+                            </div>
+                            <div>
+                                <strong>Shift:</strong>
+                                <span ng-class="{true:'badge badge-danger',false:''}[updatedEmployee.hasShiftChange]">
+                                    <t ng-if="updatedEmployee.shift === 'DAY_5_8'">Day 5 x 8</t>
+                                    <t ng-if="updatedEmployee.shift === 'DAY_4_10'">Day 4 x 10 </t>
+                                    <t ng-if="updatedEmployee.shift === 'SWING_5_8'">Swing 5 x 8</t>
+                                    <t ng-if="updatedEmployee.shift === 'SWING_4_10'">Swing 4 x 10</t>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="text-primary text-primary" ng-show="updatedEmployee.manager">
+                                <h5>Manager:
+                                    <span ng-class="{true:'badge badge-danger',false:''}[updatedEmployee.hasManagerChange]">
+                                        {{updatedEmployee.manager.preferredName}} {{updatedEmployee.manager.lastName}}
+                                    </span>
+                                </h5>
+                            </div>
+                            <div ng-show="updatedEmployee.manager.email">
+                                <strong>Email:</strong>
+                                {{updatedEmployee.manager.email}}@warn.com
+                            </div>
+                            <div ng-show="updatedEmployee.manager.phone">
+                                <strong>Phone:</strong>
+                                {{updatedEmployee.manager.phone}}
+                            </div>
+                        </div>
+                        <div class="col-sm-3 border-left text-center">
+
+                            <div class="p-2 mt-4">
+                                <button class="btn btn-link" data-toggle="modal" data-target="#adpSyncModal" ng-click="ctrl.update.load(updatedEmployee);">
+                                    <i class="fa fa-sync fa-2x"></i>
+                                </button>
+                                <br/>
+                                Update
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Updated employees -->
+
+                </div>
+                <div class="tab-pane fade" ng-class="{true:'show active',false:''}[tabSelected === 'insert']" id="nav-insert" role="tabpanel" aria-labelledby="nav-insert-tab">
+
+                    <!-- Inserted employees -->
+                    <div class="row pt-2 pb-2 border-bottom" ng-repeat="insertedEmployee in ctrl.upload.form.map.INSERTED | orderBy:'preferredName'">
+
+                        <init  ng-init="ctrl.loadInsertedEmployee(insertedEmployee)"></init>
+
+                        <div class="col-sm-1">
+                            <img ng-src="data:image/png;base64,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" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="text-primary text-primary">
+                                <h5>Employee:
+                                    <span>
+                                        {{insertedEmployee.preferredName}} {{insertedEmployee.lastName}}
+                                    </span>
+                                </h5>
+                            </div>
+                            <div ng-show="insertedEmployee.employeeNumber">
+                                <strong>Number:</strong>
+                                1{{insertedEmployee.employeeNumber}}
+                            </div>
+                            <div>
+                                <strong>Title:</strong>
+                                <span>
+                                    {{insertedEmployee.jobTitle.name}}
+                                </span>
+                            </div>
+                            <div>
+                                <strong>Department:</strong>
+                                <span>
+                                    {{insertedEmployee.department.name}}
+                                </span>
+                            </div>
+                            <div>
+                                <strong>Shift:</strong>
+                                <span>
+                                    <t ng-if="insertedEmployee.shift === 'DAY_5_8'">Day 5 x 8</t>
+                                    <t ng-if="insertedEmployee.shift === 'DAY_4_10'">Day 4 x 10 </t>
+                                    <t ng-if="insertedEmployee.shift === 'SWING_5_8'">Swing 5 x 8</t>
+                                    <t ng-if="insertedEmployee.shift === 'SWING_4_10'">Swing 4 x 10</t>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="text-primary text-primary">
+                                <h5>Manager:
+                                    <span>
+                                        {{insertedEmployee.manager.preferredName}} {{insertedEmployee.manager.lastName}}
+                                    </span>
+                                </h5>
+                            </div>
+                            <div ng-show="insertedEmployee.manager.email">
+                                <strong>Email:</strong>
+                                {{insertedEmployee.manager.email}}@warn.com
+                            </div>
+                            <div ng-show="insertedEmployee.manager.phone">
+                                <strong>Phone:</strong>
+                                {{insertedEmployee.manager.phone}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Inserted employees -->
+
+                </div>
+                <div class="tab-pane fade" ng-class="{true:'show active',false:''}[tabSelected === 'delete']" id="nav-delete" role="tabpanel" aria-labelledby="nav-delete-tab">
+
+                    <!-- Removed employees -->
+                    <div class="row pt-2 pb-2 border-bottom" ng-repeat="removedEmployee in ctrl.upload.form.map.REMOVED | orderBy:'preferredName'">
+
+                        <init ng-init="ctrl.loadRemovedEmployee(removedEmployee)"></init>
+
+                        <div class="col-sm-1">
+                            <img ng-src="{{removedEmployee.image}}" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="text-primary text-primary">
+                                <h5>Employee:
+                                    <span>
+                                        {{removedEmployee.preferredName}} {{removedEmployee.lastName}}
+                                    </span>
+                                </h5>
+                            </div>
+                            <div ng-show="removedEmployee.employeeNumber">
+                                <strong>Number:</strong>
+                                1{{removedEmployee.employeeNumber}}
+                            </div>
+                            <div>
+                                <strong>Title:</strong>
+                                <span>
+                                    {{removedEmployee.jobTitle.name}}
+                                </span>
+                            </div>
+                            <div>
+                                <strong>Department:</strong>
+                                <span>
+                                    {{removedEmployee.department.name}}
+                                </span>
+                            </div>
+                            <div>
+                                <strong>Shift:</strong>
+                                <span>
+                                    <t ng-if="removedEmployee.shift === 'DAY_5_8'">Day 5 x 8</t>
+                                    <t ng-if="removedEmployee.shift === 'DAY_4_10'">Day 4 x 10 </t>
+                                    <t ng-if="removedEmployee.shift === 'SWING_5_8'">Swing 5 x 8</t>
+                                    <t ng-if="removedEmployee.shift === 'SWING_4_10'">Swing 4 x 10</t>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="text-primary text-primary" ng-show="removedEmployee.manager">
+                                <h5>Manager:
+                                    <span>
+                                        {{removedEmployee.manager.preferredName}} {{removedEmployee.manager.lastName}}
+                                    </span>
+                                </h5>
+                            </div>
+                            <div ng-show="removedEmployee.manager.email">
+                                <strong>Email:</strong>
+                                {{removedEmployee.manager.email}}@warn.com
+                            </div>
+                            <div ng-show="removedEmployee.manager.phone">
+                                <strong>Phone:</strong>
+                                {{removedEmployee.manager.phone}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Removed employees -->
+
+                </div>
+            </div>
+        </div>
+        <!-- Upload results -->
+
+        <!-- ADP file sync modal -->
+
+        <!-- ADP Sync Modal -->
+        <modal modal-id="'adpSyncModal'" modal-title="'Sync with ADP'">
+
+            <modal-content>
+
+                <div class="errors" ng-show="!ctrl.update.adpEmployee.isValid">
+
+                    <div class="alert alert-danger" role="alert">
+                        <div>
+                            <b>The employee can't be updated due to the following errors:</b>
+                        </div>
+                        <div ng-show="ctrl.update.adpEmployee.errors.departmentError">
+                            - The department was not found in the database. You need to insert the department before proceeding.
+                        </div>
+                        <div ng-show="ctrl.update.adpEmployee.errors.jobTitleError">
+                            - The Job title was not found in the database. You need to insert the job title before proceeding.
+                        </div>
+                        <div ng-show="ctrl.update.adpEmployee.errors.managerError">
+                            - The manager was not found in the HR database for this employee. You need to insert the manager before proceeding.
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row p-2 bg-light shadow mb-2">
+
+                    <!-- Database Employee Information -->
+                    <div class="col-sm-6">
+
+                        <div class="text-primary">
+                            <h5>Database Information:</h5>
+                        </div>
+
+                        <div class="w-25" >
+                            <img src="{{ctrl.update.adpEmployee.employee.image}}" class="img-thumbnail w-75">
+                        </div>
+
+                        <div class="text-primary">
+                            <strong>Employee:
+                                <span>
+                                    {{ctrl.update.adpEmployee.employee.preferredName}} {{ctrl.update.adpEmployee.employee.lastName}}
+                                </span>
+                            </strong>
+                        </div>
+                        <hr/>
+                        <div>
+                            <strong>Title:</strong>
+                            <span>
+                                {{ctrl.update.adpEmployee.employee.jobTitle.name}}
+                            </span>
+                        </div>
+                        <div>
+                            <strong>Department:</strong>
+                            <span>
+                                {{ctrl.update.adpEmployee.employee.jobTitle.department.name}}
+                            </span>
+                        </div>
+                        <div>
+                            <strong>Shift:</strong>
+                            <span>
+                                <t ng-if="ctrl.update.adpEmployee.employee.shift === 'DAY_5_8'">Day 5 x 8</t>
+                                <t ng-if="ctrl.update.adpEmployee.employee.shift === 'DAY_4_10'">Day 4 x 10 </t>
+                                <t ng-if="ctrl.update.adpEmployee.employee.shift === 'SWING_5_8'">Swing 5 x 8</t>
+                                <t ng-if="ctrl.update.adpEmployee.employee.shift === 'SWING_4_10'">Swing 4 x 10</t>
+                            </span>
+                        </div>
+
+                        <hr/>
+
+                        <div class="text-primary text-primary">
+                            <strong>Manager:
+                                <span>
+                                    {{ctrl.update.adpEmployee.employee.manager.preferredName}} {{ctrl.update.adpEmployee.employee.manager.lastName}}
+                                </span>
+                            </strong>
+                        </div>
+                        <div ng-show="ctrl.update.adpEmployee.employee.manager.email">
+                            <strong>Email:</strong>
+                            {{ctrl.update.adpEmployee.employee.manager.email}}@warn.com
+                        </div>
+                        <div ng-show="ctrl.update.adpEmployee.employee.manager.phone">
+                            <strong>Phone:</strong>
+                            {{ctrl.update.adpEmployee.employee.manager.phone}}
+                        </div>
+
+                    </div>
+
+                    <!-- ADP File Employee Information -->
+                    <div class="col-sm-6" ng-show="ctrl.update.adpEmployee">
+
+                        <div class="text-primary">
+                            <h5>ADP File Information: </h5>
+                        </div>
+
+                        <div class="w-25" >
+                            <img src="{{ctrl.update.adpEmployee.image}}" class="img-thumbnail w-75">
+                        </div>
+
+                        <div class="text-primary">
+                            <strong>Employee:
+                                <span ng-class="{true:'badge badge-danger',false:''}[ctrl.update.adpEmployee.hasNameChange]">
+                                    {{ctrl.update.adpEmployee.preferredName}} {{ctrl.update.adpEmployee.lastName}}
+                                </span>
+                            </strong>
+                        </div>
+                        <hr/>
+                        <div>
+                            <strong>Title:</strong>
+                            <span ng-class="{true:'badge badge-danger',false:''}[ctrl.update.adpEmployee.hasJobTitleChange]">
+                                {{ctrl.update.adpEmployee.jobTitle.name}}
+                            </span>
+                        </div>
+                        <div>
+                            <strong>Department:</strong>
+                            <span ng-class="{true:'badge badge-danger',false:''}[ctrl.update.adpEmployee.hasDepartmentChange]">
+                                {{ctrl.update.adpEmployee.department.name}}
+                            </span>
+                        </div>
+                        <div>
+                            <strong>Shift:</strong>
+                            <span ng-class="{true:'badge badge-danger',false:''}[ctrl.update.adpEmployee.hasShiftChange]">
+                                    <t ng-if="ctrl.update.adpEmployee.shift === 'DAY_5_8'">Day 5 x 8</t>
+                                    <t ng-if="ctrl.update.adpEmployee.shift === 'DAY_4_10'">Day 4 x 10 </t>
+                                    <t ng-if="ctrl.update.adpEmployee.shift === 'SWING_5_8'">Swing 5 x 8</t>
+                                    <t ng-if="ctrl.update.adpEmployee.shift === 'SWING_4_10'">Swing 4 x 10</t>
+                                </span>
+                        </div>
+
+                        <hr/>
+
+                        <div class="text-primary text-primary">
+                            <strong>Manager:
+                                <span ng-class="{true:'badge badge-danger',false:''}[ctrl.update.adpEmployee.hasManagerChange]">
+                                    {{ctrl.update.adpEmployee.manager.preferredName}} {{ctrl.update.adpEmployee.manager.lastName}}
+                                </span>
+                            </strong>
+                        </div>
+                        <div ng-show="ctrl.update.adpEmployee.manager.email">
+                            <strong>Email:</strong>
+                            {{ctrl.update.adpEmployee.manager.email}}@warn.com
+                        </div>
+                        <div ng-show="ctrl.update.adpEmployee.manager.phone">
+                            <strong>Phone:</strong>
+                            {{ctrl.update.adpEmployee.manager.phone}}
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <modal-footer>
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!ctrl.update.adpEmployee.isValid" ng-click="ctrl.update.do()">Update</button>
+
+                </modal-footer>
+
+            </modal-content>
+            <!-- ADP Sync Modal -->
+
+    </page-content>
+
+</page-template>

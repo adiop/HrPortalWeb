@@ -1,0 +1,63 @@
+<!-- Update Modal -->
+<modal modal-id="'updateModal'" modal-title="'Update Department'" loading="ctrl.update.form.loading">
+
+    <modal-content>
+
+        <form name="updateForm" class="validateForm">
+
+            <div class="row">
+
+                <!-- Name -->
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" name="name" class="form-control required" ng-model="ctrl.update.form.name" autocomplete="off" ng-required="true" autocomplete="off">
+                        <div role="alert" ng-messages="updateForm.name.$error" role="alert">
+                            <div class="text-danger" ng-message="required">The name is required</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Name -->
+
+                <!-- Department Code -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>JDE Department Code:</label>
+                            <input type="text" name="departmentCode" class="form-control required" ng-model="ctrl.update.form.departmentCode" autocomplete="off" ng-required="true">
+                            <div role="alert" ng-messages="updateForm.departmentCode.$error" role="alert">
+                                <div class="text-danger" ng-message="required">The JDE Code is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Department Code -->
+
+            </div>
+
+            <!-- Description -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="updateDescription">Description:</label>
+                        <textarea type="text" name="updateDescription" class="form-control" id="updateDescription" ng-model="ctrl.update.form.description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Description -->
+
+        </form>
+
+        <init-form ng-init="ctrl.updateForm = updateForm" />
+
+    </modal-content>
+
+    <modal-footer>
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="ctrl.update.do()" ng-disabled="!ctrl.updateForm.$valid">Update</button>
+
+    </modal-footer>
+
+</modal>
+<!-- Update Modal -->

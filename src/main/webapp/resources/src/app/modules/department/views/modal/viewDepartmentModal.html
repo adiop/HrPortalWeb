@@ -1,0 +1,80 @@
+<!-- view Modal -->
+<modal modal-id="'viewModal'" modal-title="'view Department'" loading="ctrl.view.form.loading">
+
+    <modal-content>
+
+        <form>
+
+            <div class="row">
+
+                <!-- ID -->
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label>ID: {{ctrl.view.form.id}}</label>
+                    </div>
+                </div>
+                <!-- ID -->
+
+            </div>
+
+            <div class="row">
+
+                <!-- Name -->
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" name="name" class="form-control" ng-model="ctrl.view.form.name" ng-readonly="true">
+                      </div>
+                </div>
+                <!-- Name -->
+
+                <!-- Department Code -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>JDE Department Code:</label>
+                            <input type="text" name="departmentCode" class="form-control" ng-model="ctrl.view.form.departmentCode" ng-readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <!-- Department Code -->
+
+            </div>
+
+            <!-- Description -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label>Description:</label>
+                        <textarea type="text" name="viewDescription" class="form-control" ng-model="ctrl.view.form.description" ng-readonly="true"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Description -->
+
+            <!-- Job Titles -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label>Job Titles:</label>
+
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="jobTitle in ctrl.view.form.jobTitles | orderBy:'name'">
+                                {{jobTitle.name}}
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Description -->
+
+        </form>
+
+    </modal-content>
+
+    <modal-footer>
+    </modal-footer>
+
+</modal>
+<!-- view Modal -->

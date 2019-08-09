@@ -1,0 +1,85 @@
+<!-- Update Modal -->
+<modal modal-id="'viewModal'" modal-title="'View Job Title'" loading="ctrl.view.form.loading">
+
+    <modal-content>
+
+        <form>
+
+            <div class="row">
+
+                <!-- ID -->
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label>ID: {{ctrl.view.form.id}}</label>
+                    </div>
+                </div>
+                <!-- ID -->
+
+            </div>
+
+            <!-- Name -->
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" name="name" class="form-control required" ng-model="ctrl.view.form.name" ng-required="true" ng-readonly="true">
+            </div>
+            <!-- Name -->
+
+            <!-- Department -->
+            <div class="form-group">
+                <label>Department:</label>
+                <select class="form-control required" ng-model="ctrl.view.form.department" ng-required="true" ng-readonly="true" ng-options="department as department.label for department in ctrl.view.form.departmentList track by department.value" required>
+                </select>
+            </div>
+            <!-- Department -->
+
+            <!-- Applications -->
+            <div class="form-group" ng-show="([ctrl.view.form.applicationAccessList] | filter:selected===true).length > 0">
+                <label>Applications:</label>
+                <div class="d-flex flex-row d-flex flex-wrap">
+                    <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.view.form.applicationAccessList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                        <label>{{resource.name}}</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Applications -->
+
+            <!-- Assets -->
+            <div class="form-group" ng-show="ctrl.view.form.assetList.length > 0">
+                <label>Assets:</label>
+                <div class="d-flex flex-row d-flex flex-wrap">
+                    <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.view.form.assetList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                        <label>{{resource.name}}</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Assets -->
+
+            <!-- Email Groups -->
+            <div class="form-group" ng-show="ctrl.view.form.emailGroupList.length > 0">
+                <label>Email Groups:</label>
+                <div class="d-flex flex-row d-flex flex-wrap">
+                    <div class="d-flex flex-row d-flex flex-wrap">
+                        <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.view.form.assetList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                            <label>{{resource.name}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Email Groups -->
+
+            <!-- Description -->
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea type="text" name="description" class="form-control" ng-model="ctrl.view.form.description" ng-readonly="true"></textarea>
+            </div>
+            <!-- Description -->
+
+        </form>
+
+    </modal-content>
+
+    <modal-footer>
+    </modal-footer>
+
+</modal>
+<!-- Update Modal -->

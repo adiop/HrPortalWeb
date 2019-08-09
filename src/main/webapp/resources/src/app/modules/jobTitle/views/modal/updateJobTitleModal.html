@@ -1,0 +1,124 @@
+<!-- Update Modal -->
+<modal modal-id="'updateModal'" modal-title="'Update Job Title'" loading="ctrl.update.form.loading">
+
+    <modal-content>
+
+        <div class="row" ng-show="ctrl.update.form.loading === true">
+
+            <!-- Loading -->
+            <div class="col-lg-12 text-center">
+                <div>
+                    <img src="/resources/images/seup-application.gif">
+                </div>
+
+                <div>
+                    <h3>
+                        <small class="text-muted">Loading...</small>
+                    </h3>
+                </div>
+            </div>
+            <!-- Loading -->
+
+        </div>
+
+        <form name="updateForm" ng-show="ctrl.update.form.loading === false">
+
+            <!-- Name -->
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" name="name" class="form-control required" ng-model="ctrl.update.form.name" ng-required="true" autocomplete="off">
+                <div role="alert" ng-messages="updateForm.name.$error" role="alert">
+                    <div class="text-danger" ng-message="required">The name is required.</div>
+                </div>
+            </div>
+            <!-- Name -->
+
+            <!-- Department -->
+            <div class="form-group">
+
+                <label>Department:</label>
+
+                <select class="form-control required" ng-model="ctrl.update.form.department" ng-options="department as department.label for department in ctrl.update.form.departmentList track by department.value" required>
+                </select>
+
+                <input type="hidden" name="department" ng-model="ctrl.update.form.department.value" ng-required="true">
+                <div role="alert" ng-messages="updateForm.department.$error" role="alert">
+                    <div class="text-danger" ng-message="required">The department is required</div>
+                </div>
+
+            </div>
+            <!-- Department -->
+
+            <!-- Applications -->
+            <div class="form-group" ng-if="ctrl.update.form.applicationAccessList.length > 0">
+
+                <label>Default Applications:</label>
+
+                <div class="d-flex flex-row d-flex flex-wrap">
+
+                    <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.update.form.applicationAccessList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                        <label>{{resource.name}}</label>
+                        <input ng-model="resource.selected"  type="checkbox" id="chkApplication-{{resource.id}}" value="{{resource.value}}" >
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- Applications -->
+
+            <!-- Assets -->
+            <div class="form-group" ng-if="ctrl.update.form.assetList.length > 0">
+
+                <label>Default Assets:</label>
+
+                <div class="d-flex flex-row d-flex flex-wrap">
+
+                    <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.update.form.assetList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                        <label>{{resource.name}}</label>
+                        <input ng-model="resource.selected"  type="checkbox" id="chkAsset-{{resource.id}}" value="{{resource.id}}" >
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- Assets -->
+
+            <!-- Email Groups -->
+            <div class="form-group" ng-if="ctrl.update.form.emailGroupList.length > 0">
+
+                <label>Default Email Groups:</label>
+
+                <div class="d-flex flex-row d-flex flex-wrap">
+
+                    <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.update.form.emailGroupList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
+                        <label>{{resource.name}}</label>
+                        <input ng-model="resource.selected"  type="checkbox" id="chkEmailGoup-{{resource.id}}" value="{{resource.id}}" >
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- Email Groups -->
+
+            <!-- Description -->
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea type="text" name="description" class="form-control" ng-model="ctrl.update.form.description"></textarea>
+            </div>
+            <!-- Description -->
+
+        </form>
+
+        <init-form ng-init="ctrl.updateForm = updateForm" />
+
+    </modal-content>
+
+    <modal-footer>
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="ctrl.update.do()" ng-disabled="!ctrl.updateForm.$valid">Update</button>
+
+    </modal-footer>
+
+</modal>
+<!-- Update Modal -->

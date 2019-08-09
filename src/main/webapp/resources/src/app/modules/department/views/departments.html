@@ -1,0 +1,103 @@
+<page-template>
+
+    <page-title>Departments</page-title>
+
+
+    <page-right-menu>
+
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary btn-xs border-left" ng-click="insertForm.$setUntouched(); ctrl.insert.show();" data-toggle="modal" data-target="#insertModal" data-tooltip="tooltip" data-placement="bottom" title="Add new departments">
+                <i class="fa fa-plus fa-1x"></i>
+            </button>
+        </div>
+
+    </page-right-menu>
+
+    <page-content>
+        <!-- Body -->
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <form name="searchForm">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Name:</label>
+                                <input type="text" name="name" class="form-control" id="name" ng-model="ctrl.search.form.name" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary pull-right" ng-click="ctrl.search.do()">
+                            <i class="fa fa-search fa-1x"></i> Search
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        <search-panel paginated-result="ctrl.search.paginatedResult">
+
+            <search-panel-content>
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-left text-primary sort" ng-click="ctrl.search.orderByName()">
+                            Department Name <span class="sortorder" ng-show="ctrl.search.paginatedResult.isSortedBy('name')" ng-class="{reverse: ctrl.search.paginatedResult.isSortedAsc()}"></span>
+                        </th>
+                        <th class="text-center">JDE Department Code</th>
+                        <th>Description</th>
+                        <th style="text-align: center">View</th>
+                        <th style="text-align: center">Edit</th>
+                        <th style="text-align: center">Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="result in ctrl.search.paginatedResult.pageValues">
+                        <td style="width: 30%;">
+                            {{result.name}}
+                        </td>
+                        <td style="width: 20%;" class="text-center">
+                            {{result.departmentCode}}
+                        </td>
+                        <td style="width: 40%;">
+                            {{result.description}}
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-primary btn-sm active" aria-pressed="true" data-title="View" data-toggle="modal" data-target="#viewModal" ng-click="ctrl.view.show(result.id)"><i class="fa fa-eye fa-1x"></i></button>
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-primary btn-sm active" aria-pressed="true" data-title="Edit" data-toggle="modal" data-target="#updateModal" ng-click="ctrl.update.show(result.id)"><i class="fa fa-edit fa-1x"></i></button>
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-danger btn-sm active" aria-pressed="true" data-title="Delete" data-toggle="modal" data-target="#deleteModal" ng-click="ctrl.delete.show(result.id)"><i class="fa fa-trash-alt fa-1x"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </search-panel-content>
+
+        </search-panel>
+        <!-- Body -->
+
+        <!-- Modals -->
+
+        <div ng-include="'/resources/src/app/modules/department/views/modal/viewDepartmentModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/department/views/modal/insertDepartmentModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/department/views/modal/updateDepartmentModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/department/views/modal/deleteDepartmentModal.html'"></div>
+
+        <!-- Modals -->
+
+    </page-content>
+
+</page-template>
