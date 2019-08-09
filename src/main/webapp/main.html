@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <title>HR Portal</title>
+
+        <link rel="icon" type="image/png" href="/resources/images/hr_icon.png" />
+
+        <link rel="stylesheet" href="/resources/styles/styles.css">
+
+        <!-- Bootstrap -->
+        <link href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css">
+
+        <script src="/webjars/popper.js/1.14.1/umd/popper.min.js"></script>
+        <script src="/webjars/jquery/3.2.1/jquery.js"></script>
+        <script src="/webjars/bootstrap/4.1.0/js/bootstrap.js"></script>
+
+        <!-- Websockets -->
+        <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+        <script src="/webjars/stomp-websocket/2.3.1/stomp.min.js"></script>
+
+        <!-- Angular -->
+        <script src="/webjars/angularjs/1.6.6/angular.min.js"></script>
+        <script src="/webjars/angularjs/1.6.6/angular-animate.min.js"></script>
+        <script src="/webjars/angularjs/1.6.6/angular-aria.min.js"></script>
+        <script src="/webjars/angularjs/1.6.6/angular-messages.min.js"></script>
+        <script src="/webjars/angularjs/1.6.6/angular-route.js"></script>
+
+        <!-- Common -->
+        <script src="/resources/src/app/common/util.js"></script>
+        <script src="/resources/src/app/common/common.js"></script>
+        <script src="/resources/src/app/common/pagination.js"></script>
+
+        <!-- App -->
+        <script src="/resources/src/app/app.js"></script>
+
+        <!-- Forms -->
+        <script src="/resources/src/app/modules/employee/controller/form/employeeForm.js"></script>
+        <script src="/resources/src/app/modules/employeeADPReport/controller/form/adpReportForm.js"></script>
+        <script src="/resources/src/app/modules/temporaries/controller/form/temporaryForm.js"></script>
+        <script src="/resources/src/app/modules/department/controller/form/departmentForm.js"></script>
+        <script src="/resources/src/app/modules/staffResource/controller/form/staffResourceForm.js"></script>
+        <script src="/resources/src/app/modules/jobTitle/controller/form/jobTitleForm.js"></script>
+        <script src="/resources/src/app/modules/task/controller/form/taskForm.js"></script>
+        <script src="/resources/src/app/modules/reports/controller/form/reportsForm.js"></script>
+        <script src="/resources/src/app/modules/portal/controller/form/portalForm.js"></script>
+
+        <!-- Services -->
+        <script src="/resources/src/app/modules/user/service/userService.js"></script>
+        <script src="/resources/src/app/modules/department/service/departmentsService.js"></script>
+        <script src="/resources/src/app/modules/staffResource/service/staffResourceService.js"></script>
+        <script src="/resources/src/app/modules/jobTitle/service/jobTitlesService.js"></script>
+        <script src="/resources/src/app/modules/employee/service/employeeService.js"></script>
+        <script src="/resources/src/app/modules/employeeADPReport/service/adpReportService.js"></script>
+        <script src="/resources/src/app/modules/temporaries/service/temporariesService.js"></script>
+        <script src="/resources/src/app/modules/tracker/service/trackerService.js"></script>
+        <script src="/resources/src/app/modules/task/service/taskService.js"></script>
+        <script src="/resources/src/app/modules/staff/service/staffService.js"></script>
+        <script src="/resources/src/app/modules/reports/service/reportsService.js"></script>
+        <script src="/resources/src/app/modules/portal/service/portalService.js"></script>
+
+        <!-- Controllers -->
+        <script src="/resources/src/app/modules/setup/controller/setupApplicationController.js"></script>
+        <script src="/resources/src/app/modules/employee/controller/employeeAdminController.js"></script>
+        <script src="/resources/src/app/modules/employeeADPReport/controller/adpReportController.js"></script>
+        <script src="/resources/src/app/modules/temporaries/controller/temporariesAdminController.js"></script>
+        <script src="/resources/src/app/modules/tracker/controller/trackerController.js"></script>
+        <script src="/resources/src/app/modules/jobTitle/controller/jobTitlesAdminController.js"></script>
+        <script src="/resources/src/app/modules/department/controller/departmentsAdminController.js"></script>
+        <script src="/resources/src/app/modules/staffResource/controller/staffResourceAdminController.js"></script>
+        <script src="/resources/src/app/modules/task/controller/taskController.js"></script>
+        <script src="/resources/src/app/modules/reports/controller/reportsController.js"></script>
+        <script src="/resources/src/app/modules/portal/controller/portalController.js"></script>
+
+
+        <!-- Directives -->
+        <script src="/resources/src/app/directives/pageTemplate/pageTemplate.js"></script>
+        <script src="/resources/src/app/directives/searchPanel/searchPanel.js"></script>
+        <script src="/resources/src/app/directives/employeeSelector/employeeSelector.js"></script>
+        <script src="/resources/src/app/directives/modal/modal.js"></script>
+        <script src="/resources/src/app/directives/collapse/collapse.js"></script>
+        <script src="/resources/src/app/directives/fileUpload/fileUpload.js"></script>
+
+        <!-- Reports -->
+        <script src="http://www.chartjs.org/dist/2.7.2/Chart.bundle.js"></script>
+        <script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+
+
+    </head>
+
+    <body ng-app="hr-app">
+
+        <div class="container-fluid" ng-view>
+
+        </div>
+
+    </body>
+
+</html>
