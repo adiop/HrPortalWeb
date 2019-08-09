@@ -1,0 +1,166 @@
+<page-template>
+
+    <page-title>Reports</page-title>
+
+    <page-right-menu>
+    </page-right-menu>
+
+    <page-content>
+
+        <!-- Body -->
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <form name="searchForm">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Initial date:</label>
+                                <input type="date" class="form-control" ng-model="ctrl.search.form.initialDate">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Final date:</label>
+                                <input type="date" class="form-control" ng-model="ctrl.search.form.finalDate">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary" ng-click="ctrl.search.do()">
+                            <i class="fa fa-search fa-1x"></i> Search
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-12 p-3 bg-white rounded">
+
+                <div class="row">
+                    <div class="col-lg-12 m-3">
+                        <h1 class="display-4">Results from <span class="text-primary">{{ctrl.search.form.result.initialDate | date : "MM/dd/yyyy"}}</span> to <span class="text-primary">{{ctrl.search.form.result.finalDate | date : "MM/dd/yyyy"}}</span>:</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-4">
+
+                        <div class="card ml-auto mr-auto">
+                            <div class="card-header">
+                                <h4 class="card-title text-primary">Hired Staff</h4>
+                            </div>
+                            <div class="card-body">
+                                <h1 class="text-success text-center" style="font-size: 60px;">{{ctrl.search.form.tasksTotal.newStaffTasks}}</h1>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-4">
+
+                        <div class="card ml-auto mr-auto">
+                            <div class="card-header">
+                                <h4 class="card-title text-primary">Updated Staff</h4>
+                            </div>
+                            <div class="card-body">
+                                <h1 class="text-warning text-center" style="font-size: 60px;">{{ctrl.search.form.tasksTotal.updateStaffTasks}}</h1>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-4">
+
+                        <div class="card ml-auto mr-auto">
+                            <div class="card-header">
+                                <h4 class="card-title text-primary">Termed Staff</h4>
+                            </div>
+                            <div class="card-body">
+                                <h1 class="text-danger text-center" style="font-size: 60px;">{{ctrl.search.form.tasksTotal.termStaffTasks}}</h1>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row mt-5">
+
+                    <div class="col-lg-12">
+
+                        <div class="card ml-auto mr-auto">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h4 class="card-title text-primary">Tasks by {{ctrl.search.form.lineChartBy.value}}</h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group row text-right">
+                                            <label class="col-sm-6 col-form-label">Show by:</label>
+                                            <div class="col-sm-6">
+                                                <select name="shift" class="form-control" ng-model="ctrl.search.form.lineChartBy.value" ng-required="true">
+                                                    <option value="Date">Date</option>
+                                                    <option value="Month">Month</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            <div class="card-body">
+                                <div id="tasksByDateDiv" ng-show="ctrl.search.form.lineChartBy.value === 'Date'"></div>
+                                <div id="tasksByMonthYearDiv" ng-show="ctrl.search.form.lineChartBy.value === 'Month'"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row mt-5">
+
+                    <div class="col-lg-6">
+
+                        <div class="card ml-auto mr-auto">
+                            <div class="card-header">
+                                <h4 class="card-title text-primary">Tasks by Department</h4>
+                            </div>
+                            <div class="card-body" id="tasksByDepartmentDiv">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <div class="card ml-auto mr-auto">
+                            <div class="card-header">
+                                <h4 class="card-title text-primary">Tasks by Job title</h4>
+                            </div>
+                            <div class="card-body" id="tasksByJobTitleDiv">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </page-content>
+
+</page-template>

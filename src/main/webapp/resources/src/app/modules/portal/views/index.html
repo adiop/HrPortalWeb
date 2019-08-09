@@ -1,0 +1,136 @@
+<div class="row bg-light border-bottom p-1 fixed-top">
+
+    <div class="col-lg-2 text-dark">
+        <h4><img src="/resources/images/hr_icon.png" width="40px"> HR Portal</h4>
+    </div>
+
+</div>
+
+<br/>
+<br/>
+
+<div class="row mt-5">
+    <div class="col-lg-4">
+
+        <div class="card ml-auto mr-auto" style="width: 18rem;">
+            <div class="card-header">
+                <h4 class="card-title text-primary"> <i class="fa fa-users fa-2x"></i> &nbsp; Employees</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Add, Edit and Term employees</p>
+                <a href="#!employee" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4">
+
+        <div class="card ml-auto mr-auto" style="width: 18rem;">
+            <div class="card-header">
+                <h4 class="card-title text-primary"> <i class="fa fa-handshake fa-2x"></i> &nbsp; Temporaries</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Add, Edit and Remove temporaries</p>
+                <a href="#!temporaries" class="btn btn-primary" >Get Started</a>
+                <!--<a class="btn btn-dark text-white" >Get Started</a>-->
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4">
+    </div>
+
+</div>
+
+<div class="row" style="margin-top: 30px; ">
+
+    <div class="col-lg-4">
+
+        <div class="card ml-auto mr-auto" style="width: 18rem;">
+            <div class="card-header">
+                <h4 class="card-title text-primary"> <i class="fa fa-sitemap fa-2x"></i> &nbsp; Departments</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Add, Edit and Remove departments</p>
+                <a href="#!department" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4">
+
+        <div class="card ml-auto mr-auto" style="width: 18rem;">
+            <div class="card-header">
+                <h4 class="card-title text-primary"> <i class="fa fa-id-badge fa-2x"></i> &nbsp; Job Titles</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Add, Edit and Remove job titles</p>
+                <a href="#!job-title" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="card ml-auto mr-auto" style="width: 18rem;">
+            <div class="card-header">
+                <h4 class="card-title text-primary"> <i class="fa fa-laptop fa-2x"></i> &nbsp; Staff Resources</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Add, Edit and Remove assets, email groups and accesses</p>
+                <a href="#!staffResource" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row" style="margin-top: 30px; ">
+
+    <div class="col-lg-4">
+
+        <div class="card ml-auto mr-auto" style="width: 18rem;">
+            <div class="card-header">
+                <h4 class="card-title text-primary"> <i class="fa fa-search fa-2x"></i> &nbsp; Tracker</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">View the status of the HR tickets</p>
+                <a href="#!tracker" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-4" ng-show="ctrl.hasTaskPermission(ctrl.form)">
+
+        <div class="card ml-auto mr-auto" style="width: 18rem;">
+            <div class="card-header">
+                <h4 class="card-title text-primary"> <i class="fa fa-tasks fa-2x"></i> Tasks &nbsp;<span class="badge badge-warning" ng-show="ctrl.form.result && ctrl.form.result.length > 0">{{ctrl.form.result.length}}</span> </h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Manage the staff tasks</p>
+                <a href="#!tasks" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="card ml-auto mr-auto" style="width: 18rem;">
+            <div class="card-header">
+                <h4 class="card-title text-primary"> <i class="fa fa-signal fa-2x"></i> Reports &nbsp;</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">View hr portal reports</p>
+                <a href="#!reports" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
