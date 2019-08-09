@@ -1,0 +1,72 @@
+package com.warn.hr.web.rest;
+
+import com.warn.hr.business.ActiveDirectoryService;
+import com.warn.hr.business.StaffService;
+import com.warn.hr.persistence.entity.hr.staff.common.Staff;
+import com.warn.hr.web.rest.common.AbstractController;
+import javaslang.control.Try;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
+@Slf4j
+@RestController
+public class StaffController extends AbstractController {
+
+    @Autowired
+    private StaffService staffService;
+
+    @Autowired
+    private ActiveDirectoryService ldapDirectoryService;
+
+    @GetMapping("/hr/api/v1/staff/{id}")
+    public @ResponseBody ResponseEntity<Staff> findById(@PathVariable("id") Long id) {
+        return find(() -> staffService.findById(id));
+    }
+
+    @GetMapping("/hr/api/v1/staff/image/{id}")
+    public @ResponseBody ResponseEntity<FileResponse> findImageByStaffId(@PathVariable("id") Long id) {
+        return find(() -> FileResponse.of(staffService.findImageByStaffId(id)));
+    }
+
+    @PostMapping("/hr/api/v1/staff/upload-image")
+    public ResponseEntity convertFileToBase64(@RequestParam("file") MultipartFile file) throws IOException {
+
+        ResponseEntity<FileResponse> response = Try.of(() -> {
+
+            byte[] bytes = file.getBytes();
+            byte[] encoded = Base64.encodeBase64(bytes);
+            String imageString = new String(encoded);
+
+            return FileResponse.of("data:" + file.getContentType() + ";base64," + imageString);
+
+        }).mapTry((result) ->
+                ResponseEntity.ok(result)
+        ).onFailure((t) ->
+                log.error("An error has occurred while trying to convert the image", t)
+        ).getOrElseGet((t) ->
+                ResponseEntity.notFound().build()
+        );
+
+        return response;
+    }
+
+    @GetMapping("/hr/api/v1/staff/list-all")
+    public @ResponseBody ResponseEntity<List<Staff>> listAll() {
+        return list(() -> staffService.listAll());
+    }
+
+    @AllArgsConstructor(staticName = "of")
+    static @Data class FileResponse {
+        private String base64File;
+    }
+
+}
