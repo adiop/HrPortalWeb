@@ -1,0 +1,91 @@
+body {
+    background-color: #F8F8F8;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.box {
+    width: 250px; height: 200px; padding-top: 10px; background-color: #333;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.box:hover {
+    background-color: #a94644;
+}
+
+.box-icon {
+    font-size: 40px; color: #FFF; text-align: center;
+}
+
+.box-title {
+    font-size: 20px; color: #FFF; text-align: center;
+}
+
+.box-description {
+    font-size: 15px; color: #a9a9a9; text-align: center
+}
+
+.divider {
+    border-bottom: 1px solid #a9a9a9;
+}
+
+#menu li a {
+    color: #FFF;
+}
+
+#menu li a:hover {
+    background-color: #a94644;
+}
+
+.modal-header {
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #007bff;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #FFF;
+}
+
+.validateForm input.ng-valid.ng-touched {
+    border: 1px solid #218838;
+    border-radius: 0.25rem;
+}
+
+.validateForm input.ng-invalid.ng-touched {
+    border-color: #dc3545;
+}
+
+.validateForm select.ng-valid.ng-touched {
+    border: 1px solid #218838;
+    border-radius: 0.25rem;
+}
+
+.validateForm select.ng-invalid.ng-touched {
+    border-color: #dc3545;
+}
+
+.required {
+    border-color: #DC787F;
+}
+
+.jumbotron {
+    padding: 1rem 2rem;
+}
+
+.sort:hover {
+    cursor: pointer;
+}
+
+.sortorder:after {
+    content: '\25bc';
+}
+.sortorder.reverse:after {
+    content: '\25b2';
+}
