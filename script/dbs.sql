@@ -1,0 +1,172 @@
+-- USE [HumanResources]
+-- GO
+-- /****** Object:  UserDefinedFunction [dbo].[STAFF_FULL_NAME]    Script Date: 4/3/2019 1:45:08 PM ******/
+-- SET ANSI_NULLS ON
+-- GO
+-- SET QUOTED_IDENTIFIER ON
+-- GO
+-- CREATE FUNCTION [dbo].[STAFF_FULL_NAME](@FirstName varchar(100), @LastName varchar(100))
+-- RETURNS varchar(200)
+-- AS
+-- BEGIN
+--    RETURN CONCAT(@FirstName, ' ', @LastName)
+-- END
+--
+--
+-- USE [HumanResources]
+-- GO
+-- SET ANSI_NULLS ON
+-- GO
+-- SET QUOTED_IDENTIFIER ON
+-- GO
+-- CREATE  FUNCTION [dbo].[STAFF_STATUS](@StaffId int)
+-- 	RETURNS varchar(50)
+-- 	AS
+-- 	BEGIN
+-- 		DECLARE
+-- 			@TermDate datetime,
+-- 			@Status varchar(50);
+--
+-- 		IF EXISTS(SELECT ID FROM [dbo].[employees] WHERE ID =  @StaffId)
+-- 			BEGIN
+-- 				SELECT @TermDate = TERM_DATE FROM [dbo].[employees] WHERE ID =  @StaffId;
+-- 			END
+-- 		ELSE IF EXISTS(SELECT ID FROM [dbo].[contractors] WHERE ID =  @StaffId)
+-- 			BEGIN
+-- 				SELECT @TermDate = CONTRACT_END_DATE FROM [dbo].[contractors] WHERE ID =  @StaffId;
+-- 			END
+-- 		ELSE
+-- 			BEGIN
+-- 				SELECT @TermDate = GETDATE() - 1;
+-- 			END
+--
+-- 		IF @TermDate is null
+-- 			BEGIN
+-- 				select @Status = 'ACTIVE';
+-- 			END
+-- 		ELSE IF GETDATE() < @TermDate
+-- 			BEGIN
+-- 				select @Status = 'ACTIVE';
+-- 			END
+-- 		ELSE
+-- 			BEGIN
+-- 				select @Status = 'INACTIVE';
+-- 			END
+--
+-- 		RETURN @Status
+-- 	END
+
+----
+
+-- alter table staff drop column TEAM_ID
+--
+-- alter table staff drop column DEPARTMENT_ID
+--
+-- alter table staff drop column TEAM_ID
+--
+-- alter table staff drop column STATUS
+--
+-- alter table staff add
+-- 	STATUS AS  dbo.STAFF_STATUS(ID)
+
+-- alter table staff add
+-- FULL_NAME AS  dbo.STAFF_FULL_NAME(PREFERRED_NAME, LAST_NAME)
+
+-- ALTER TABLE staff ALTER COLUMN DEPARTMENT_ID INT NULL
+
+-- ALTER TABLE staff ADD STAFF_NUMBER varchar(6) null
+
+-- ALTER TABLE staff ADD TEAM_LEADER BIT NULL
+
+-- update s set s.STAFF_NUMBER = e.EMPLOYEE_NUMBER FROM staff s inner join employees e ON s.id = e.id
+--
+-- update s set s.TEAM_LEADER = e.TEAM_LEADER FROM staff s inner join employees e ON s.id = e.id
+--
+-- update s set s.TEAM_LEADER = t.TEAM_LEADER FROM staff s inner join contractors t ON s.id = t.id
+
+-- update staff set TEAM_LEADER = 0 where TEAM_LEADER is null
+--
+-- ALTER TABLE employees DROP COLUMN TEAM_LEADER
+--
+-- ALTER TABLE employees DROP COLUMN EMPLOYEE_NUMBER
+--
+-- ALTER TABLE contractors DROP COLUMN TEAM_LEADER
+--
+-- ALTER TABLE staff DROP COLUMN DEPARTMENT_ID
+
+---
+
+-- CREATE TABLE [dbo].[staff_history](
+--   [ID] [int] IDENTITY(1,1) NOT NULL,
+-- 	[STAFF_ID] [int],
+-- 	[IMAGE] [varchar](max) NULL,
+-- 	[FIRST_NAME] [varchar](255) NOT NULL,
+-- 	[PREFERRED_NAME] [varchar](255) NULL,
+-- 	[LAST_NAME] [varchar](255) NOT NULL,
+-- 	[FULL_NAME]  AS ([dbo].[STAFF_FULL_NAME]([PREFERRED_NAME],[LAST_NAME])),
+-- 	[EMAIL] [varchar](50) NULL,
+-- 	[PHONE] [varchar](20) NULL,
+-- 	[SHIFT] [varchar](20) NULL,
+-- 	[KEY_CARD_NUMBER] [int] NULL,
+-- 	[STAFF_NUMBER] [varchar](6) NULL,
+-- 	[TEAM_LEADER] [bit] NULL,
+-- 	[JOB_TITLE_ID] [int] NOT NULL,
+-- 	[MANAGER_ID] [int] NULL,
+-- 	[FLAGGED] [bit] NULL,
+-- 	[COMMENTS] [varchar](max) NULL,
+-- 	[STATUS] [varchar](20) NULL,
+-- 	[CREATED_DATE] [datetime] NOT NULL DEFAULT (getdate()))
+
+-- ADD THE PERMISSIONS TO INSERT, UPDATE AND DELETE TO THE USER HR
+
+-- CREATE TABLE [dbo].[staff_x_staff_resources_history](
+-- 	[HISTORY_ID] [int] NOT NULL,
+-- 	[STAFF_ID] [int] NOT NULL,
+-- 	[STAFF_RESOURCE_ID] [int] NOT NULL
+-- )
+
+-- INSERT INTO [dbo].[staff_history] (
+-- [STAFF_ID],
+-- [IMAGE],
+-- [FIRST_NAME],
+-- [PREFERRED_NAME],
+-- [LAST_NAME],
+-- [EMAIL],
+-- [PHONE],
+-- [SHIFT],
+-- [KEY_CARD_NUMBER],
+-- [STAFF_NUMBER],
+-- [TEAM_LEADER],
+-- [JOB_TITLE_ID],
+-- [MANAGER_ID],
+-- [FLAGGED],
+-- [COMMENTS],
+-- [STATUS]
+-- )
+-- OUTPUT INSERTED.ID
+-- SELECT S.[ID],
+-- s.[IMAGE],
+-- s.[FIRST_NAME],
+-- s.[PREFERRED_NAME],
+-- s.[LAST_NAME],
+-- s.[EMAIL],
+-- s.[PHONE],
+-- s.[SHIFT],
+-- s.[KEY_CARD_NUMBER],
+-- s.[STAFF_NUMBER],
+-- s.[TEAM_LEADER],
+-- s.[JOB_TITLE_ID],
+-- s.[MANAGER_ID],
+-- s.[FLAGGED],
+-- s.[COMMENTS],
+-- s.[STATUS]
+-- FROM [dbo].[staff] s where id = 353;
+--
+-- INSERT INTO [dbo].[staff_x_staff_resources_history] (
+-- [STAFF_ID],
+-- [STAFF_RESOURCE_ID]
+-- )
+-- SELECT
+-- SS.[STAFF_ID],
+-- SS.[STAFF_RESOURCE_ID]
+-- FROM [dbo].[staff_x_staff_resources] s where STAFF_ID = 353;
