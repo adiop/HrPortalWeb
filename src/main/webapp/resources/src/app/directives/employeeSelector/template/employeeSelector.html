@@ -1,0 +1,31 @@
+
+<div class="employee-selector">
+
+    <div class="row">
+        <div class="col-12">
+            <input type="text" class="form-control" ng-model="form.searchEmployee.fullName" autocomplete=off placeholder="Staff Name">
+        </div>
+    </div>
+
+    <div  class="position-absolute bg-light shadow rounded bg-light" style="z-index: 100; width: 96%; max-height: 200px; overflow: auto;" >
+        <ul class="list-group">
+            <li style="cursor: pointer;" class="list-group-item {{hoveringClass}}"
+                ng-mouseenter="hoveringClass='active'"
+                ng-mouseleave="hoveringClass=''"
+                ng-repeat="employee in list(form.searchEmployee.fullName)"
+                ng-click="onSelect({form: form, selectedEmployee: employee}); form.searchEmployee.fullName = null;">
+                <div class="row" >
+                    <div class="col-md-2">
+                        <img src="{{employee.image}}" ng-init="loadPicture(employee)" width="50px">
+                    </div>
+                    <div class="col-md-10" style="font-size: 12px;">
+                        <div><strong>Name: </strong>{{employee.fullName}}</div>
+                        <div><strong>Department: </strong>{{employee.department.name}}</div>
+                        <div><strong>Job Title: </strong>{{employee.jobTitle.name}}</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>

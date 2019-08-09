@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-md-6">
+        <h3 class="display-4" style="font-size: 1.5rem">{{title}}</h3>
+    </div>
+    <div class="col-md-6" ng-init="collapsed = true">
+        <button class="btn btn-primary float-right mr-4" type="button" data-toggle="collapse" data-target="#collapseDetails{{id}}" aria-expanded="false" aria-controls="taskDetails{{task.id}}" ng-click="collapsed = !collapsed">
+            <i class="fa fa-angle-down fa-1x" ng-show="collapsed"></i>
+            <i class="fa fa-angle-up fa-1x" ng-show="!collapsed"></i>
+        </button>
+    </div>
+</div>
+
+<div class="collapse p-2" id="collapseDetails{{id}}" ng-transclude="content">
+
+</div>
+
+
+

@@ -1,0 +1,90 @@
+<div class="row bg-light border-bottom p-1 fixed-top">
+
+    <div class="col-lg-2 text-dark">
+        <h4><img src="/resources/images/hr_icon.png" width="40px"> HR Portal</h4>
+    </div>
+
+</div>
+
+<br/>
+<br/>
+
+<div class="row mt-1">
+
+    <div class="col-lg-12">
+        &nbsp;
+
+        <div class="alert alert-success" ng-show="ctrl.messages.successMessage">
+            {{ctrl.messages.successMessage}}
+        </div>
+
+        <div class="alert alert-danger" ng-show="ctrl.messages.errorMessage">
+            {{ctrl.messages.errorMessage}}
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mt-1">
+
+    <div class="col-lg-12" >
+
+        <!-- Menu -->
+        <div class="w-25" style="float: left;">
+
+            <div class="dropdown">
+                <button class="btn btn-primary btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Menu">
+                    <i class="fa fa-bars fa-1x"></i>
+                </button>
+                <a href="#!/">
+                    <button class="btn btn-primary btn-xs" type="button" id="homeMenuButton" aria-haspopup="true" aria-expanded="false" title="Home">
+                        <i class="fa fa-home fa-1x"></i>
+                    </button>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="nav-link text-primary" data-toggle="pill" href="#!employee" role="tab" aria-controls="v-pills-home" aria-selected="false" title="Employees">
+                        <i class="fa fa-users fa-2x"></i> Manage Employees
+                    </a>
+                    <a class="nav-link text-primary" data-toggle="pill" href="#!temporaries" role="tab" aria-controls="v-pills-home" aria-selected="false" title="Contractors">
+                        <i class="fa fa-handshake fa-2x"></i> Manage Temporaries
+                    </a>
+                    <a class="nav-link text-primary" data-toggle="pill" href="#!tracker" role="tab" aria-controls="v-pills-home" aria-selected="false" title="Tracker">
+                        <i class="fa fa-search fa-2x"></i> Track Helpdesk Tickets
+                    </a>
+                    <a class="nav-link text-primary" data-toggle="pill" href="#!department" role="tab" aria-controls="v-pills-home" aria-selected="false" title="Department">
+                        <i class="fa fa-sitemap fa-2x"></i> Manage Departments
+                    </a>
+                    <a class="nav-link text-primary" data-toggle="pill" href="#!job-title" role="tab" aria-controls="v-pills-home" aria-selected="false" tile="Job Titles">
+                        <i class="fa fa-id-badge fa-2x"></i> Manage Job Titles
+                    </a>
+                    <a class="nav-link text-primary" data-toggle="pill" href="#!staffResource" role="tab" aria-controls="v-pills-home" aria-selected="false" title="Staff Resources">
+                        <i class="fa fa-laptop fa-2x"></i> Manage Staff Resources
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <!-- Menu -->
+
+        <!-- Right menu -->
+        <div style="float: right" ng-transclude="rightMenu">
+
+        </div>
+        <!-- Right menu -->
+
+        <!-- Main Content -->
+        <div class="jumbotron">
+
+            <br/>
+            <h1 class="display-4 clearfix" style="display: block" ng-transclude="title"></h1>
+            <br/>
+
+            <div ng-transclude="content"></div>
+
+        </div>
+        <!-- Main Content -->
+
+    </div>
+
+</div>

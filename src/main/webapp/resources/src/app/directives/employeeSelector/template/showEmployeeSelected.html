@@ -1,0 +1,14 @@
+<div ng-show="employeeSelected">
+
+    <div class="row border rounded bg-primary text-white m-2 p-2">
+        <div class="col-md-2">
+            <img src="{{employeeSelected.image}}" class="img-thumbnail">
+        </div>
+        <div class="col-md-10" style="font-size: 12px;">
+            <div><strong>Name: </strong>{{employeeSelected.firstName}} {{employeeSelected.lastName}}</div>
+            <div><strong>Department: </strong>{{employeeSelected.department.name}}</div>
+            <div><strong>Job Title: </strong>{{employeeSelected.jobTitle.name}}</div>
+        </div>
+    </div>
+
+</div>
