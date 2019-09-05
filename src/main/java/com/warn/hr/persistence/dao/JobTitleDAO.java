@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class JobTitleDAO extends HRAbstractDAO<JobTitle> {
 
     @Override
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public JobTitle findById(Long id) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
@@ -41,7 +41,7 @@ public class JobTitleDAO extends HRAbstractDAO<JobTitle> {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<JobTitle> list(JobTitle jobTitle) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
@@ -88,7 +88,7 @@ public class JobTitleDAO extends HRAbstractDAO<JobTitle> {
     }
 
     @Override
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<JobTitle> listAll() {
 
         List<JobTitle> jobTitles = super.listAll();

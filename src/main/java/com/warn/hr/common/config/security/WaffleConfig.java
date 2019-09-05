@@ -1,4 +1,4 @@
-package com.warn.hr.common.config;
+package com.warn.hr.common.config.security;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

@@ -1,0 +1,105 @@
+---
+#Development Environment Configurations
+dev:
+
+  dataBaseConfig:
+    hostName: warn-testdb
+    user: HR
+    password: 340$Uuxwp7Mcxo7Khy
+
+  notificationRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 6001
+    urlPrefix: /api/hr/v1/notification/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+  activeDirectoryRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 6002
+    urlPrefix: /warn/util/api/v1/active-directory/users/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+  taskRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 6101
+    urlPrefix: /api/hr/v1/task/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+  ticketRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 6101
+    urlPrefix: /api/hr/v1/ticket/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+---
+#Staging Environment Configurations
+stg:
+
+  notificationRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 6001
+    urlPrefix: /api/hr/v1/notification/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+  activeDirectoryRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 6002
+    urlPrefix: /warn/util/api/v1/active-directory/users/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+  taskRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 6101
+    urlPrefix: /api/hr/v1/task/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+  ticketRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 6101
+    urlPrefix: /api/hr/v1/ticket/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+---
+#Production Environment Configurations
+prod:
+
+  dataBaseConfig:
+    hostName: warn-db
+    user: HR
+    password: 340$Uuxwp7Mcxo7Khy
+
+  notificationRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 7001
+    urlPrefix: /api/hr/v1/notification/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+  activeDirectoryRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 7002
+    urlPrefix: /warn/util/api/v1/active-directory/users/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+  taskRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 7101
+    urlPrefix: /api/hr/v1/task/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93
+
+  ticketRestService:
+    protocol: http
+    hostName: warn-apiserv01
+    port: 7101
+    urlPrefix: /api/hr/v1/ticket/
+    key: 583eccb2-1f67-11e9-ab14-d663bd873d93

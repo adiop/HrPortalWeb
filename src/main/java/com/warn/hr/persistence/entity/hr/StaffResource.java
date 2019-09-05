@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.warn.hr.persistence.entity.common.AbstractEntity;
 import com.warn.hr.persistence.entity.hr.staff.Technician;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "HumanResources.dbo.staff_resources")
-@Repository
+@EqualsAndHashCode(callSuper = true)
 public @Data class StaffResource extends AbstractEntity {
 
     @Id

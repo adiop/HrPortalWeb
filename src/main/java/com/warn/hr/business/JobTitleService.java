@@ -5,8 +5,12 @@ import com.warn.hr.persistence.dao.JobTitleDAO;
 import com.warn.hr.persistence.entity.hr.staff.Employee;
 import com.warn.hr.persistence.entity.hr.JobTitle;
 import com.warn.hr.persistence.entity.hr.Position;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,22 +19,27 @@ import static javaslang.API.Case;
 import static javaslang.API.Match;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobTitleService {
 
-    @Autowired
+    @NonNull
     private JobTitleDAO jobTitleDAO;
 
-    @Autowired
+    @NonNull
     private EmployeeDAO employeeDAO;
 
+    @Transactional
     public Long insert(JobTitle jobTitle) {
         return jobTitleDAO.insert(jobTitle);
     }
 
+    @Transactional
     public Boolean update(JobTitle jobTitle) {
         return jobTitleDAO.update(jobTitle);
     }
 
+    @Transactional
     public Boolean delete(JobTitle jobTitle) {
         return Match(validateExclusion(jobTitle)).of(Case($(Boolean::booleanValue), () -> jobTitleDAO.delete(jobTitle)),
                                                      Case($(), () -> Boolean.FALSE));

@@ -1,48 +1,43 @@
 package com.warn.hr.business;
 
+import com.warn.hr.business.rest.TaskServiceRestClient;
 import com.warn.hr.persistence.entity.hr.StaffResource;
 import com.warn.hr.persistence.entity.hr.staff.StaffHistory;
 import com.warn.hr.persistence.entity.hr.staff.Technician;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import com.warn.hr.persistence.entity.task.Task;
 import com.warn.hr.persistence.entity.task.TicketTask;
-import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TaskService  {
 
-    @Autowired
-    private TaskServiceTemplate taskServiceTemplate;
+    private static Technician helpDeskTechnician;
 
-    @Autowired
+    @NonNull
+    private TaskServiceRestClient taskServiceRestClient;
+
+    @NonNull
     private StaffService staffService;
 
-    @Autowired
+    @NonNull
     private StaffHistoryService staffHistoryService;
 
-    @Autowired
+    @NonNull
     private StaffResourceService staffResourceService;
 
     public Task findById(Long id) {
 
-        Task task = taskServiceTemplate.findById(id);
+        Task task = taskServiceRestClient.findById(id);
 
         // Load staff details
         task.setTaskStaff(staffService.findById(task.getTaskStaff().getId()));
@@ -53,7 +48,7 @@ public class TaskService  {
 
     public Task findById(Long id, Long technicianId) {
 
-        Task task = taskServiceTemplate.findById(id, technicianId);
+        Task task = taskServiceRestClient.findById(id, technicianId);
 
         // Load staff details
         task.setTaskStaff(staffService.findById(task.getTaskStaff().getId()));
@@ -63,27 +58,27 @@ public class TaskService  {
     }
 
     public List<Task> listOpenTasks(Task task) {
-        return taskServiceTemplate.listOpenTasks(task);
+        return taskServiceRestClient.listOpenTasks(task);
     }
 
     public List<Task> listOpenTasks(Task task, Long technicianId) {
-        return taskServiceTemplate.listOpenTasks(task, technicianId);
+        return taskServiceRestClient.listOpenTasks(task, technicianId);
     }
 
     public List<Task> listClosedTasks(Task task) {
-        return taskServiceTemplate.listClosedTasks(task);
+        return taskServiceRestClient.listClosedTasks(task);
     }
 
     public List<Task> listClosedTasks(Task task, Long technicianId) {
-        return taskServiceTemplate.listClosedTasks(task, technicianId);
+        return taskServiceRestClient.listClosedTasks(task, technicianId);
     }
 
     public List<Task> listFutureTasks(Task task) {
-        return taskServiceTemplate.listFutureTasks(task);
+        return taskServiceRestClient.listFutureTasks(task);
     }
 
     public List<Task> listFutureTasks(Task task, Long technicianId) {
-        return taskServiceTemplate.listFutureTasks(task, technicianId);
+        return taskServiceRestClient.listFutureTasks(task, technicianId);
     }
 
     public Long createTaskForNewStaff(Staff createdBy, Staff taskStaff, Date effectiveDate) {
@@ -110,7 +105,7 @@ public class TaskService  {
         task.setTaskStaff(taskStaff);
         task.setTicketTasks(ticketTasks);
 
-        return taskServiceTemplate.createTask(task);
+        return taskServiceRestClient.createTask(task);
     }
 
     public Long createTaskForUpdateStaff(Staff createdBy, Staff taskStaff) {
@@ -164,7 +159,7 @@ public class TaskService  {
             task.setTaskStaff(taskStaff);
             task.setTicketTasks(ticketTasks);
 
-            taskId = taskServiceTemplate.createTask(task);
+            taskId = taskServiceRestClient.createTask(task);
 
         }
 
@@ -197,12 +192,12 @@ public class TaskService  {
         task.setTaskStaff(taskStaff);
         task.setTicketTasks(ticketTasks);
 
-        return taskServiceTemplate.createTask(task);
+        return taskServiceRestClient.createTask(task);
 
     }
 
     public Boolean insertComment(long taskId, Staff createdBy, String comment) {
-        return taskServiceTemplate.insertComment(taskId, createdBy, comment);
+        return taskServiceRestClient.insertComment(taskId, createdBy, comment);
     }
 
     private List<TicketTask> createAddedResourcesTicketTasks(List<Long> addedStaffResourceIdList) {
@@ -240,91 +235,12 @@ public class TaskService  {
     }
 
     private Technician getHelpdeskTechnician() {
-        return staffResourceService.findById(35L).getTechnician();
-    }
 
-    @Component
-    @PropertySource("classpath:task.${spring.profiles.active}.properties")
-    public @Data class TaskServiceTemplate {
-
-        @Value("${task.api.protocol}")
-        private String protocol;
-
-        @Value("${task.api.host}")
-        private String host;
-
-        @Value("${task.api.port}")
-        private String port;
-
-        @Value("${task.api.prefix}")
-        private String urlPrefix;
-
-        private RestTemplate restTemplate;
-
-        public TaskServiceTemplate() {
-            this.restTemplate = new RestTemplate();
+        if(Objects.isNull(helpDeskTechnician)) {
+            helpDeskTechnician = staffResourceService.findById(35L).getTechnician();
         }
 
-        public Long createTask(Task task) {
-            String uri = getUri().toUriString();
-            ResponseEntity responseEntity = restTemplate.exchange(uri, HttpMethod.POST, getHttpEntity(task), ResponseEntity.class).getBody();
-            return null;
-        }
-
-        public Task findById(Long id) {
-            String uri = getUri().path("/" + id).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.GET, null, Task.class).getBody();
-        }
-
-        public Task findById(Long id, Long technicianId) {
-            String uri = getUri().path("/" + id).path("/" + technicianId).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.GET, null, Task.class).getBody();
-        }
-
-        public Boolean insertComment(Long id, Staff createdBy, String comment) {
-            String uri = getUri().path("/comment/").path(id.toString()).path("/").path(createdBy.getId().toString()).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.PUT, getHttpEntity(comment), new ParameterizedTypeReference<Boolean>(){}).getBody();
-        }
-
-        public List<Task> listOpenTasks(Task task) {
-            String uri = getUri().path("/list/open/").queryParam("taskStaff.fullName", Optional.ofNullable(task.getTaskStaff()).map(s -> s.getFullName()).orElseGet(() -> "")).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<Task>>(){}).getBody();
-        }
-
-        public List<Task> listOpenTasks(Task task, Long technicianId) {
-            String uri = getUri().path("/list/open/").path("/" + technicianId).queryParam("taskStaff.fullName", Optional.ofNullable(task.getTaskStaff()).map(s -> s.getFullName()).orElseGet(() -> "")).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<Task>>(){}).getBody();
-        }
-
-        public List<Task> listClosedTasks(Task task) {
-            String uri = getUri().path("/list/closed/").queryParam("taskStaff.fullName", Optional.ofNullable(task.getTaskStaff()).map(s -> s.getFullName()).orElseGet(() -> "")).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<Task>>(){}).getBody();
-        }
-
-        public List<Task> listClosedTasks(Task task, Long technicianId) {
-            String uri = getUri().path("/list/closed/").path("/" + technicianId).queryParam("taskStaff.fullName", Optional.ofNullable(task.getTaskStaff()).map(s -> s.getFullName()).orElseGet(() -> "")).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<Task>>(){}).getBody();
-        }
-
-        public List<Task> listFutureTasks(Task task) {
-            String uri = getUri().path("/list/future/").queryParam("taskStaff.fullName", Optional.ofNullable(task.getTaskStaff()).map(s -> s.getFullName()).orElseGet(() -> "")).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<Task>>(){}).getBody();
-        }
-
-        public List<Task> listFutureTasks(Task task, Long technicianId) {
-            String uri = getUri().path("/list/future/").path("/" + technicianId).queryParam("taskStaff.fullName", Optional.ofNullable(task.getTaskStaff()).map(s -> s.getFullName()).orElseGet(() -> "")).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<Task>>(){}).getBody();
-        }
-
-        private UriComponentsBuilder getUri() {
-            return UriComponentsBuilder.newInstance().scheme(protocol).host(host).port(port).path(urlPrefix);
-        }
-
-        private <T> HttpEntity<T> getHttpEntity(T body) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("key", "583eccb2-1f67-11e9-ab14-d663bd873d93");
-            return new HttpEntity<T>(body, headers);
-        }
+        return helpDeskTechnician;
 
     }
 

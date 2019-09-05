@@ -16,7 +16,7 @@ import java.util.Optional;
 public class DepartmentDAO extends HRAbstractDAO<Department> {
 
     @Override
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public Department findById(Long id) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
@@ -38,7 +38,7 @@ public class DepartmentDAO extends HRAbstractDAO<Department> {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Department> list(Department department) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
@@ -65,7 +65,7 @@ public class DepartmentDAO extends HRAbstractDAO<Department> {
     }
 
     @Override
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Department> listAll() {
 
         List<Department> departments = super.listAll();

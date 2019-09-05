@@ -7,6 +7,7 @@ import com.warn.hr.persistence.entity.common.AbstractEntity;
 import com.warn.hr.persistence.entity.hr.Department;
 import com.warn.hr.persistence.entity.hr.Position;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "HumanResources.dbo.staff")
+@EqualsAndHashCode(callSuper = true)
 public @Data class Manager extends AbstractEntity {
 
     @Id

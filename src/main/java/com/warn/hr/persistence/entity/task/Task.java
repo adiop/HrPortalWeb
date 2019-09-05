@@ -3,11 +3,13 @@ package com.warn.hr.persistence.entity.task;
 import com.warn.hr.persistence.entity.common.AbstractEntity;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.*;
 
+@EqualsAndHashCode(callSuper = true)
 public @Data class Task extends AbstractEntity {
 
     private Long id;

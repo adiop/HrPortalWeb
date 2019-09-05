@@ -76,12 +76,12 @@ public class TemporaryDAO extends HRAbstractDAO<Temporary> {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Temporary> list(Temporary temporary) {
         return list(temporary, null, null);
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Temporary> list(Temporary temporary, Date startHireDate, Date endHireDate) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();

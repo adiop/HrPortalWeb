@@ -9,6 +9,9 @@ import com.warn.hr.persistence.entity.hr.staff.Manager;
 import com.warn.hr.persistence.entity.hr.staff.Temporary;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import com.warn.hr.persistence.entity.hr.staff.Technician;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -20,18 +23,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TemporaryService {
 
-    @Autowired
+    @NonNull
     private TemporaryDAO temporaryDAO;
 
-    @Autowired
+    @NonNull
     private StaffService staffService;
 
-    @Autowired
+    @NonNull
     private ApplicationEventPublisher applicationEventPublisher;
 
-    @Transactional("hibernateTransactionManagerHR")
+    @Transactional
     public Long insert(Staff createdBy, Temporary temporary) {
 
         // Insert the new temporary
@@ -45,7 +50,7 @@ public class TemporaryService {
     }
 
 
-    @Transactional("hibernateTransactionManagerHR")
+    @Transactional
     public Boolean update(Staff createdBy, Temporary temporary) {
 
         Boolean isUpdated = temporaryDAO.update(temporary);
@@ -58,7 +63,7 @@ public class TemporaryService {
 
     }
 
-    @Transactional("hibernateTransactionManagerHR")
+    @Transactional
     public Boolean termTemporary(Staff createdBy, Temporary temporary, Date date) {
 
         Boolean isTermed = Boolean.FALSE;

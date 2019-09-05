@@ -18,6 +18,7 @@ import java.util.Optional;
 public class StaffResourceDAO extends HRAbstractDAO<StaffResource> {
 
     @Override
+    @Transactional(readOnly = true)
     public StaffResource findById(Long id) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
@@ -39,7 +40,7 @@ public class StaffResourceDAO extends HRAbstractDAO<StaffResource> {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<StaffResource> list(StaffResource staffResource) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();

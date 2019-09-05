@@ -9,6 +9,7 @@ import com.warn.hr.persistence.entity.hr.StaffResource;
 import com.warn.hr.persistence.entity.hr.staff.Manager;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.ResultCheckStyle;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "HumanResources.dbo.staff_history")
+@EqualsAndHashCode(callSuper = true)
 public @Data class StaffHistory extends AbstractEntity {
 
     @Id

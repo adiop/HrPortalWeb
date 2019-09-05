@@ -45,7 +45,6 @@ public class ADPEmployeeDAO {
     private static final String CACHE_KEY_JOB_TITLE_LIST = "jobTitles";
 
     @Autowired
-    @Qualifier("sessionFactoryHR")
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -56,12 +55,14 @@ public class ADPEmployeeDAO {
         return Boolean.TRUE;
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<ADPEmployee> listInsertedEmployees() {
 
         initMaps();
 
-        List<ADPEmployee> employeeNumberFileList = getEmployeeListFromCache().stream()
+        List<ADPEmployee> employeeNumberFileList = getEmployeeListFromCache()
+                .parallelStream()
+                .filter(e -> e.getIsValid())
                 .filter(e -> Objects.isNull(getEmployee(e.getEmployeeNumber())))
                 .map(e -> {
 
@@ -78,13 +79,14 @@ public class ADPEmployeeDAO {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<ADPEmployee> listUpdatedEmployees() {
 
         initMaps();
 
         List<ADPEmployee> updatedEmployeeList = getEmployeeListFromCache()
-                .stream()
+                .parallelStream()
+                .filter(e -> e.getIsValid())
                 .filter(e -> Objects.nonNull(getEmployee(e.getEmployeeNumber())))
                 .map(e -> {
 
@@ -105,14 +107,18 @@ public class ADPEmployeeDAO {
         return updatedEmployeeList;
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<ADPEmployee> listRemovedEmployees() {
 
-        Set<String> fileEmployeeNumberSet = getEmployeeListFromCache().stream().map(ADPEmployee::getEmployeeNumber).collect(Collectors.toSet());
+        Set<String> fileEmployeeNumberSet = getEmployeeListFromCache()
+                .parallelStream()
+                .filter(e -> e.getIsValid())
+                .map(ADPEmployee::getEmployeeNumber)
+                .collect(Collectors.toSet());
 
         List<ADPEmployee> employees = ((Map<String, Employee>) getCache().get(CACHE_KEY_EMPLOYEE_LIST).get())
                 .values()
-                .stream()
+                .parallelStream()
                 .filter(e -> !fileEmployeeNumberSet.contains(e.getEmployeeNumber()))
                 .map(e -> {
 
@@ -137,6 +143,16 @@ public class ADPEmployeeDAO {
 
     }
 
+    public List<ADPEmployee> listErrorEmployees() {
+
+        List<ADPEmployee> errorEmployeeList = getEmployeeListFromCache()
+                .parallelStream()
+                .filter(e -> !e.getIsValid())
+                .collect(Collectors.toList());
+
+        return errorEmployeeList;
+    }
+
     private void addEmployeeListToCache(byte[] fileContent) {
 
         // Clear the whole cache
@@ -154,54 +170,66 @@ public class ADPEmployeeDAO {
     private List<ADPEmployee> convertFileToEmployeeList(byte[] fileContent) {
 
         return Try.of(() ->{
-            return file2Rows(fileContent).stream()
-                    .skip(1)
-                    .map(r -> row2Employee(r))
+            return file2ADPEmployee(fileContent).parallelStream()
                     .filter(e -> Objects.nonNull(e.getEmployeeNumber()) && !e.getEmployeeNumber().isEmpty())
                     .collect(Collectors.toList());
         })
         .onFailure((e) -> log.error("An error has occurred while trying to read the file", e))
-        .getOrElse(() -> new LinkedList<>());
+        .getOrElse(() -> new ArrayList<>());
 
     }
 
-    private static List<Row> file2Rows(byte[] file) throws InvalidFileException {
+    private static List<ADPEmployee> file2ADPEmployee(byte[] file) throws InvalidFileException {
+
+        List<ADPEmployee> adpEmployees = null;
 
         try {
-            return ExcelUtils.readFile(file);
+
+            adpEmployees = ExcelUtils
+                    .readFileStream(file)
+                    .skip(1)
+                    .map(row -> {
+
+                ADPEmployee adpEmployee = ADPEmployee.newInstance();
+
+                adpEmployee.setEmployeeNumber(row.getCell(0).getStringCellValue());
+                adpEmployee.setFirstName(row.getCell(2).getStringCellValue());
+                adpEmployee.setPreferredName(row.getCell(3).getStringCellValue());
+                adpEmployee.setLastName(row.getCell(1).getStringCellValue());
+
+                try {
+
+                    adpEmployee.setShift(ADPEmployee.Shift.valueOfADP(row.getCell(6).getStringCellValue()));
+
+                    Manager manager = new Manager();
+                    manager.setFirstName(row.getCell(10).getStringCellValue());
+                    manager.setLastName(row.getCell(11).getStringCellValue());
+
+                    adpEmployee.setManager(manager);
+
+                    Department department = new Department();
+                    department.setName(row.getCell(9).getStringCellValue());
+
+                    adpEmployee.setDepartment(department);
+
+                    Position jobTitle = new Position();
+                    jobTitle.setName(row.getCell(4).getStringCellValue());
+
+                    adpEmployee.setJobTitle(jobTitle);
+
+                } catch (Exception e) {
+                    adpEmployee.setIsValid(Boolean.FALSE);
+                }
+
+                return adpEmployee;
+
+            }).collect(Collectors.toList());
+
         } catch (Exception e) {
             throw new InvalidFileException(e);
         }
 
-    }
-
-    private ADPEmployee row2Employee(Row row) {
-
-        ADPEmployee employee = ADPEmployee.newInstance();
-
-        employee.setEmployeeNumber(row.getCell(0).getStringCellValue());
-        employee.setFirstName(row.getCell(2).getStringCellValue());
-        employee.setPreferredName(row.getCell(3).getStringCellValue());
-        employee.setLastName(row.getCell(1).getStringCellValue());
-        employee.setShift(ADPEmployee.Shift.valueOfADP(row.getCell(6).getStringCellValue()));
-
-        Manager manager = new Manager();
-        manager.setFirstName(row.getCell(10).getStringCellValue());
-        manager.setLastName(row.getCell(11).getStringCellValue());
-
-        employee.setManager(manager);
-
-        Department department = new Department();
-        department.setName(row.getCell(9).getStringCellValue());
-
-        employee.setDepartment(department);
-
-        Position jobTitle = new Position();
-        jobTitle.setName(row.getCell(4).getStringCellValue());
-
-        employee.setJobTitle(jobTitle);
-
-        return employee;
+        return adpEmployees;
 
     }
 
@@ -257,7 +285,7 @@ public class ADPEmployeeDAO {
         });
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     protected void initMaps() {
 
         // Init employee and manager map

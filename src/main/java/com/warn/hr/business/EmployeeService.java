@@ -7,6 +7,9 @@ import com.warn.hr.persistence.entity.hr.staff.Employee;
 import com.warn.hr.persistence.entity.hr.staff.Manager;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import com.warn.hr.persistence.entity.hr.staff.Technician;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -18,18 +21,20 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EmployeeService {
 
-    @Autowired
+    @NonNull
     private StaffService staffService;
 
-    @Autowired
+    @NonNull
     private EmployeeDAO employeeDAO;
 
-    @Autowired
+    @NonNull
     private ApplicationEventPublisher applicationEventPublisher;
 
-    @Transactional("hibernateTransactionManagerHR")
+    @Transactional
     public Long insert(Staff createdBy, Employee employee) {
 
         // Insert the new employee
@@ -43,7 +48,7 @@ public class EmployeeService {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR")
+    @Transactional
     public Boolean update(Staff createdBy, Employee employee) {
 
         Boolean isUpdated = employeeDAO.update(employee);
@@ -57,7 +62,7 @@ public class EmployeeService {
 
     }
 
-    @Transactional("hibernateTransactionManagerHR")
+    @Transactional
     public Boolean termEmployee(Staff createdBy, Employee employee, Date termDate) {
 
         Boolean isTermed = Boolean.FALSE;

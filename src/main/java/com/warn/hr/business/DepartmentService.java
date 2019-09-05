@@ -3,8 +3,12 @@ package com.warn.hr.business;
 import com.warn.hr.persistence.dao.DepartmentDAO;
 import com.warn.hr.persistence.entity.hr.Department;
 import com.warn.hr.persistence.entity.hr.JobTitle;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,22 +17,27 @@ import static javaslang.API.Case;
 import static javaslang.API.Match;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DepartmentService {
 
-    @Autowired
+    @NonNull
     private DepartmentDAO departmentDAO;
 
-    @Autowired
+    @NonNull
     private JobTitleService jobTitleService;
 
+    @Transactional
     public Long insert(Department department) {
         return departmentDAO.insert(department);
     }
 
+    @Transactional
     public Boolean update(Department department) {
         return departmentDAO.update(department);
     }
 
+    @Transactional
     public Boolean delete(Department department) {
         return Match(validateExclusion(department)).of(Case($(l -> l.booleanValue()), () -> departmentDAO.delete(department)),
                                                        Case($(), () -> Boolean.FALSE));

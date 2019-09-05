@@ -32,13 +32,7 @@ public class ADPReportController extends AbstractController {
 
     @GetMapping("/hr/api/v1/adp-report/list")
     public @ResponseBody ResponseEntity<Map<String, List<ADPEmployee>>> list() {
-
-        Map<String, List<ADPEmployee>> adpEmployeeMap = new HashMap<>();
-        adpEmployeeMap.put("INSERTED", adpReportService.listInsertedEmployees());
-        adpEmployeeMap.put("UPDATED", adpReportService.listUpdatedEmployees());
-        adpEmployeeMap.put("REMOVED", adpReportService.listRemovedEmployees());
-
-        return find(() -> adpEmployeeMap);
+        return find(() -> adpReportService.listADPEmployeeMap());
     }
 
     @PutMapping("/hr/api/v1/adp-report/employee/update/{id}")

@@ -17,6 +17,8 @@ import java.util.Optional;
 @NoArgsConstructor(staticName = "newInstance")
 public @Data class ADPEmployee {
 
+    private Boolean isValid = Boolean.TRUE;
+
     private String image;
 
     private String firstName;
@@ -161,6 +163,8 @@ public @Data class ADPEmployee {
                 case "2 - Swing M-TH":
                     shift = SWING_4_10;
                     break;
+                default:
+                    throw new RuntimeException("Invalid value for shift");
 
             }
 

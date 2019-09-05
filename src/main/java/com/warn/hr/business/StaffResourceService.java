@@ -7,6 +7,9 @@ import com.warn.hr.persistence.dao.JobTitleDAO;
 import com.warn.hr.persistence.entity.hr.*;
 import com.warn.hr.persistence.entity.hr.staff.Employee;
 import com.warn.hr.persistence.entity.hr.staff.Technician;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,56 +20,43 @@ import java.util.Objects;
 import static javaslang.API.*;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StaffResourceService {
 
-    @Autowired
+    @NonNull
     private StaffResourceDAO staffResourceDAO;
 
-    @Autowired
+    @NonNull
     private JobTitleDAO jobTitleDAO;
 
-    @Autowired
+    @NonNull
     private StaffDAO staffDAO;
 
+    @Transactional
     public Long insert(StaffResource asset) {
         return staffResourceDAO.insert(asset);
     }
 
+    @Transactional
     public Boolean update(StaffResource asset) {
         return staffResourceDAO.update(asset);
     }
 
+    @Transactional
     public Boolean delete(StaffResource asset) {
         return Match(validateExclusion(asset)).of(Case($(Boolean::booleanValue), () -> staffResourceDAO.delete(asset)),
                                                   Case($(), () -> Boolean.FALSE));
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public StaffResource findById(Long id) {
         return staffResourceDAO.findById(id);
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<StaffResource> list(StaffResource staffResource) {
         return staffResourceDAO.list(staffResource);
-    }
-
-    public List<StaffResource> listDefaultForEmployee() {
-
-        StaffResource staffResource = new StaffResource();
-        staffResource.setIsEmployeeDefault(Boolean.TRUE);
-
-        return staffResourceDAO.list(staffResource);
-
-    }
-
-    public List<StaffResource> listDefaultForTeamLeader() {
-
-        StaffResource staffResource = new StaffResource();
-        staffResource.setIsTeamLeaderDefault(Boolean.TRUE);
-
-        return staffResourceDAO.list(staffResource);
-
     }
 
     /*

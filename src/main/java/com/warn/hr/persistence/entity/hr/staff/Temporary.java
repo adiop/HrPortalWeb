@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.warn.hr.common.utility.NullUtility;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
 @Entity
 @Table(name = "HumanResources.dbo.contractors")
 @PrimaryKeyJoinColumn(name = "ID")
+@EqualsAndHashCode(callSuper = true)
 public @Data class Temporary extends Staff implements Cloneable, NullUtility {
 
     @Id

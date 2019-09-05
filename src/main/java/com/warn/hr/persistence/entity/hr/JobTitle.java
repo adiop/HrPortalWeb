@@ -1,24 +1,21 @@
 package com.warn.hr.persistence.entity.hr;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.warn.hr.persistence.entity.common.AbstractEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "HumanResources.dbo.job_titles")
+@EqualsAndHashCode(callSuper = true)
 public @Data class JobTitle extends AbstractEntity {
 
     @Id

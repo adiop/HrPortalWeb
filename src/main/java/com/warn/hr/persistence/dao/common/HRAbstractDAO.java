@@ -19,7 +19,6 @@ import java.util.List;
 public abstract class HRAbstractDAO<Entity extends AbstractEntity> {
 
     @Autowired
-    @Qualifier("sessionFactoryHR")
     private SessionFactory sessionFactory;
 
     @Transactional(value = "hibernateTransactionManagerHR")
@@ -78,7 +77,7 @@ public abstract class HRAbstractDAO<Entity extends AbstractEntity> {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public Entity findById(Long id)  {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
@@ -92,7 +91,7 @@ public abstract class HRAbstractDAO<Entity extends AbstractEntity> {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Entity> listAll() {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
@@ -104,12 +103,12 @@ public abstract class HRAbstractDAO<Entity extends AbstractEntity> {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Entity> list(Entity entity) {
         return null;
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Entity> list(String query) {
         return null;
     }

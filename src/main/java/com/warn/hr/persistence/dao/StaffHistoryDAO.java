@@ -14,12 +14,12 @@ import java.util.List;
 @Repository
 public class StaffHistoryDAO  extends HRAbstractDAO<StaffHistory> {
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public StaffHistory findLastChange(Long staffId) {
         return list(staffId).stream().findFirst().orElse(null);
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<StaffHistory> list(Long staffId) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();

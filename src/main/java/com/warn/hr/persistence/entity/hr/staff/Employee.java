@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.warn.hr.common.utility.NullUtility;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.*;
@@ -20,6 +21,7 @@ import java.util.*;
 @Entity
 @Table(name = "HumanResources.dbo.employees")
 @PrimaryKeyJoinColumn(name = "ID")
+@EqualsAndHashCode(callSuper = true)
 public @Data class Employee extends Staff implements NullUtility {
 
     @Id

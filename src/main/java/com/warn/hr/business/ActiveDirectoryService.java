@@ -1,39 +1,33 @@
 package com.warn.hr.business;
 
-import com.warn.hr.persistence.entity.hr.staff.common.Staff;
+import com.warn.hr.business.rest.ActiveDirectoryServiceRestClient;
 import com.warn.hr.persistence.entity.hr.UserAccount;
-import lombok.Data;
+import com.warn.hr.persistence.entity.hr.staff.common.Staff;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.Objects;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ActiveDirectoryService {
 
-    @Autowired
+    @NonNull
     private StaffService staffService;
 
-    @Autowired
+    @NonNull
     private TemporaryService temporaryService;
 
-    @Autowired
-    private ActiveDirectoryServiceTemplate activeDirectoryServiceTemplate;
+    @NonNull
+    private ActiveDirectoryServiceRestClient activeDirectoryServiceRestClient;
 
     public UserAccount findByLogin(String login) {
-        return activeDirectoryServiceTemplate.findByLogin(login);
+        return activeDirectoryServiceRestClient.findByLogin(login);
     }
 
     public Boolean pushStaffFromDB2AD(Long id, List<String> fields) {
@@ -119,7 +113,7 @@ public class ActiveDirectoryService {
 
             }
 
-            activeDirectoryServiceTemplate.update(userAccount);
+            activeDirectoryServiceRestClient.update(userAccount);
 
         } catch (Exception e) {
             log.error("An error has occurred while trying to update the user account", e);
@@ -149,53 +143,7 @@ public class ActiveDirectoryService {
 
     }
 
-    @Component
-    @PropertySource("classpath:activedirectory.${spring.profiles.active}.properties")
-    public class ActiveDirectoryServiceTemplate {
 
-        @Value("${activedirectory.api.protocol}")
-        private String protocol;
-
-        @Value("${activedirectory.api.host}")
-        private String host;
-
-        @Value("${activedirectory.api.port}")
-        private String port;
-
-        @Value("${activedirectory.api.prefix}")
-        private String urlPrefix;
-
-        private RestTemplate restTemplate;
-
-        public ActiveDirectoryServiceTemplate() {
-            restTemplate = new RestTemplate();
-        }
-
-        public UserAccount findByLogin(String login) {
-            String uri = getUri().path("/").path(login).toUriString();
-            return restTemplate.exchange(uri, HttpMethod.GET, getHttpEntity(), UserAccount.class).getBody();
-        }
-
-        public Boolean update(UserAccount userAccount) {
-            String uri = getUri().toUriString();
-            return restTemplate.exchange(uri, HttpMethod.PUT, getHttpEntity(userAccount), Boolean.class).getBody();
-        }
-
-        private HttpEntity<String> getHttpEntity() {
-            return getHttpEntity("");
-        }
-
-        private UriComponentsBuilder getUri() {
-            return UriComponentsBuilder.newInstance().scheme(protocol).host(host).port(port).path(urlPrefix);
-        }
-
-        private <T> HttpEntity<T> getHttpEntity(T body) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("key", "583eccb2-1f67-11e9-ab14-d663bd873d93");
-            return new HttpEntity<T>(body, headers);
-        }
-
-    }
 
 }
 

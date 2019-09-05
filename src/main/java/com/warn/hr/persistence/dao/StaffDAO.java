@@ -20,7 +20,7 @@ import java.util.Optional;
 public class StaffDAO extends HRAbstractDAO<Staff> {
 
     @Override
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public Staff findById(Long id) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
@@ -58,6 +58,7 @@ public class StaffDAO extends HRAbstractDAO<Staff> {
 
     }
 
+    @Transactional(readOnly = true)
     public Staff findByLogin(String login) {
 
         login = login.replaceAll("WARNNT\\\\", "");
@@ -92,12 +93,12 @@ public class StaffDAO extends HRAbstractDAO<Staff> {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public String findImageByStaffId(Long id) {
         return findById(id).getImage();
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public Boolean isManager(Long id) {
 
         Manager manager = new Manager();
@@ -111,7 +112,7 @@ public class StaffDAO extends HRAbstractDAO<Staff> {
     }
 
     @Override
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Staff> list(Staff staff) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
@@ -182,7 +183,7 @@ public class StaffDAO extends HRAbstractDAO<Staff> {
     }
 
     @Override
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Staff> listAll() {
 
         List<Staff> staffList = super.listAll();

@@ -6,6 +6,9 @@ import com.warn.hr.persistence.entity.hr.staff.Manager;
 import com.warn.hr.persistence.entity.hr.staff.Technician;
 import com.warn.hr.persistence.entity.hr.staff.Temporary;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,40 +17,37 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StaffService {
 
-    @Autowired
+    @NonNull
     private StaffResourceService staffResourceService;
 
-    @Autowired
+    @NonNull
     private StaffDAO staffDAO;
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
     public Staff findById(Long id) {
         return staffDAO.findById(id);
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
     public Staff findByLogin(String login) {
         return staffDAO.findByLogin(login);
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
     public String findImageByStaffId(Long id) {
         return staffDAO.findImageByStaffId(id);
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
     public List<Staff> listAll() {
         return staffDAO.listAll();
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", propagation = Propagation.REQUIRED)
+    @Transactional
     public Boolean update(Staff staff) {
         return staffDAO.update(staff);
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
     public Boolean validateExclusion(Long id) {
 
         Boolean isValidExclusion = Boolean.TRUE;

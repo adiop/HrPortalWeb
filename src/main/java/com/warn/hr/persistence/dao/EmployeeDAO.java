@@ -82,12 +82,12 @@ public class EmployeeDAO extends HRAbstractDAO<Employee> {
 
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Employee> list(Employee employee) {
         return list(employee, null, null);
     }
 
-    @Transactional(value = "hibernateTransactionManagerHR", readOnly = true)
+    @Transactional(readOnly = true)
     public List<Employee> list(Employee employee, Date startHireDate, Date endHireDate) {
 
         CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
