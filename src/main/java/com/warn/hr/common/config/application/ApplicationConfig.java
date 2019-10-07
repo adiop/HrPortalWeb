@@ -31,9 +31,17 @@ public class ApplicationConfig {
     }
 
     /**
+     * Ticket Rest Service Configuration
+     */
+    @Bean
+    public RestServiceConfig notificationRestServiceConfig() {
+        return environmentConfig.getNotificationRestService();
+    }
+
+    /**
      * Active Directory Rest Service Configuration
      */
-    @Bean("activeDirectoryRestServiceConfig")
+    @Bean
     public RestServiceConfig activeDirectoryRestServiceConfig() {
         return environmentConfig.getActiveDirectoryRestService();
     }

@@ -1,7 +1,7 @@
 'use strict';
 
 //Temporary controller
-app.controller('temporariesAdminController', function($scope, $timeout, $location, $filter, temporariesService, staffService, departmentsService, jobTitlesService, staffResourceService) {
+app.controller('temporariesAdminController', function($scope, $timeout, $location, $filter, temporariesService, staffService, departmentsService, jobTitlesService, staffResourceService, userService) {
 
     const ctrl = this;
     const svc = temporariesService;
@@ -194,6 +194,9 @@ app.controller('temporariesAdminController', function($scope, $timeout, $locatio
         ctrl.initializeForm(ctrl.search.form);
         ctrl.initializeForm(ctrl.insert.form);
         ctrl.initializeForm(ctrl.update.form);
+
+        // Load the logged user in the control
+        userService.loadUser(ctrl);
 
     }
 

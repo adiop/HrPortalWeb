@@ -110,7 +110,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">1</span>
                             </div>
-                            <input type="text" name="temporaryNumber" class="form-control required" ng-model="ctrl.update.form.temporaryNumber" ng-required="true" maxlength="4" autocomplete="off" disabled>
+                            <input type="text" name="temporaryNumber" class="form-control required" ng-model="ctrl.update.form.temporaryNumber" ng-required="true" maxlength="4" autocomplete="off" ng-disabled="!ctrl.user.isUserAdmin">
                             <div role="alert" ng-messages="updateForm.temporaryNumber.$error" role="alert">
                                 <div class="text-danger" ng-message="required">The temporary number is required</div>
                                 <div class="text-danger" ng-message="maxlength">The temporary number can't exceed 4 digits</div>
@@ -139,7 +139,7 @@
                     <!-- Login -->
                     <div class="col-md-4  mb-3">
                         <label>Login:</label>
-                        <input type="text" name="login" class="form-control" ng-model="ctrl.update.form.login" maxlength="6" autocomplete="off" disabled>
+                        <input type="text" name="login" class="form-control" ng-model="ctrl.update.form.login" maxlength="6" autocomplete="off" ng-disabled="!ctrl.user.isUserAdmin">
                     </div>
                     <!-- Login -->
 

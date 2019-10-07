@@ -186,6 +186,12 @@ app.service('temporariesService', function(config, $http, $q) {
                 filter &= hiringDate <= form.endHireDate;
             }
 
+            if(form.status.value) {
+                filter &= temporary.status === form.status.value;
+            } else {
+                filter &= temporary.status === 'ACTIVE';
+            }
+
             return filter;
 
         }).slice();

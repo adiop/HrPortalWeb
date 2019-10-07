@@ -10,4 +10,6 @@ public interface ApplicationEnvironmentConfig {
 
     public RestServiceConfig getTicketRestService();
 
+    public RestServiceConfig getNotificationRestService();
+
 }

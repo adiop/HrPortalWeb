@@ -24,4 +24,6 @@ public @Data class ApplicationStagingConfig implements ApplicationEnvironmentCon
 
     private RestServiceConfig ticketRestService;
 
+    private RestServiceConfig notificationRestService;
+
 }

@@ -24,4 +24,6 @@ public @Data class ApplicationProductionConfig implements ApplicationEnvironment
 
     private RestServiceConfig ticketRestService;
 
+    private RestServiceConfig notificationRestService;
+
 }

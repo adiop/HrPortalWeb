@@ -163,6 +163,9 @@ class TemporaryForm extends Form {
 
         this.selectEmployeeDefaultStaffResources();
 
+        this.status = {label: '', value: ''};
+        this.statusList  = [{label: '', value: ''}, {label: 'Active', value: 'ACTIVE'}, {label: 'Inctive', value: 'INACTIVE'}]
+
     }
 
 }

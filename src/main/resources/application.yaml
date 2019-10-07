@@ -11,7 +11,7 @@ dev:
     protocol: http
     hostName: warn-apiserv01
     port: 6001
-    urlPrefix: /api/hr/v1/notification/
+    urlPrefix: /warn/util/api/v1/notification/
     key: 583eccb2-1f67-11e9-ab14-d663bd873d93
 
   activeDirectoryRestService:
@@ -43,7 +43,7 @@ stg:
     protocol: http
     hostName: warn-apiserv01
     port: 6001
-    urlPrefix: /api/hr/v1/notification/
+    urlPrefix: /warn/util/api/v1/notification/
     key: 583eccb2-1f67-11e9-ab14-d663bd873d93
 
   activeDirectoryRestService:
@@ -80,7 +80,7 @@ prod:
     protocol: http
     hostName: warn-apiserv01
     port: 7001
-    urlPrefix: /api/hr/v1/notification/
+    urlPrefix: /warn/util/api/v1/notification/
     key: 583eccb2-1f67-11e9-ab14-d663bd873d93
 
   activeDirectoryRestService:

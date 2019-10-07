@@ -57,14 +57,20 @@
 
                     <div class="form-row">
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label>Contract Date (from) :</label>
                             <input type="date" name="name" class="form-control" ng-model="ctrl.search.form.startHireDate">
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label>Contract Date (to) :</label>
                             <input type="date" name="name" class="form-control" ng-model="ctrl.search.form.endHireDate">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Status:</label>
+                            <select name="status" class="form-control" ng-model="ctrl.search.form.status" ng-options="status as status.label for status in ctrl.search.form.statusList track by status.value">
+                            </select>
                         </div>
 
                     </div>

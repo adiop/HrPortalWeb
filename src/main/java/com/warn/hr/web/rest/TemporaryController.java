@@ -54,13 +54,10 @@ public class TemporaryController extends AbstractController {
 
     @GetMapping("/hr/api/v1/temporary/list")
     public @ResponseBody ResponseEntity<List<Temporary>> list(Temporary entity,
-                                                             @RequestParam(name = "startHireDate", required = false)
-                                                             @DateTimeFormat(pattern="yyyy-MM-dd") Date startHireDate,
-                                                             @RequestParam(name = "endHireDate", required = false)
-                                                             @DateTimeFormat(pattern="yyyy-MM-dd") Date endHireDate) {
-
-        entity.setStatus(Staff.Status.ACTIVE);
-
+                                                              @RequestParam(name = "startHireDate", required = false)
+                                                              @DateTimeFormat(pattern="yyyy-MM-dd") Date startHireDate,
+                                                              @RequestParam(name = "endHireDate", required = false)
+                                                              @DateTimeFormat(pattern="yyyy-MM-dd") Date endHireDate) {
         return list(() -> temporaryService.list(entity, startHireDate, endHireDate));
     }
 
@@ -68,9 +65,9 @@ public class TemporaryController extends AbstractController {
     public @ResponseBody ResponseEntity<List<Temporary>> listAll() {
 
         Temporary entity = new Temporary();
-        entity.setStatus(Staff.Status.ACTIVE);
 
         return list(() -> temporaryService.list(entity, null, null));
+
     }
 
 }

@@ -148,6 +148,40 @@ public class TemporaryDAO extends HRAbstractDAO<Temporary> {
 
     }
 
+    @Transactional(readOnly = true)
+    public List<Temporary> listExpiringTemporaries() {
+
+        CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
+
+        CriteriaQuery<Temporary> query = criteriaBuilder.createQuery(Temporary.class);
+        Root<Temporary> root = query.from(Temporary.class);
+
+        List<Predicate> predicates = new LinkedList<>();
+
+        predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("contractEndDate"), new Date(System.currentTimeMillis() + 10 * 60 * 60 * 24 * 1000)));
+
+        // Status
+        predicates.add(criteriaBuilder.equal(root.get("status"), Staff.Status.ACTIVE));
+
+
+        // Add all the predicates in the list to the where clause
+        Optional.ofNullable(predicates).filter((p) -> p.size() > 0).ifPresent((p) ->
+                query.where(criteriaBuilder.and(p.toArray(new Predicate[p.size()])))
+        );
+
+        List<Temporary> temporaries = getCurrentSession().createQuery(query).getResultList();
+
+        temporaries.parallelStream().forEach(t -> {
+            t.setImage(null);
+            t.setManager(null);
+            t.setStaffResources(null);
+            t.getJobTitle().getDepartment().setJobTitles(null);
+        });
+
+        return temporaries;
+
+    }
+
     @Override
     @Transactional(value = "hibernateTransactionManagerHR")
     public Long insert(Temporary entity) {
