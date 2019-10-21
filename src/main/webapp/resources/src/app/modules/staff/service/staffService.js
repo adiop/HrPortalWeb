@@ -56,6 +56,7 @@ app.service('staffService', function(config, $http, $q) {
     svc.uploadPicture = (staff, pictureFile) => {
 
         staff.pictureErrorMessage = null;
+        let oldImage = staff.image;
         staff.image = loadingImage;
 
         setTimeout(() => {
@@ -64,10 +65,17 @@ app.service('staffService', function(config, $http, $q) {
 
                     Response.of(response.status)
                         .ok(() => {
-                            staff.image = response.data.base64File;
+
+                            if(response.data.isSuccess) {
+                                staff.image = response.data.base64File;
+                            } else {
+                                staff.image = oldImage;
+                                staff.pictureErrorMessage = response.data.errorMessage;
+                            }
+
                         }).otherwise(() => {
                         staff.pictureErrorMessage = 'An error has occurred while trying to upload the image! Please verify the size of the image and try again.';
-                        staff.image = null;
+                        staff.image = oldImage;
                     }).then(() => {
                         staff.pictureFile = null;
                     });

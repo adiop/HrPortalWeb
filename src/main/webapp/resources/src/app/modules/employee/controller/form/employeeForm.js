@@ -160,6 +160,9 @@ class EmployeeForm extends Form {
         this.flagEmailNotification = null;
         this.comments = null;
 
+        // Error messages
+        this.pictureErrorMessage = null;
+
         this.selectEmployeeDefaultStaffResources();
 
     }

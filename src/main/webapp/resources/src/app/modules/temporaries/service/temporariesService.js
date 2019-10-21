@@ -148,6 +148,8 @@ app.service('temporariesService', function(config, $http, $q) {
                 form.selectJobTitle(response.data.jobTitle.id);
                 form.selectStaffResources(response.data.staffResources);
 
+                form.status = response.data.status;
+
             });
 
         });

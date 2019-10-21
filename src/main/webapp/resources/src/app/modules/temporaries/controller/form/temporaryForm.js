@@ -161,10 +161,13 @@ class TemporaryForm extends Form {
         this.flagEmailNotification = null;
         this.comments = null;
 
+        // Error messages
+        this.pictureErrorMessage = null;
+
         this.selectEmployeeDefaultStaffResources();
 
         this.status = {label: '', value: ''};
-        this.statusList  = [{label: '', value: ''}, {label: 'Active', value: 'ACTIVE'}, {label: 'Inctive', value: 'INACTIVE'}]
+        this.statusList  = [{label: '', value: ''}, {label: 'Active', value: 'ACTIVE'}, {label: 'Inactive', value: 'INACTIVE'}]
 
     }
 

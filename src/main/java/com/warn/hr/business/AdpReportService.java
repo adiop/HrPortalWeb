@@ -12,7 +12,7 @@ import java.util.*;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class AdpReportService {
 
     @NonNull

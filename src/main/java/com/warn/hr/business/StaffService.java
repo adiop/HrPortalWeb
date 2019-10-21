@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class StaffService {
 
     @NonNull

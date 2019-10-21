@@ -18,7 +18,7 @@ import static javaslang.API.Match;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class DepartmentService {
 
     @NonNull

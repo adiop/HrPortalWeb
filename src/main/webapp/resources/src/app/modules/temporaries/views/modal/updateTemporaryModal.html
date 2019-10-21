@@ -20,8 +20,8 @@
 
                 <!-- First name -->
                 <div class="form-group">
-                    <label>First Name:</label>
-                    <input type="text" name="firstName" class="form-control" maxlength="255" ng-model="ctrl.update.form.firstName" ng-required="true" autocomplete="off">
+                    <label>First Name {{ctrl.update.form.status}}:</label>
+                    <input type="text" name="firstName" class="form-control" maxlength="255" ng-model="ctrl.update.form.firstName" ng-required="true" autocomplete="off" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                     <div role="alert" ng-messages="updateForm.firstName.$error" role="alert">
                         <div class="text-danger" ng-message="required">The first name is required.</div>
                     </div>
@@ -31,14 +31,14 @@
                 <!-- Preferred Name -->
                 <div class="form-group">
                     <label>Preferred Name:</label>
-                    <input type="text" name="preferredName" class="form-control" maxlength="255" ng-model="ctrl.update.form.preferredName" autocomplete="off">
+                    <input type="text" name="preferredName" class="form-control" maxlength="255" ng-model="ctrl.update.form.preferredName" autocomplete="off" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                 </div>
                 <!-- Preferred Name -->
 
                 <!-- Last Name -->
                 <div class="form-group">
                     <label>Last Name:</label>
-                    <input type="text" name="lastName" class="form-control" maxlength="255" ng-model="ctrl.update.form.lastName" ng-required="true" autocomplete="off">
+                    <input type="text" name="lastName" class="form-control" maxlength="255" ng-model="ctrl.update.form.lastName" ng-required="true" autocomplete="off" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                     <div role="alert" ng-messages="updateForm.lastName.$error" role="alert">
                         <div class="text-danger" ng-message="required">The last name is required.</div>
                     </div>
@@ -52,7 +52,7 @@
                         <i class="fa fa-exclamation-triangle fa-1x"></i> {{ctrl.update.form.pictureErrorMessage}}
                     </div>
                     <div class="custom-file">
-                        <input class="custom-file-input" type="file" ng-model="ctrl.update.form.pictureFile" ng-change="ctrl.uploadPicture(ctrl.update.form)" file-upload>
+                        <input class="custom-file-input" type="file" ng-model="ctrl.update.form.pictureFile" ng-change="ctrl.uploadPicture(ctrl.update.form)" file-upload ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                         <label class="custom-file-label">{{ctrl.update.form.pictureFile.name}}</label>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                 <!-- Company name -->
                 <div class="form-group">
                     <label>Company Name:</label>
-                    <input type="text" name="companyName" class="form-control" maxlength="255" ng-model="ctrl.update.form.companyName" ng-required="true">
+                    <input type="text" name="companyName" class="form-control" maxlength="255" ng-model="ctrl.update.form.companyName" ng-required="true" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                     <div role="alert" ng-messages="updateForm.companyName.$error" role="alert">
                         <div class="text-danger" ng-message="required">The company name is required.</div>
                     </div>
@@ -81,7 +81,7 @@
                     <!-- Shift -->
                     <div class="col-md-4  mb-3">
                         <label>Shift:</label>
-                        <select name="shift" class="form-control" ng-model="ctrl.update.form.shift" ng-required="true">
+                        <select name="shift" class="form-control" ng-model="ctrl.update.form.shift" ng-required="true" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                             <option value="DAY_5_8">Day 5 x 8</option>
                             <option value="DAY_4_10">Day 4 x 10 </option>
                             <option value="SWING_5_8">Swing 5 x 8</option>
@@ -96,7 +96,7 @@
                     <!-- Key Card Number -->
                     <div class="col-md-4  mb-3">
                         <label>Key Card Number:</label>
-                        <input type="number" name="keyCardNumber" class="form-control" ng-model="ctrl.update.form.keyCardNumber" maxlength="10" autocomplete="off">
+                        <input type="number" name="keyCardNumber" class="form-control" ng-model="ctrl.update.form.keyCardNumber" maxlength="10" autocomplete="off" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                         <div role="alert" ng-messages="updateForm.keyCardNumber.$error" role="alert">
                             <div class="text-danger" ng-message="maxlength">The key card number can't exceed 10 digits</div>
                         </div>
@@ -110,7 +110,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">1</span>
                             </div>
-                            <input type="text" name="temporaryNumber" class="form-control required" ng-model="ctrl.update.form.temporaryNumber" ng-required="true" maxlength="4" autocomplete="off" ng-disabled="!ctrl.user.isUserAdmin">
+                            <input type="text" name="temporaryNumber" class="form-control required" ng-model="ctrl.update.form.temporaryNumber" ng-required="true" maxlength="4" autocomplete="off" ng-disabled="!ctrl.user.isUserAdmin || ctrl.update.form.status === 'INACTIVE'">
                             <div role="alert" ng-messages="updateForm.temporaryNumber.$error" role="alert">
                                 <div class="text-danger" ng-message="required">The temporary number is required</div>
                                 <div class="text-danger" ng-message="maxlength">The temporary number can't exceed 4 digits</div>
@@ -128,7 +128,7 @@
                     <div class="col-md-4  mb-3">
                         <label>Email:</label>
                         <div class="input-group">
-                            <input type="text" name="email" class="form-control" ng-model="ctrl.update.form.email" maxlength="20" autocomplete="off">
+                            <input type="text" name="email" class="form-control" ng-model="ctrl.update.form.email" maxlength="20" autocomplete="off" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                             <div class="input-group-append">
                                 <span class="input-group-text">@warn.com</span>
                             </div>
@@ -139,14 +139,14 @@
                     <!-- Login -->
                     <div class="col-md-4  mb-3">
                         <label>Login:</label>
-                        <input type="text" name="login" class="form-control" ng-model="ctrl.update.form.login" maxlength="6" autocomplete="off" ng-disabled="!ctrl.user.isUserAdmin">
+                        <input type="text" name="login" class="form-control" ng-model="ctrl.update.form.login" maxlength="6" autocomplete="off" ng-disabled="!ctrl.user.isUserAdmin || ctrl.update.form.status === 'INACTIVE'">
                     </div>
                     <!-- Login -->
 
                     <!-- Phone -->
                     <div class="col-md-4  mb-3">
                         <label>Phone:</label>
-                        <input type="text" name="phone" class="form-control" ng-model="ctrl.update.form.phone" maxlength="15" autocomplete="off">
+                        <input type="text" name="phone" class="form-control" ng-model="ctrl.update.form.phone" maxlength="15" autocomplete="off" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                     </div>
                     <!-- Phone -->
 
@@ -157,11 +157,11 @@
                 <div class="form-group">
                     <label>Team Leader: </label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="teamLeader" ng-model="ctrl.update.form.teamLeader" ng-value="true" ng-change="ctrl.update.form.changeStaffResourcesMessage = true">
+                        <input class="form-check-input" type="radio" name="teamLeader" ng-model="ctrl.update.form.teamLeader" ng-value="true" ng-change="ctrl.update.form.changeStaffResourcesMessage = true" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                         <label class="form-check-label">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="teamLeader" ng-model="ctrl.update.form.teamLeader" ng-value="false" ng-change="ctrl.update.form.changeStaffResourcesMessage = true">
+                        <input class="form-check-input" type="radio" name="teamLeader" ng-model="ctrl.update.form.teamLeader" ng-value="false" ng-change="ctrl.update.form.changeStaffResourcesMessage = true" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                         <label class="form-check-label">No</label>
                     </div>
                     <div role="alert" ng-messages="updateForm.teamLeader.$error" role="alert">
@@ -201,7 +201,7 @@
 
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" ng-hide="ctrl.update.form.status === 'INACTIVE'">
 
                     <label>Select a Manager: </label>
 
@@ -214,7 +214,7 @@
                 <!-- Department -->
                 <div class="form-group">
                     <label>Department:</label>
-                    <select class="form-control required" ng-model="ctrl.update.form.department" ng-options="department as department.label for department in ctrl.update.form.departmentList track by department.value" ng-change="ctrl.update.form.selectDepartment(ctrl.update.form.department.value)">
+                    <select class="form-control required" ng-model="ctrl.update.form.department" ng-options="department as department.label for department in ctrl.update.form.departmentList track by department.value" ng-change="ctrl.update.form.selectDepartment(ctrl.update.form.department.value)" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                     </select>
                     <input type="hidden" name="department" ng-model="ctrl.update.form.department.value" ng-required="true">
                     <div role="alert" ng-messages="updateForm.department.$error" role="alert">
@@ -226,7 +226,7 @@
                 <!-- Job Title -->
                 <div class="form-group">
                     <label>Job Title:</label>
-                    <select class="form-control required" ng-model="ctrl.update.form.jobTitle" ng-options="jobTitle as jobTitle.label for jobTitle in ctrl.update.form.jobTitleList track by jobTitle.value" ng-change="ctrl.loadStaffResourcesOnJobChange(ctrl.update.form)">
+                    <select class="form-control required" ng-model="ctrl.update.form.jobTitle" ng-options="jobTitle as jobTitle.label for jobTitle in ctrl.update.form.jobTitleList track by jobTitle.value" ng-change="ctrl.loadStaffResourcesOnJobChange(ctrl.update.form)" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                     </select>
                     <input type="hidden" name="jobTitle" ng-model="ctrl.update.form.jobTitle.value" ng-required="true">
                     <div role="alert" ng-messages="updateForm.jobTitle.$error" role="alert">
@@ -254,7 +254,7 @@
 
                         <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.update.form.applicationAccessList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
                             <label class="custom-control-label">{{resource.name}}</label>
-                            <input ng-model="resource.selected"  type="checkbox" id="chkApplication-{{resource.id}}" value="{{resource.value}}" >
+                            <input ng-model="resource.selected"  type="checkbox" id="chkApplication-{{resource.id}}" value="{{resource.value}}" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                         </div>
 
                     </div>
@@ -271,7 +271,7 @@
 
                         <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.update.form.assetList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
                             <label class="custom-control-label">{{resource.name}}</label>
-                            <input ng-model="resource.selected"  type="checkbox" id="chkAsset-{{resource.id}}" value="{{resource.id}}" >
+                            <input ng-model="resource.selected"  type="checkbox" id="chkAsset-{{resource.id}}" value="{{resource.id}}" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                         </div>
 
                     </div>
@@ -288,7 +288,7 @@
 
                         <div class="border rounded text-white m-1 p-1" ng-repeat="resource in ctrl.update.form.emailGroupList" ng-class="{true:'bg-primary',false:'bg-info'}[resource.selected]">
                             <label class="custom-control-label">{{resource.name}}</label>
-                            <input ng-model="resource.selected"  type="checkbox" id="chkEmailGoup-{{resource.id}}" value="{{resource.id}}" >
+                            <input ng-model="resource.selected"  type="checkbox" id="chkEmailGoup-{{resource.id}}" value="{{resource.id}}" ng-disabled="ctrl.update.form.status === 'INACTIVE'">
                         </div>
 
                     </div>

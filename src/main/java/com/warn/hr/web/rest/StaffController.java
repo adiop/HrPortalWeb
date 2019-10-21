@@ -21,6 +21,8 @@ import java.util.List;
 @RestController
 public class StaffController extends AbstractController {
 
+    private static final Integer MAX_IMAGE_SIZE = 1024 * 100;
+
     @Autowired
     private StaffService staffService;
 
@@ -34,7 +36,7 @@ public class StaffController extends AbstractController {
 
     @GetMapping("/hr/api/v1/staff/image/{id}")
     public @ResponseBody ResponseEntity<FileResponse> findImageByStaffId(@PathVariable("id") Long id) {
-        return find(() -> FileResponse.of(staffService.findImageByStaffId(id)));
+        return find(() -> FileResponse.of(Boolean.TRUE, null, staffService.findImageByStaffId(id)));
     }
 
     @PostMapping("/hr/api/v1/staff/upload-image")
@@ -43,10 +45,19 @@ public class StaffController extends AbstractController {
         ResponseEntity<FileResponse> response = Try.of(() -> {
 
             byte[] bytes = file.getBytes();
-            byte[] encoded = Base64.encodeBase64(bytes);
-            String imageString = new String(encoded);
 
-            return FileResponse.of("data:" + file.getContentType() + ";base64," + imageString);
+            if(bytes.length > MAX_IMAGE_SIZE) {
+                return FileResponse.of(Boolean.FALSE,
+                        "The image size can't exceed 100 KB",
+                        null);
+            } else {
+                byte[] encoded = Base64.encodeBase64(bytes);
+                String imageString = new String(encoded);
+
+                return FileResponse.of(Boolean.TRUE,
+                        null,
+                        "data:" + file.getContentType() + ";base64," + imageString);
+            }
 
         }).mapTry((result) ->
                 ResponseEntity.ok(result)
@@ -66,6 +77,8 @@ public class StaffController extends AbstractController {
 
     @AllArgsConstructor(staticName = "of")
     static @Data class FileResponse {
+        private Boolean isSuccess;
+        private String errorMessage;
         private String base64File;
     }
 
