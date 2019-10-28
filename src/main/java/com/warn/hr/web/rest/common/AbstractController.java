@@ -1,8 +1,10 @@
 package com.warn.hr.web.rest.common;
 
 import com.warn.hr.business.StaffService;
+import com.warn.hr.persistence.entity.hr.UserAccount;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
-import com.warn.hr.persistence.entity.hr.User;
+import com.warn.hr.persistence.entity.hr.Authentication;
+import com.warn.hr.web.common.SecurityFilter;
 import javaslang.control.Try;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -130,9 +132,9 @@ public class AbstractController {
         private Boolean value;
     }
 
-    public User getUser(HttpServletRequest request) {
-        return User.of(((waffle.spring.WindowsAuthenticationToken) request.getUserPrincipal()).getName(),
-                ((waffle.spring.WindowsAuthenticationToken) request.getUserPrincipal()).getAuthorities());
+    public UserAccount getUser(HttpServletRequest request) {
+        Authentication authentication = (Authentication) request.getSession().getAttribute(SecurityFilter.TOKEN_PARAM);
+        return authentication.getUserAccount();
     }
 
     public Staff getStaff(HttpServletRequest request) {
@@ -140,7 +142,9 @@ public class AbstractController {
     }
 
     public Boolean isUserInRole(HttpServletRequest request, String role) {
-        return getUser(request).getAuthorities().stream().anyMatch(a -> a.getAuthority().replaceAll("ROLE_WARNNT\\\\", "").equalsIgnoreCase(role));
+        Authentication authentication = (Authentication) request.getSession().getAttribute(SecurityFilter.TOKEN_PARAM);
+        UserAccount userAccount = authentication.getUserAccount();
+        return userAccount.getGroups().stream().anyMatch(g -> role.equals(g.getName()));
     }
 
     public Boolean isUserAdmin(HttpServletRequest request) {

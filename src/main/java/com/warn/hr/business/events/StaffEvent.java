@@ -1,7 +1,6 @@
 package com.warn.hr.business.events;
 
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
-import com.warn.hr.persistence.entity.hr.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.context.ApplicationEvent;

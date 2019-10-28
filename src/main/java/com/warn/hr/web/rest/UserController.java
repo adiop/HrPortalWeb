@@ -1,12 +1,11 @@
 package com.warn.hr.web.rest;
 
 import com.warn.hr.persistence.entity.common.AbstractEntity;
-import com.warn.hr.persistence.entity.hr.User;
+import com.warn.hr.persistence.entity.hr.UserAccount;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import com.warn.hr.web.rest.common.AbstractController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController extends AbstractController {
 
     @GetMapping("/hr/api/v1/user/")
-    public @ResponseBody ResponseEntity<User> getUserFromRequest(HttpServletRequest request) {
+    public @ResponseBody ResponseEntity<UserAccount> getUserFromRequest(HttpServletRequest request) {
         return find(() -> getUser(request));
     }
 

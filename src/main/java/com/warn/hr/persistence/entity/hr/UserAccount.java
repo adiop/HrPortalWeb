@@ -1,8 +1,9 @@
 package com.warn.hr.persistence.entity.hr;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public @Data class UserAccount {
@@ -35,6 +36,8 @@ public @Data class UserAccount {
 
     private Company company;
 
+    private List<UserGroup> groups;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Data
     public class Department {
@@ -60,6 +63,14 @@ public @Data class UserAccount {
         private String name;
 
         private String description;
+
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Data
+    public class UserGroup {
+
+        private String name;
 
     }
 
