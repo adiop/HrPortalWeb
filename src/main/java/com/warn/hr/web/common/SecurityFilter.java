@@ -25,16 +25,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class SecurityFilter extends GenericFilterBean {
 
-    public static final String TOKEN_PARAM = "auth-token";
-
-    public static final String SESSION_AUTH_INFO = "session-auth";
-
-    public static final String ACCESS_DENIED_PATH = "/error/error_403.html";
-
-    private static final Set<String> ALLOWED_PATHS = new HashSet<>();
-
-    private static final Set<String> ALLOWED_ROLES = new HashSet<>();
-
     @NonNull
     private TokenRestClient tokenRestClient;
 
@@ -49,9 +39,10 @@ public class SecurityFilter extends GenericFilterBean {
 
             if (isValidToken(httpServletRequest) && isValidAuthentication(httpServletRequest)) {
                 Authentication authentication = tokenRestClient.getAuthenticationInformationByToken(getToken(httpServletRequest));
-                session.setAttribute(SESSION_AUTH_INFO, authentication);
+                session.setAttribute(Constants.Security.SESSION_AUTH_INFO, authentication);
             } else {
-                httpServletResponse.sendRedirect(ACCESS_DENIED_PATH);
+                httpServletResponse.sendRedirect(Constants.Security.ACCESS_DENIED_PATH);
+                return;
             }
 
         }
@@ -68,7 +59,7 @@ public class SecurityFilter extends GenericFilterBean {
         isValid = authentication.getUserAccount()
                 .getGroups()
                 .stream()
-                .anyMatch(g -> ALLOWED_ROLES.contains(g.getName()));
+                .anyMatch(g -> Constants.Security.ALLOWED_ROLES.contains(g.getName()));
 
         return isValid;
 
@@ -117,18 +108,18 @@ public class SecurityFilter extends GenericFilterBean {
     }
 
     private synchronized String getTokenFromHeader(HttpServletRequest request) {
-        return request.getHeader(TOKEN_PARAM);
+        return request.getHeader(Constants.Security.TOKEN_PARAM);
     }
 
     private synchronized String getTokenFromParam(HttpServletRequest request) {
-        return request.getParameter(TOKEN_PARAM);
+        return request.getParameter(Constants.Security.TOKEN_PARAM);
     }
 
     private synchronized String getTokenFromCookie(HttpServletRequest request) {
 
         try {
             return Arrays.stream(request.getCookies())
-                    .filter(c -> c.getName().equals(TOKEN_PARAM))
+                    .filter(c -> c.getName().equals(Constants.Security.TOKEN_PARAM))
                     .map(c -> c.getValue())
                     .findFirst()
                     .orElseGet(() -> "");
@@ -139,20 +130,8 @@ public class SecurityFilter extends GenericFilterBean {
     }
 
     static Boolean isAllowed(HttpServletRequest request) {
-        return Objects.nonNull(request.getSession().getAttribute(SESSION_AUTH_INFO)) ||
-                ALLOWED_PATHS.stream().anyMatch(v -> request.getServletPath().contains(v));
+        return Objects.nonNull(request.getSession().getAttribute(Constants.Security.SESSION_AUTH_INFO)) ||
+                Constants.Security.ALLOWED_PATHS.stream().anyMatch(v -> request.getServletPath().contains(v));
     }
-
-    static {
-
-        ALLOWED_PATHS.add("error");
-        ALLOWED_PATHS.add("webjars");
-        ALLOWED_PATHS.add("resources/images");
-
-        ALLOWED_ROLES.add("HR Portal");
-        ALLOWED_ROLES.add("HR Portal Admins");
-
-    }
-
 
 }

@@ -4,6 +4,24 @@
         <h4><img src="/resources/images/hr_icon.png" width="40px"> HR Portal</h4>
     </div>
 
+    <div class="col-lg-10 text-right pl-2 pt-1">
+
+        <div class="dropdown">
+            <a href="#!/">
+                <i class="fa fa-home fa-1x p-2"></i>
+            </a>
+            <a href="" id="dropdownUserInfo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Menu">
+                <i class="fa fa-user fa-1x p-2" ></i>
+            </a>
+            <div class="dropdown-menu p-2" aria-labelledby="dropdownUserInfo">
+                {{ctrl.user.fullName}}
+                <hr/>
+                Login: {{ctrl.user.login}}
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 <br/>
@@ -37,11 +55,6 @@
                 <button class="btn btn-primary btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Menu">
                     <i class="fa fa-bars fa-1x"></i>
                 </button>
-                <a href="#!/">
-                    <button class="btn btn-primary btn-xs" type="button" id="homeMenuButton" aria-haspopup="true" aria-expanded="false" title="Home">
-                        <i class="fa fa-home fa-1x"></i>
-                    </button>
-                </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="nav-link text-primary" data-toggle="pill" href="#!employee" role="tab" aria-controls="v-pills-home" aria-selected="false" title="Employees">
                         <i class="fa fa-users fa-2x"></i> Manage Employees

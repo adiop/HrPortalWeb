@@ -4,6 +4,7 @@ import com.warn.hr.business.StaffService;
 import com.warn.hr.persistence.entity.hr.UserAccount;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import com.warn.hr.persistence.entity.hr.Authentication;
+import com.warn.hr.web.common.Constants;
 import com.warn.hr.web.common.SecurityFilter;
 import javaslang.control.Try;
 import lombok.*;
@@ -133,7 +134,7 @@ public class AbstractController {
     }
 
     public UserAccount getUser(HttpServletRequest request) {
-        Authentication authentication = (Authentication) request.getSession().getAttribute(SecurityFilter.SESSION_AUTH_INFO);
+        Authentication authentication = (Authentication) request.getSession().getAttribute(Constants.Security.SESSION_AUTH_INFO);
         return authentication.getUserAccount();
     }
 
@@ -147,7 +148,7 @@ public class AbstractController {
     }
 
     public Boolean isUserAdmin(HttpServletRequest request) {
-        return isUserInRole(request, "HR Portal Admins");
+        return isUserInRole(request, Constants.Security.ADMIN_ROLE);
     }
 
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 //Employee controller
-app.controller('employeeAdminController', function($scope, $timeout, $location, $filter, employeeService, staffService, departmentsService, jobTitlesService, staffResourceService) {
+app.controller('employeeAdminController', function($scope, $timeout, $location, $filter, employeeService, staffService, departmentsService, jobTitlesService, staffResourceService, userService) {
 
     const ctrl = this;
     const svc = employeeService;
@@ -192,6 +192,9 @@ app.controller('employeeAdminController', function($scope, $timeout, $location, 
         ctrl.initializeForm(ctrl.search.form);
         ctrl.initializeForm(ctrl.insert.form);
         ctrl.initializeForm(ctrl.update.form);
+
+        // Load the logged user in the control
+        userService.loadUser(ctrl);
 
     }
 

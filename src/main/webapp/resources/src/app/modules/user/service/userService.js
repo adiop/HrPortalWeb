@@ -7,32 +7,48 @@ app.service('userService', function(config, $http, $q) {
 
     svc.loadUser = (form) => {
 
-        Request.get(`/hr/api/v1/user/staff`).call(response => {
+        if(svc._user === null) {
 
-            Response.of(response.status)
-                .ok(() => {
-                    form.user = response.data;
-                    svc.isUserAdmin(form.user);
-                });
+            Request.get(`/hr/api/v1/user/staff`).call(response => {
 
-        });
+                Response.of(response.status)
+                    .ok(() => {
+                        svc._user = response.data;
+                        svc.isUserAdmin(svc._user);
+                        form.user = svc._user;
+                    });
+
+            });
+
+        } else {
+            form.user = svc._user;
+        }
 
     }
 
     svc.isUserAdmin = (form) => {
 
-        Request.get(`/hr/api/v1/user/role/admin`).call(response => {
+        if(svc._isUserAdmin === null) {
+            Request.get(`/hr/api/v1/user/role/admin`).call(response => {
 
-            Response.of(response.status)
-                .ok(() => {
-                    form.isUserAdmin = response.data;
-                });
+                Response.of(response.status)
+                    .ok(() => {
+                        svc._isUserAdmin = response.data;
+                        form.isUserAdmin = svc._isUserAdmin;
+                    });
 
-        });
+            });
+
+        } else {
+            form.isUserAdmin = svc._isUserAdmin;
+        }
 
     }
 
     svc.initialize = () => {
+
+        svc._user = null;
+        svc._isUserAdmin = null;
 
         // Init the configuration of the requests
         Request.config($http,$q);
