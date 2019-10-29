@@ -1,5 +1,6 @@
 package com.warn.hr.common.config.application;
 
+import com.warn.hr.business.rest.*;
 import com.warn.hr.common.config.application.common.ApplicationEnvironmentConfig;
 import com.warn.hr.common.config.application.common.RestServiceConfig;
 import net.sourceforge.jtds.jdbcx.JtdsDataSource;
@@ -34,32 +35,63 @@ public class ApplicationConfig {
      * Ticket Rest Service Configuration
      */
     @Bean
-    public RestServiceConfig notificationRestServiceConfig() {
-        return environmentConfig.getNotificationRestService();
+    public String notificationRestServiceKey() {
+        return environmentConfig.getNotificationRestService().getKey();
+    }
+
+    @Bean
+    public NotificationRestClient notificationRestClient() {
+        return _RestClient.of(environmentConfig.getNotificationRestService().getUrl(),
+                NotificationRestClient.class);
     }
 
     /**
      * Active Directory Rest Service Configuration
      */
     @Bean
-    public RestServiceConfig activeDirectoryRestServiceConfig() {
-        return environmentConfig.getActiveDirectoryRestService();
+    public String activeDirectoryRestServiceKey() {
+        return environmentConfig.getActiveDirectoryRestService().getKey();
+    }
+
+    @Bean
+    public ActiveDirectoryRestClient activeDirectoryRestClient() {
+        return _RestClient.of(environmentConfig.getActiveDirectoryRestService().getUrl(),
+                ActiveDirectoryRestClient.class);
     }
 
     /**
      * Task Rest Service Configuration
      */
     @Bean
-    public RestServiceConfig taskRestServiceConfig() {
-        return environmentConfig.getTaskRestService();
+    public String taskRestServiceKey() {
+        return environmentConfig.getTaskRestService().getKey();
+    }
+
+    @Bean
+    public TaskRestClient taskServiceRestClient() {
+        return _RestClient.of(environmentConfig.getTaskRestService().getUrl(),
+                TaskRestClient.class);
+    }
+
+    @Bean
+    public TicketRestClient ticketServiceRestClient() {
+        return _RestClient.of(environmentConfig.getTaskRestService().getUrl(),
+                TicketRestClient.class);
+    }
+
+    @Bean
+    public TaskReportRestClient taskReportRestClient() {
+        return _RestClient.of(environmentConfig.getTaskRestService().getUrl(),
+                TaskReportRestClient.class);
     }
 
     /**
-     * Ticket Rest Service Configuration
+     * Security Token Rest Service Configuration
      */
     @Bean
-    public RestServiceConfig ticketRestServiceConfig() {
-        return environmentConfig.getTicketRestService();
+    public TokenRestClient tokenRestClient() {
+        return _RestClient.of(environmentConfig.getTokenRestService().getUrl(),
+                TokenRestClient.class);
     }
 
     /**

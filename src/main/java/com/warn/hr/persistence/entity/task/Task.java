@@ -9,8 +9,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.*;
 
-@EqualsAndHashCode(callSuper = true)
-public @Data class Task extends AbstractEntity {
+public @Data class Task {
 
     private Long id;
 

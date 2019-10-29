@@ -7,8 +7,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = true)
-public @Data class TaskComment extends AbstractEntity {
+public @Data class TaskComment {
 
     private Long id;
 

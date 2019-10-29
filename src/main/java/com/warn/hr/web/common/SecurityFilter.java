@@ -2,6 +2,8 @@ package com.warn.hr.web.common;
 
 import com.warn.hr.business.rest.TokenRestClient;
 import com.warn.hr.persistence.entity.hr.Authentication;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -16,16 +18,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class SecurityFilter extends GenericFilterBean {
 
     public static final String TOKEN_PARAM = "auth-token";
 
-    private TokenRestClient restClient = TokenRestClient.of("http://redzone-1s.warn.com:8088");
+    public static final String SESSION_AUTH_INFO = "session-auth";
+
+    public static final String ACCESS_DENIED_PATH = "/error/error_403.html";
+
+    private static final Set<String> ALLOWED_PATHS = new HashSet<>();
+
+    private static final Set<String> ALLOWED_ROLES = new HashSet<>();
+
+    @NonNull
+    private TokenRestClient tokenRestClient;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -34,13 +45,13 @@ public class SecurityFilter extends GenericFilterBean {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession session = httpServletRequest.getSession();
 
-        if(Objects.isNull(session.getAttribute(TOKEN_PARAM))) {
+        if(!isAllowed(httpServletRequest)) {
 
-            if (hasToken(httpServletRequest) && isValidToken(httpServletRequest)) {
-                Authentication authentication = restClient.getAuthenticationInformationByToken(getToken(httpServletRequest));
-                httpServletRequest.getSession().setAttribute(TOKEN_PARAM, authentication);
+            if (isValidToken(httpServletRequest) && isValidAuthentication(httpServletRequest)) {
+                Authentication authentication = tokenRestClient.getAuthenticationInformationByToken(getToken(httpServletRequest));
+                session.setAttribute(SESSION_AUTH_INFO, authentication);
             } else {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+                httpServletResponse.sendRedirect(ACCESS_DENIED_PATH);
             }
 
         }
@@ -49,22 +60,40 @@ public class SecurityFilter extends GenericFilterBean {
 
     }
 
-    protected Boolean hasToken(HttpServletRequest request) {
-        String token = getToken(request);
-        return Objects.nonNull(token) && !token.isEmpty();
+    protected Boolean isValidAuthentication(HttpServletRequest request) {
+
+        Boolean isValid = Boolean.FALSE;
+
+        Authentication authentication = tokenRestClient.getAuthenticationInformationByToken(getToken(request));
+        isValid = authentication.getUserAccount()
+                .getGroups()
+                .stream()
+                .anyMatch(g -> ALLOWED_ROLES.contains(g.getName()));
+
+        return isValid;
+
     }
 
     protected Boolean isValidToken(HttpServletRequest request) {
 
         Boolean isValid = Boolean.FALSE;
 
-        try {
-            isValid = "OK".equals(restClient.isValidToken(getToken(request)));
-        } catch (Exception e) {
-            log.error("An error has occurred while trying to validate the token", e);
+        if (hasToken(request)) {
+
+            try {
+                isValid = "OK".equals(tokenRestClient.isValidToken(getToken(request)));
+            } catch (Exception e) {
+                log.error("An error has occurred while trying to validate the token", e);
+            }
+
         }
 
         return isValid;
+    }
+
+    protected Boolean hasToken(HttpServletRequest request) {
+        String token = getToken(request);
+        return Objects.nonNull(token) && !token.isEmpty();
     }
 
     protected synchronized String getToken(HttpServletRequest request) {
@@ -108,5 +137,22 @@ public class SecurityFilter extends GenericFilterBean {
         }
 
     }
+
+    static Boolean isAllowed(HttpServletRequest request) {
+        return Objects.nonNull(request.getSession().getAttribute(SESSION_AUTH_INFO)) ||
+                ALLOWED_PATHS.stream().anyMatch(v -> request.getServletPath().contains(v));
+    }
+
+    static {
+
+        ALLOWED_PATHS.add("error");
+        ALLOWED_PATHS.add("webjars");
+        ALLOWED_PATHS.add("resources/images");
+
+        ALLOWED_ROLES.add("HR Portal");
+        ALLOWED_ROLES.add("HR Portal Admins");
+
+    }
+
 
 }

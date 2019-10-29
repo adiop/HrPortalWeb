@@ -1,8 +1,11 @@
 package com.warn.hr.business;
 
+import com.warn.hr.business.rest.NotificationRestClient;
 import com.warn.hr.persistence.entity.hr.Notification;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -23,33 +26,46 @@ import java.util.concurrent.Executors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class NotificationService {
 
+    private static final String TO = "hr@warn.com";
 
-    public  String generateNotificationBody(String template, Map<String, Object> input) {
+    @NonNull
+    private String notificationRestServiceKey;
 
-        String generatedCode = null;
+    @NonNull
+    private NotificationRestClient notificationRestClient;
 
-        try {
+    public Boolean sendEmail(String subject, String body) {
 
-            Configuration cfg = new Configuration();
-            cfg.setClassForTemplateLoading(NotificationService.class, "/notification/template/");
-            freemarker.template.Template freemarkerTemplate = cfg.getTemplate(template);
+        Notification notification = Notification.builder()
+                .to(TO)
+                .subject(subject)
+                .body(body)
+                .build();
 
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Writer writer = new OutputStreamWriter(out);
-            freemarkerTemplate.process(input, writer);
-
-            generatedCode = out.toString("UTF-8");
-
-        } catch (IOException | TemplateException e) {
-            throw new RuntimeException(e);
-        }
-
-        return generatedCode;
+        return sendEmail(notification);
 
     }
 
+    public Boolean sendEmail(Notification notification) {
 
+        notification.setFrom(Notification.FROM);
+        notification.setSubject(notification.getSubject());
+        notification.setType(Notification.Type.HTML);
+
+        Executors.newSingleThreadExecutor().submit(() -> {
+
+            try {
+                notificationRestClient.sendEmail(notificationRestServiceKey, notification);
+            } catch (Exception e) {
+                log.error("An error has occurred while trying to open the task", e);
+            }
+
+        });
+
+        return Boolean.TRUE;
+    }
 
 }

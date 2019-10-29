@@ -1,12 +1,11 @@
 package com.warn.hr.business;
 
-import com.warn.hr.business.rest.ActiveDirectoryServiceRestClient;
+import com.warn.hr.business.rest.ActiveDirectoryRestClient;
 import com.warn.hr.persistence.entity.hr.UserAccount;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,16 +17,22 @@ import java.util.Objects;
 public class ActiveDirectoryService {
 
     @NonNull
+    private String activeDirectoryRestServiceKey;
+
+    @NonNull
+    private ActiveDirectoryRestClient activeDirectoryRestClient;
+
+    @NonNull
     private StaffService staffService;
 
     @NonNull
     private TemporaryService temporaryService;
 
-    @NonNull
-    private ActiveDirectoryServiceRestClient activeDirectoryServiceRestClient;
+
 
     public UserAccount findByLogin(String login) {
-        return activeDirectoryServiceRestClient.findByLogin(login);
+        return activeDirectoryRestClient.findByLogin(activeDirectoryRestServiceKey,
+                login);
     }
 
     public Boolean pushStaffFromDB2AD(Long id, List<String> fields) {
@@ -113,7 +118,8 @@ public class ActiveDirectoryService {
 
             }
 
-            activeDirectoryServiceRestClient.update(userAccount);
+            activeDirectoryRestClient.update(activeDirectoryRestServiceKey,
+                    userAccount);
 
         } catch (Exception e) {
             log.error("An error has occurred while trying to update the user account", e);

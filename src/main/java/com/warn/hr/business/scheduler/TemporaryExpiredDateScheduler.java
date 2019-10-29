@@ -1,6 +1,6 @@
 package com.warn.hr.business.scheduler;
 
-import com.warn.hr.business.rest.NotificationServiceRestClient;
+import com.warn.hr.business.NotificationService;
 import com.warn.hr.persistence.dao.TemporaryDAO;
 import com.warn.hr.persistence.entity.hr.staff.Temporary;
 import lombok.NonNull;
@@ -21,7 +21,7 @@ public class TemporaryExpiredDateScheduler {
     private TemporaryDAO temporaryDAO;
 
     @NonNull
-    private NotificationServiceRestClient notificationServiceRestClient;
+    private NotificationService notificationService;
 
     @Scheduled(cron = "0 0 12 * * *")
     public void execute() {
@@ -42,7 +42,7 @@ public class TemporaryExpiredDateScheduler {
 
             notificationMessage.append("Go to the HR Portal to update their contract end date.");
 
-            notificationServiceRestClient.sendEmail("HR Portal - Temporaries ending contract", notificationMessage.toString());
+            notificationService.sendEmail("HR Portal - Temporaries ending contract", notificationMessage.toString());
 
         }
 

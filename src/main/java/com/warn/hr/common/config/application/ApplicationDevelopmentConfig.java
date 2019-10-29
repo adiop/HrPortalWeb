@@ -20,10 +20,9 @@ public @Data class ApplicationDevelopmentConfig implements ApplicationEnvironmen
 
     private RestServiceConfig activeDirectoryRestService;
 
-    private RestServiceConfig taskRestService;
-
-    private RestServiceConfig ticketRestService;
-
     private RestServiceConfig notificationRestService;
 
+    private RestServiceConfig taskRestService;
+
+    private RestServiceConfig tokenRestService;
 }

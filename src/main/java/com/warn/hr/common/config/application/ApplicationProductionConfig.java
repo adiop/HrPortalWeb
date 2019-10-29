@@ -20,10 +20,10 @@ public @Data class ApplicationProductionConfig implements ApplicationEnvironment
 
     private RestServiceConfig activeDirectoryRestService;
 
+    private RestServiceConfig notificationRestService;
+
     private RestServiceConfig taskRestService;
 
-    private RestServiceConfig ticketRestService;
-
-    private RestServiceConfig notificationRestService;
+    private RestServiceConfig tokenRestService;
 
 }

@@ -26,8 +26,6 @@ repositories {
 
 dependencies {
 
-    annotationProcessor 'org.projectlombok:lombok:1.18.8'
-
     //Spring
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.3.RELEASE'
 
@@ -75,7 +73,7 @@ dependencies {
     compile group: 'org.webjars', name: 'sockjs-client', version: '1.1.2'
 
     //Lombok
-    compileOnly 'org.projectlombok:lombok:1.16.18'
+    compileOnly 'org.projectlombok:lombok:1.18.4'
 
     //Openfeign
     compile group: 'io.github.openfeign', name: 'feign-okhttp', version: '10.5.1'

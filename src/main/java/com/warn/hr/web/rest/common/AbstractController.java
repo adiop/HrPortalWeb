@@ -133,7 +133,7 @@ public class AbstractController {
     }
 
     public UserAccount getUser(HttpServletRequest request) {
-        Authentication authentication = (Authentication) request.getSession().getAttribute(SecurityFilter.TOKEN_PARAM);
+        Authentication authentication = (Authentication) request.getSession().getAttribute(SecurityFilter.SESSION_AUTH_INFO);
         return authentication.getUserAccount();
     }
 
@@ -142,8 +142,7 @@ public class AbstractController {
     }
 
     public Boolean isUserInRole(HttpServletRequest request, String role) {
-        Authentication authentication = (Authentication) request.getSession().getAttribute(SecurityFilter.TOKEN_PARAM);
-        UserAccount userAccount = authentication.getUserAccount();
+        UserAccount userAccount = getUser(request);
         return userAccount.getGroups().stream().anyMatch(g -> role.equals(g.getName()));
     }
 

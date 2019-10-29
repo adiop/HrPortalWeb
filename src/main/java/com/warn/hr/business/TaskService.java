@@ -1,6 +1,6 @@
 package com.warn.hr.business;
 
-import com.warn.hr.business.rest.TaskServiceRestClient;
+import com.warn.hr.business.rest.TaskRestClient;
 import com.warn.hr.persistence.entity.hr.StaffResource;
 import com.warn.hr.persistence.entity.hr.staff.StaffHistory;
 import com.warn.hr.persistence.entity.hr.staff.Technician;
@@ -10,7 +10,6 @@ import com.warn.hr.persistence.entity.task.TicketTask;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,7 +23,10 @@ public class TaskService  {
     private static Technician helpDeskTechnician;
 
     @NonNull
-    private TaskServiceRestClient taskServiceRestClient;
+    private String taskRestServiceKey;
+
+    @NonNull
+    private TaskRestClient taskRestClient;
 
     @NonNull
     private StaffService staffService;
@@ -37,7 +39,7 @@ public class TaskService  {
 
     public Task findById(Long id) {
 
-        Task task = taskServiceRestClient.findById(id);
+        Task task = taskRestClient.findById(taskRestServiceKey, id);
 
         // Load staff details
         task.setTaskStaff(staffService.findById(task.getTaskStaff().getId()));
@@ -48,7 +50,7 @@ public class TaskService  {
 
     public Task findById(Long id, Long technicianId) {
 
-        Task task = taskServiceRestClient.findById(id, technicianId);
+        Task task = taskRestClient.findById(taskRestServiceKey, id, technicianId);
 
         // Load staff details
         task.setTaskStaff(staffService.findById(task.getTaskStaff().getId()));
@@ -58,27 +60,36 @@ public class TaskService  {
     }
 
     public List<Task> listOpenTasks(Task task) {
-        return taskServiceRestClient.listOpenTasks(task);
+        return taskRestClient.listOpenTasks(taskRestServiceKey,
+                getParametersMapForTask(task));
     }
 
     public List<Task> listOpenTasks(Task task, Long technicianId) {
-        return taskServiceRestClient.listOpenTasks(task, technicianId);
+        return taskRestClient.listOpenTasks(taskRestServiceKey,
+                technicianId,
+                getParametersMapForTask(task));
     }
 
     public List<Task> listClosedTasks(Task task) {
-        return taskServiceRestClient.listClosedTasks(task);
+        return taskRestClient.listClosedTasks(taskRestServiceKey,
+                getParametersMapForTask(task));
     }
 
     public List<Task> listClosedTasks(Task task, Long technicianId) {
-        return taskServiceRestClient.listClosedTasks(task, technicianId);
+        return taskRestClient.listClosedTasks(taskRestServiceKey,
+                technicianId,
+                getParametersMapForTask(task));
     }
 
     public List<Task> listFutureTasks(Task task) {
-        return taskServiceRestClient.listFutureTasks(task);
+        return taskRestClient.listFutureTasks(taskRestServiceKey,
+                getParametersMapForTask(task));
     }
 
     public List<Task> listFutureTasks(Task task, Long technicianId) {
-        return taskServiceRestClient.listFutureTasks(task, technicianId);
+        return taskRestClient.listFutureTasks(taskRestServiceKey,
+                technicianId,
+                getParametersMapForTask(task));
     }
 
     public Long createTaskForNewStaff(Staff createdBy, Staff taskStaff, Date effectiveDate) {
@@ -105,7 +116,7 @@ public class TaskService  {
         task.setTaskStaff(taskStaff);
         task.setTicketTasks(ticketTasks);
 
-        return taskServiceRestClient.createTask(task);
+        return taskRestClient.create(taskRestServiceKey, task);
     }
 
     public Long createTaskForUpdateStaff(Staff createdBy, Staff taskStaff) {
@@ -159,7 +170,7 @@ public class TaskService  {
             task.setTaskStaff(taskStaff);
             task.setTicketTasks(ticketTasks);
 
-            taskId = taskServiceRestClient.createTask(task);
+            taskId = taskRestClient.create(taskRestServiceKey, task);
 
         }
 
@@ -192,12 +203,12 @@ public class TaskService  {
         task.setTaskStaff(taskStaff);
         task.setTicketTasks(ticketTasks);
 
-        return taskServiceRestClient.createTask(task);
+        return taskRestClient.create(taskRestServiceKey, task);
 
     }
 
     public Boolean insertComment(long taskId, Staff createdBy, String comment) {
-        return taskServiceRestClient.insertComment(taskId, createdBy, comment);
+        return taskRestClient.insertComment(taskRestServiceKey, taskId, createdBy.getId(), comment);
     }
 
     private List<TicketTask> createAddedResourcesTicketTasks(List<Long> addedStaffResourceIdList) {
@@ -241,6 +252,16 @@ public class TaskService  {
         }
 
         return helpDeskTechnician;
+
+    }
+
+    private Map<String, String> getParametersMapForTask(final Task task) {
+
+        Map<String, String> parametersMap = new HashMap<>();
+
+        Optional.ofNullable(task.getTaskStaff()).ifPresent(s -> parametersMap.put("taskStaff.fullName", s.getFullName()));
+
+        return parametersMap;
 
     }
 

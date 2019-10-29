@@ -8,8 +8,8 @@ public interface ApplicationEnvironmentConfig {
 
     public RestServiceConfig getTaskRestService();
 
-    public RestServiceConfig getTicketRestService();
-
     public RestServiceConfig getNotificationRestService();
+
+    public RestServiceConfig getTokenRestService();
 
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <title>HR Portal</title>
+
+        <link rel="icon" type="image/png" href="/resources/images/hr_icon.png" />
+
+        <link rel="stylesheet" href="/resources/styles/styles.css">
+
+        <!-- Bootstrap -->
+        <link href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.css">
+
+        <script src="/webjars/popper.js/1.14.1/umd/popper.min.js"></script>
+        <script src="/webjars/jquery/3.2.1/jquery.js"></script>
+        <script src="/webjars/bootstrap/4.1.0/js/bootstrap.js"></script>
+
+    </head>
+
+    <body>
+
+        <div class="container-fluid">
+
+            <div class="row bg-light border-bottom p-1 fixed-top">
+
+                <div class="col-lg-2 text-dark">
+                    <h4><img src="/resources/images/hr_icon.png" width="40px"> HR Portal</h4>
+                </div>
+
+            </div>
+
+            <div id="content" class="d-flex justify-content-center align-items-center bg-white">
+                <div class="alert alert-danger" role="alert">
+                    <h1 class="display-1">403 - Access Denied</h1>
+                </div>
+            </div>
+
+        </div>
+
+    </body>
+
+    <script>
+
+        $(document).ready(function(){
+            $('#content').height($(window).height());
+        });
+
+    </script>
+
+</html>
