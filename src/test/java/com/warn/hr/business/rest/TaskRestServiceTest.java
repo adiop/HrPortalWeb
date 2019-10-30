@@ -10,7 +10,7 @@ public class TaskRestServiceTest {
 
     private static final String KEY = "";
 
-    private static final String ENDPOINT = "http://warn-apiserv01:6101";
+    private static final String ENDPOINT = "https://warn-docker-stg-intranet-api01.warn.com/";
 
     private TaskRestClient ticketRestServiceTest;
 

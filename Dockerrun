@@ -1,0 +1,1 @@
+-p 8080:8080 --add-host=redzone-1s.warn.com:10.34.202.23 --add-host=warn-testdb.warn.com:10.34.230.13 --add-host=warn-docker-stg-intranet-api01.warn.com:10.34.202.107 --add-host=warn-apiserv01.warn.com:10.34.202.150

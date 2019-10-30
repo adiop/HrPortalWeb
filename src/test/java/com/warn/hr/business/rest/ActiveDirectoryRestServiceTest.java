@@ -9,7 +9,7 @@ public class ActiveDirectoryRestServiceTest {
 
     private static final String KEY = "";
 
-    private static final String ENDPOINT = "http://warn-apiserv01:7002";
+    private static final String ENDPOINT = "https://warn-docker-stg-intranet-api01.warn.com/";
 
     private ActiveDirectoryRestClient activeDirectoryRestClient;
 

@@ -3,13 +3,20 @@ package com.warn.hr.business.scheduler;
 import com.warn.hr.business.NotificationService;
 import com.warn.hr.persistence.dao.TemporaryDAO;
 import com.warn.hr.persistence.entity.hr.staff.Temporary;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -46,7 +53,29 @@ public class TemporaryExpiredDateScheduler {
 
         }
 
+    }
 
+    public  String generateNotificationBody(String template, Map<String, Object> input) {
+
+        String generatedCode = null;
+
+        try {
+
+            Configuration cfg = new Configuration();
+            cfg.setClassForTemplateLoading(NotificationService.class, "/notification/template/");
+            freemarker.template.Template freemarkerTemplate = cfg.getTemplate(template);
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            Writer writer = new OutputStreamWriter(out);
+            freemarkerTemplate.process(input, writer);
+
+            generatedCode = out.toString("UTF-8");
+
+        } catch (IOException | TemplateException e) {
+            throw new RuntimeException(e);
+        }
+
+        return generatedCode;
 
     }
 
