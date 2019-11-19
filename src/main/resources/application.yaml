@@ -35,15 +35,15 @@ prod:
 
   # Rest Services
   notificationRestService:
-    url: https://warn-docker-stg-intranet-api01.warn.com/
+    url: https://warn-docker-prod-intranet-api01.warn.com/
     key: 583eccb2-1f67-11e9-ab14-d663bd873d93
 
   activeDirectoryRestService:
-    url: https://warn-docker-stg-intranet-api01.warn.com/
+    url: https://warn-docker-prod-intranet-api01.warn.com/
     key: 583eccb2-1f67-11e9-ab14-d663bd873d93
 
   taskRestService:
-    url: https://warn-docker-stg-intranet-api01.warn.com/
+    url: https://warn-docker-prod-intranet-api01.warn.com/
     key: 583eccb2-1f67-11e9-ab14-d663bd873d93
 
   tokenRestService:
