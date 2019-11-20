@@ -11,12 +11,12 @@ import feign.RequestLine;
  */
 public interface ActiveDirectoryRestClient extends _RestClient {
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /warn/util/api/v1/active-directory/users/{login}")
     public UserAccount findByLogin(@Param("token") String token,
                                  @Param("login") String login);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("PUT /warn/util/api/v1/active-directory/users/")
     public Boolean update(@Param("token") String token,
                                   UserAccount userAccount);
