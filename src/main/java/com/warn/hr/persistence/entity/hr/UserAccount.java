@@ -40,7 +40,7 @@ public @Data class UserAccount {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Data
-    public class Department {
+    public static class Department {
 
         private String name;
 
@@ -50,7 +50,7 @@ public @Data class UserAccount {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Data
-    public class JobTitle {
+    public static class JobTitle {
 
         private String name;
 
@@ -58,7 +58,7 @@ public @Data class UserAccount {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Data
-    public class Company {
+    public static class Company {
 
         private String name;
 
@@ -68,7 +68,7 @@ public @Data class UserAccount {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Data
-    public class UserGroup {
+    public static class UserGroup {
 
         private String name;
 

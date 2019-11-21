@@ -28,57 +28,57 @@ import java.util.Optional;
  */
 public interface TaskRestClient extends _RestClient {
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("POST /api/hr/v1/task/")
     public Long create(@Param("token") String token,
                        Task task);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/{id}")
     public Task findById(@Param("token") String token,
                          @Param("id") Long id);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/{id}/{technicianId}")
     public Task findById(@Param("token") String token,
                          @Param("id") Long id,
                          @Param("technicianId") Long technicianId);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("PUT /api/hr/v1/task/comment/{id}/{createdById}")
     public Boolean insertComment(@Param("token") String token,
                                  @Param("id") Long id,
                                  @Param("createdById") Long createdById,
                                  String comment);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/list/open/")
     public List<Task> listOpenTasks(@Param("token") String token,
                                     @QueryMap Map<String, String> parameters);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/list/open/{technicianId}")
     public List<Task> listOpenTasks(@Param("token") String token,
                                     @Param("technicianId") Long technicianId,
                                     @QueryMap Map<String, String> parameters);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/list/closed/")
     public List<Task> listClosedTasks(@Param("token") String token,
                                       @QueryMap Map<String, String> parameters);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/list/closed/{technicianId}")
     public List<Task> listClosedTasks(@Param("token") String token,
                                       @Param("technicianId") Long technicianId,
                                       @QueryMap Map<String, String> parameters);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/list/future/")
     public List<Task> listFutureTasks(@Param("token") String token,
                                       @QueryMap Map<String, String> parameters);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/list/future/{technicianId}")
     public List<Task> listFutureTasks(@Param("token") String token,
                                       @Param("technicianId") Long technicianId,

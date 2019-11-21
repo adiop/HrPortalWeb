@@ -16,27 +16,27 @@ import java.util.Map;
  */
 public interface TaskReportRestClient extends _RestClient {
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/reports/tasks-total")
     public TasksTotal tasksTotal(@Param("token") String token,
                                  @QueryMap Map<String, String> parameters);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/reports/tasks-by-date")
     public TaskByDate tasksByDate(@Param("token") String token,
                                   @QueryMap Map<String, String> parameters);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/reports/tasks-by-month-year")
     public TaskByMonthYear tasksByMonthYear(@Param("token") String token,
                                     @QueryMap Map<String, String> parameters);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/reports/tasks-by-department")
     public TaskByDepartment tasksByDepartment(@Param("token") String token,
                                      @QueryMap Map<String, String> parameters);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/task/reports/tasks-by-job-title")
     public TaskByJobTitle tasksByJobTitle(@Param("token") String token,
                                           @QueryMap Map<String, String> parameters);

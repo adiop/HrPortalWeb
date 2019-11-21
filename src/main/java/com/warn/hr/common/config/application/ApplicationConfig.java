@@ -1,8 +1,18 @@
 package com.warn.hr.common.config.application;
 
+import com.google.gson.Gson;
 import com.warn.hr.business.rest.*;
 import com.warn.hr.common.config.application.common.ApplicationEnvironmentConfig;
 import com.warn.hr.common.config.application.common.RestServiceConfig;
+import feign.Feign;
+import feign.Logger;
+import feign.Retryer;
+import feign.gson.GsonDecoder;
+import feign.gson.GsonEncoder;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
+import feign.okhttp.OkHttpClient;
+import feign.slf4j.Slf4jLogger;
 import net.sourceforge.jtds.jdbcx.JtdsDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,8 +100,14 @@ public class ApplicationConfig {
      */
     @Bean
     public TokenRestClient tokenRestClient() {
-        return _RestClient.of(environmentConfig.getTokenRestService().getUrl(),
-                TokenRestClient.class);
+        return Feign.builder()
+                .client(new OkHttpClient())
+                .encoder(new GsonEncoder())
+                .decoder(new GsonDecoder())
+                .retryer(new Retryer.Default())
+                .logger(new Slf4jLogger())
+                .logLevel(Logger.Level.FULL)
+                .target(TokenRestClient.class, environmentConfig.getTokenRestService().getUrl());
     }
 
     /**

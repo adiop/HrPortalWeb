@@ -11,12 +11,12 @@ import feign.RequestLine;
  */
 public interface TicketRestClient extends _RestClient {
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("GET /api/hr/v1/ticket/{id}")
     public TicketTask findById(@Param("token") String token,
                                @Param("id") Long id);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("PUT /api/hr/v1/ticket/reassign/{id}/{reassignedById}/{technicianId}")
     public Boolean reassign(@Param("token") String token,
                             @Param("id") Long id,
@@ -24,14 +24,14 @@ public interface TicketRestClient extends _RestClient {
                             @Param("technicianId") Long newTechnicianId,
                             String reason);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("PUT /api/hr/v1/ticket/close/{id}/{closedById}")
     public Boolean close(@Param("token") String token,
                          @Param("id") Long id,
                          @Param("closedById") Long closedById,
                          String resolution);
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("PUT /api/hr/v1/ticket/reopen/{id}/{reopenedById}")
     public Boolean reopen(@Param("token") String token,
                           @Param("id") Long id,

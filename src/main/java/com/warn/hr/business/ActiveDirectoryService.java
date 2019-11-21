@@ -70,7 +70,7 @@ public class ActiveDirectoryService {
             // Updates the job title
             if(fields.contains("jobTitle")) {
 
-                UserAccount.JobTitle jobTitle = userAccount.new JobTitle();
+                UserAccount.JobTitle jobTitle = new UserAccount.JobTitle();
                 jobTitle.setName(staff.getJobTitle().getName());
 
                 userAccount.setJobTitle(jobTitle);
@@ -80,7 +80,7 @@ public class ActiveDirectoryService {
             // Updates the department
             if(fields.contains("department")) {
 
-                UserAccount.Department department = userAccount.new Department();
+                UserAccount.Department department = new UserAccount.Department();
                 department.setCode(staff.getJobTitle().getDepartment().getDepartmentCode());
                 department.setName(staff.getJobTitle().getDepartment().getName());
 
@@ -102,7 +102,7 @@ public class ActiveDirectoryService {
 
                 String companyName = temporaryService.findById(id).getCompanyName();
 
-                UserAccount.Company company = userAccount.new Company();
+                UserAccount.Company company = new UserAccount.Company();
                 company.setName(companyName);
                 company.setDescription(companyName + " Employee");
 
@@ -110,7 +110,7 @@ public class ActiveDirectoryService {
 
             } else {
 
-                UserAccount.Company company = userAccount.new Company();
+                UserAccount.Company company = new UserAccount.Company();
                 company.setName("Warn Industries");
                 company.setDescription("Warn Employee");
 

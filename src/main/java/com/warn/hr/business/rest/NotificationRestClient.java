@@ -11,7 +11,7 @@ import feign.RequestLine;
  */
 public interface NotificationRestClient extends _RestClient {
 
-    @Headers({"key: {token}"})
+    @Headers({"key: {token}", "Content-Type: application/json"})
     @RequestLine("POST /warn/util/api/v1/notification/")
     public Boolean sendEmail(@Param("token") String token,
                               Notification notification);
