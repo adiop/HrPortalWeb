@@ -21,7 +21,7 @@ dev:
     key: 583eccb2-1f67-11e9-ab14-d663bd873d93
 
   tokenRestService:
-    url: http://redzone-1s.warn.com:8088
+    url: http://warn-websso01.warn.com
     key:
 
 ---
@@ -47,5 +47,5 @@ prod:
     key: 583eccb2-1f67-11e9-ab14-d663bd873d93
 
   tokenRestService:
-    url: http://redzone-1s.warn.com:8088
+    url: http://warn-websso01.warn.com
     key:
