@@ -28,7 +28,7 @@
 
         <div class="form-group" ng-show="ctrl.delete.form.termType === 'future'">
             <label>Effective Date:</label>
-            <input type="date" name="termDate" class="form-control" ng-model="ctrl.delete.form.termDate" ng-required="true">
+            <input type="date" name="termDate" class="form-control" ng-model="ctrl.delete.form.contractEndDate" ng-required="true">
             <div role="alert" ng-messages="deleteForm.termDate.$error" >
                 <div class="text-danger" ng-message="required">The effective date is required</div>
             </div>

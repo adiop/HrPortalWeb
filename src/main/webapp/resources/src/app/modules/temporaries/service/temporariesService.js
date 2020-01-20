@@ -96,6 +96,8 @@ app.service('temporariesService', function(config, $http, $q) {
 
     svc.delete = (form, messages) => {
 
+        form.status = null;
+
         Request.put(`/hr/api/v1/temporary/term/${form.id}`, form).call((response) => {
 
             Response.of(response.status)
