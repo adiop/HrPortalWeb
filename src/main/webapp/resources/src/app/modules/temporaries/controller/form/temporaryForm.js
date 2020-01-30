@@ -151,14 +151,13 @@ class TemporaryForm extends Form {
 
         // Term
         this.termType = 'now';
+        this.now = new Date();
 
         // Staff resources message
         this.changeStaffResourcesMessage = null;
 
         // Additional information
         this.flagged = false;
-        this.flaggedUntil = null;
-        this.flagEmailNotification = null;
         this.comments = null;
 
         // Error messages

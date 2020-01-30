@@ -14,8 +14,8 @@ app.controller('temporariesAdminController', function($scope, $timeout, $locatio
             staffService.uploadPicture(form, form.pictureFile);
         }
 
-        ctrl.loadPicture = (employee) => {
-            staffService.loadStaffImage(employee);
+        ctrl.loadPicture = (Temporary) => {
+            staffService.loadStaffImage(Temporary);
         }
 
         ctrl.selectManager = (form, manager) => {
@@ -82,8 +82,35 @@ app.controller('temporariesAdminController', function($scope, $timeout, $locatio
 
         ctrl.insert.show = () => {
 
+            ctrl.messages.invalidLoginErrorMessage = null;
+            ctrl.messages.invalidStaffNumberErrorMessage = null;
+
             // Clean the insert form
             ctrl.resetForms(ctrl.insert.form, ctrl.insertForm);
+
+        }
+
+        ctrl.insert.validateTemporaryLogin = () => {
+
+            ctrl.messages.invalidLoginErrorMessage = null;
+
+            let login = ctrl.insert.form.login;
+
+            if(login) {
+                svc.validateLogin(login, ctrl.messages);
+            }
+
+        }
+
+        ctrl.insert.validateTemporaryNumber = () => {
+
+            ctrl.messages.invalidStaffNumberErrorMessage = null;
+
+            let temporaryNumber = ctrl.insert.form.temporaryNumber;
+
+            if(temporaryNumber) {
+                svc.validateStaffNumber(temporaryNumber, ctrl.messages);
+            }
 
         }
 
@@ -103,6 +130,12 @@ app.controller('temporariesAdminController', function($scope, $timeout, $locatio
 
         ctrl.update.show = (id) => {
 
+            ctrl.editTemporaryNumber = false;
+            ctrl.editTemporaryLogin = false;
+            ctrl.messages.invalidLoginErrorMessage = null;
+            ctrl.messages.invalidStaffNumberErrorMessage = null;
+
+
             // Clean the update form
             ctrl.resetForms(ctrl.update.form, ctrl.updateForm);
 
@@ -110,10 +143,81 @@ app.controller('temporariesAdminController', function($scope, $timeout, $locatio
 
         }
 
+        ctrl.update.onEditTemporaryLogin = () => {
+
+            ctrl.editTemporaryLogin = !ctrl.editTemporaryLogin;
+
+            if(ctrl.editTemporaryLogin) {
+                ctrl.update.form.oldTemporaryLogin = ctrl.update.form.login;
+            }
+
+        }
+
+        ctrl.update.validateTemporaryLogin = () => {
+
+            ctrl.messages.invalidLoginErrorMessage = null;
+
+            let login = ctrl.update.form.login;
+
+            if(login && login !== ctrl.update.form.oldTemporaryLogin) {
+                svc.validateLogin(login, ctrl.messages);
+            }
+
+        }
+
+        ctrl.update.onEditTemporaryNumber = () => {
+
+            ctrl.editTemporaryNumber = !ctrl.editTemporaryNumber;
+
+            if(ctrl.editTemporaryNumber) {
+                ctrl.update.form.oldTemporaryNumber = ctrl.update.form.temporaryNumber;
+            }
+
+        }
+
+        ctrl.update.validateTemporaryNumber = () => {
+
+            ctrl.messages.invalidStaffNumberErrorMessage = null;
+
+            let temporaryNumber = ctrl.update.form.temporaryNumber;
+
+            if(temporaryNumber && temporaryNumber !== ctrl.update.form.oldTemporaryNumber) {
+                svc.validateStaffNumber(temporaryNumber, ctrl.messages);
+            }
+
+        }
+
         ctrl.update.do = () => {
             ctrl.doThenClearSearch(() => svc.update(ctrl.update.form, ctrl.messages));
         }
 
+
+    }
+
+    // Hire
+    {
+
+        ctrl.hire = {
+            form: TemporaryForm.newInstance()
+        }
+
+        ctrl.hire.show = (id) => {
+
+            // Clean the hire form
+            ctrl.resetForms(ctrl.hire.form);
+
+            // Update the hire date
+            ctrl.hire.form.hireDate = new Date();
+
+            // Load the form
+            svc.findById(id, ctrl.hire.form);
+
+        }
+
+        ctrl.hire.do = () => {
+            console.log('hire do', ctrl.hire.form)
+            ctrl.doThenClearSearch(() => svc.hire(ctrl.hire.form, ctrl.messages));
+        }
 
     }
 
@@ -194,6 +298,7 @@ app.controller('temporariesAdminController', function($scope, $timeout, $locatio
         ctrl.initializeForm(ctrl.search.form);
         ctrl.initializeForm(ctrl.insert.form);
         ctrl.initializeForm(ctrl.update.form);
+        ctrl.initializeForm(ctrl.hire.form);
 
         // Load the logged user in the control
         userService.loadUser(ctrl);

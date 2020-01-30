@@ -199,6 +199,45 @@ app.service('employeeService', function(config, $http, $q) {
         return JSON.parse(sessionStorage.getItem(storageKeyAllEmployees));
     };
 
+    svc.validateLogin = (login, messages) => {
+
+        messages.invalidLoginErrorMessage = null;
+
+        Request.get(`/hr/api/v1/staff/validation/login/${login}`).call((response) => {
+
+            Response.of(response.status)
+                .ok(() => {
+
+                    if (response.data.value === true) {
+                        messages.invalidLoginErrorMessage = 'This login is already being used';
+                    }
+
+                });
+
+        });
+
+    };
+
+    svc.validateStaffNumber = (staffNumber, messages) => {
+
+        messages.invalidStaffNumberErrorMessage = null;
+
+        Request.get(`/hr/api/v1/staff/validation/staff-number/${staffNumber}`).call((response) => {
+
+            Response.of(response.status)
+                .ok(() => {
+
+                    if (response.data.value === true) {
+                        messages.invalidStaffNumberErrorMessage = 'This number is already being used';
+                    }
+
+                });
+
+        });
+
+    };
+
+
     svc.formToData = (form) => {
 
         let employee = {

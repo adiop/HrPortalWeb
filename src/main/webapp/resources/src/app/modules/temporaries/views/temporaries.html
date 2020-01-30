@@ -121,6 +121,9 @@
                             Edit
                         </th>
                         <th class="text-center">
+                            Hire
+                        </th>
+                        <th class="text-center">
                             Term
                         </th>
                     </tr>
@@ -137,7 +140,7 @@
 
                         </td>
 
-                        <td style="width: 20%;">
+                        <td style="width: 18%;">
                             <h4 class="text-primary">{{result.preferredName}} {{result.lastName}}</h4>
                             <strong>Email:</strong> <span ng-show="result.email">{{result.email}}@warn.com</span> <br/>
                             <strong>Phone:</strong> {{result.phone}}<br/>
@@ -149,10 +152,10 @@
                         <td class="text-center" style="width: 15%;">
                             {{result.contractEndDate | date : 'MM/dd/yyyy'}}
                         </td>
-                        <td style="width: 20%;">
+                        <td style="width: 18%;">
                             {{result.jobTitle.department.name}}
                         </td>
-                        <td style="width: 20%;">
+                        <td style="width: 18%;">
                             {{result.jobTitle.name}}
                         </td>
                         <td style="text-align: center">
@@ -160,6 +163,9 @@
                         </td>
                         <td style="text-align: center">
                             <button class="btn btn-primary btn-sm active" aria-pressed="true" data-title="Edit" data-toggle="modal" data-target="#updateModal" ng-click="updateForm.$setUntouched(); ctrl.update.show(result.id);"><i class="fa fa-edit fa-1x"></i></button>
+                        </td>
+                        <td style="text-align: center">
+                            <button class="btn btn-primary btn-sm active" aria-pressed="true" data-title="Hire" data-toggle="modal" data-target="#hireModal" ng-click="ctrl.hire.show(result.id)"><i class="fa fa-share-square fa-1x"></i></button>
                         </td>
                         <td style="text-align: center">
                             <button class="btn btn-danger btn-sm active" aria-pressed="true" data-title="Delete" data-toggle="modal" data-target="#deleteModal" ng-click="ctrl.delete.show(result.id)"><i class="fa fa-trash-alt fa-1x"></i></button>
@@ -180,6 +186,8 @@
         <div ng-include="'/resources/src/app/modules/temporaries/views/modal/insertTemporaryModal.html'"></div>
 
         <div ng-include="'/resources/src/app/modules/temporaries/views/modal/updateTemporaryModal.html'"></div>
+
+        <div ng-include="'/resources/src/app/modules/temporaries/views/modal/hireTemporaryModal.html'"></div>
 
         <div ng-include="'/resources/src/app/modules/temporaries/views/modal/deleteTemporaryModal.html'"></div>
 

@@ -35,6 +35,12 @@ public class TemporaryController extends AbstractController {
     }
 
 
+    @PutMapping("/hr/api/v1/temporary/hire/{id}")
+    public @ResponseBody ResponseEntity hire(@PathVariable("id") Long id, @RequestBody Temporary entity, HttpServletRequest request) {
+        entity.setId(id);
+        return update(() -> temporaryService.hire(getStaff(request), entity, entity.getContractEndDate()));
+    }
+
     @PutMapping("/hr/api/v1/temporary/{id}")
     public @ResponseBody ResponseEntity update(@PathVariable("id") Long id, @RequestBody Temporary entity, HttpServletRequest request) {
         entity.setId(id);

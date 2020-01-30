@@ -206,6 +206,64 @@ app.service('temporariesService', function(config, $http, $q) {
         return JSON.parse(sessionStorage.getItem(storageKeyAlltemporaries));
     };
 
+    svc.validateLogin = (login, messages) => {
+
+        messages.invalidLoginErrorMessage = null;
+
+        Request.get(`/hr/api/v1/staff/validation/login/${login}`).call((response) => {
+
+            Response.of(response.status)
+                .ok(() => {
+
+                    if (response.data.value === true) {
+                        messages.invalidLoginErrorMessage = 'This login is already being used';
+                    }
+
+                });
+
+        });
+
+    };
+
+    svc.validateStaffNumber = (staffNumber, messages) => {
+
+        messages.invalidStaffNumberErrorMessage = null;
+
+        Request.get(`/hr/api/v1/staff/validation/staff-number/${staffNumber}`).call((response) => {
+
+            Response.of(response.status)
+                .ok(() => {
+
+                    if (response.data.value === true) {
+                        messages.invalidStaffNumberErrorMessage = 'This number is already being used';
+                    }
+
+                });
+
+        });
+
+    };
+
+    svc.hire = (form, messages) => {
+
+        form.contractEndDate = form.hireDate;
+
+        console.log('hire', form, ' sending request')
+
+        Request.put(`/hr/api/v1/temporary/hire/${form.id}`, svc.formToData(form)).call((response) => {
+
+            Response.of(response.status)
+                .ok(() => {
+                    messages.successMessage = 'temporary hired with success!';
+                }).otherwise(() => {
+                    messages.errorMessage = 'An error has occurred!';
+                }).then(() => {
+                    svc.resetStorage(true);
+                });
+
+        });
+
+    }
 
     svc.formToData = (form) => {
 

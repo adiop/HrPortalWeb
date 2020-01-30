@@ -64,6 +64,11 @@ public class TemporaryService {
     }
 
     @Transactional
+    public Boolean hire(Staff hiredBy, Temporary entity, Date hireDate) {
+        return temporaryDAO.hire(entity, hireDate);
+    }
+
+    @Transactional
     public Boolean termTemporary(Staff createdBy, Temporary temporary, Date date) {
 
         Boolean isTermed = Boolean.FALSE;

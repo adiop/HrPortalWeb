@@ -4,6 +4,7 @@ import com.warn.hr.persistence.dao.common.HRAbstractDAO;
 import com.warn.hr.persistence.entity.hr.staff.Temporary;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
 import org.hibernate.Hibernate;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -197,6 +199,22 @@ public class TemporaryDAO extends HRAbstractDAO<Temporary> {
         return super.merge(entity);
 
     }
+
+    @Transactional(value = "hibernateTransactionManagerHR")
+    public Boolean hire(Temporary entity, Date hireDate) {
+
+        staffHistoryDAO.createStaffHistory(entity.getId());
+
+        Query query = getCurrentSession().createNativeQuery("EXEC dbo.migrate_temporary_to_employee @login = :login, @hire_date = :hireDate")
+                .setParameter("login", entity.getLogin())
+                .setParameter("hireDate", new SimpleDateFormat("YYYY-MM-dd").format(hireDate));
+
+        query.executeUpdate();
+
+        return Boolean.TRUE;
+
+    }
+
 
     public Boolean term(Temporary entity, Date date) {
 
