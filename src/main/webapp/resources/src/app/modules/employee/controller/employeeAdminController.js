@@ -82,8 +82,35 @@ app.controller('employeeAdminController', function($scope, $timeout, $location, 
 
         ctrl.insert.show = () => {
 
+            ctrl.messages.invalidLoginErrorMessage = null;
+            ctrl.messages.invalidStaffNumberErrorMessage = null;
+
             // Clean the insert form
             ctrl.resetForms(ctrl.insert.form, ctrl.insertForm);
+
+        }
+
+        ctrl.insert.validateEmployeeLogin = () => {
+
+            ctrl.messages.invalidLoginErrorMessage = null;
+
+            let login = ctrl.insert.form.login;
+
+            if(login) {
+                svc.validateLogin(login, ctrl.messages);
+            }
+
+        }
+
+        ctrl.insert.validateEmployeeNumber = () => {
+
+            ctrl.messages.invalidStaffNumberErrorMessage = null;
+
+            let employeeNumber = ctrl.insert.form.employeeNumber;
+
+            if(employeeNumber) {
+                svc.validateStaffNumber(employeeNumber, ctrl.messages);
+            }
 
         }
 
@@ -96,17 +123,65 @@ app.controller('employeeAdminController', function($scope, $timeout, $location, 
     // Update
     {
 
-
         ctrl.update = {
             form: EmployeeForm.newInstance()
         }
 
         ctrl.update.show = (id) => {
 
+            ctrl.editEmployeeNumber = false;
+            ctrl.editEmployeeLogin = false;
+            ctrl.messages.invalidLoginErrorMessage = null;
+            ctrl.messages.invalidStaffNumberErrorMessage = null;
+
             // Clean the update form
             ctrl.resetForms(ctrl.update.form, ctrl.updateForm);
 
             svc.findById(id, ctrl.update.form);
+
+        }
+
+        ctrl.update.onEditEmployeeLogin = () => {
+
+            ctrl.editEmployeeLogin = !ctrl.editEmployeeLogin;
+
+            if(ctrl.editEmployeeLogin) {
+                ctrl.update.form.oldEmployeeLogin = ctrl.update.form.login;
+            }
+
+        }
+
+        ctrl.update.validateEmployeeLogin = () => {
+
+            ctrl.messages.invalidLoginErrorMessage = null;
+
+            let login = ctrl.update.form.login;
+
+            if(login && login !== ctrl.update.form.oldEmployeeLogin) {
+                svc.validateLogin(login, ctrl.messages);
+            }
+
+        }
+
+        ctrl.update.onEditEmployeeNumber = () => {
+
+            ctrl.editEmployeeNumber = !ctrl.editEmployeeNumber;
+
+            if(ctrl.editEmployeeNumber) {
+                ctrl.update.form.oldEmployeeNumber = ctrl.update.form.employeeNumber;
+            }
+
+        }
+
+        ctrl.update.validateEmployeeNumber = () => {
+
+            ctrl.messages.invalidStaffNumberErrorMessage = null;
+
+            let employeeNumber = ctrl.update.form.employeeNumber;
+
+            if(employeeNumber && employeeNumber !== ctrl.update.form.oldEmployeeNumber) {
+                svc.validateStaffNumber(employeeNumber, ctrl.messages);
+            }
 
         }
 

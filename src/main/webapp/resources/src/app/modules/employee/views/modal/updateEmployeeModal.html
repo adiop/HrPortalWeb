@@ -100,10 +100,16 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">1</span>
                             </div>
-                            <input type="text" name="employeeNumber" class="form-control required" ng-model="ctrl.update.form.employeeNumber" ng-required="true" maxlength="4" autocomplete="off" disabled>
+                            <input type="text" name="employeeNumber" class="form-control required" ng-class="{'ng-invalid' : ctrl.messages.invalidStaffNumberErrorMessage}" ng-model="ctrl.update.form.employeeNumber" ng-required="true" maxlength="4" autocomplete="off" ng-disabled="!ctrl.editEmployeeNumber" ng-blur="ctrl.update.validateEmployeeNumber()">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" style="border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem;" type="button" ng-click="ctrl.update.onEditEmployeeNumber()" ng-disabled="!ctrl.user.isUserAdmin || ctrl.update.form.status === 'INACTIVE'"><i class="fa fa-edit fa-1x"></i></button>
+                            </div>
                             <div role="alert" ng-messages="updateForm.employeeNumber.$error" role="alert">
                                 <div class="text-danger" ng-message="required">The employee number is required</div>
                                 <div class="text-danger" ng-message="maxlength">The employee number can't exceed 4 digits</div>
+                            </div>
+                            <div role="alert" ng-show="ctrl.messages.invalidStaffNumberErrorMessage" role="alert">
+                                <div class="text-danger">{{ctrl.messages.invalidStaffNumberErrorMessage}}</div>
                             </div>
                         </div>
                     </div>
@@ -130,7 +136,15 @@
                     <!-- Login -->
                     <div class="col-md-4  mb-3">
                         <label>Login:</label>
-                        <input type="text" name="login" class="form-control" ng-model="ctrl.update.form.login" maxlength="6" autocomplete="off" disabled>
+                        <div class="input-group">
+                            <input type="text" name="login" class="form-control" ng-class="{'ng-invalid' : ctrl.messages.invalidLoginErrorMessage}" ng-model="ctrl.update.form.login" maxlength="6" autocomplete="off" ng-disabled="!ctrl.editEmployeeLogin" ng-blur="ctrl.update.validateEmployeeLogin()">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" style="border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem;" type="button" ng-click="ctrl.update.onEditEmployeeLogin()" ng-disabled="!ctrl.user.isUserAdmin || ctrl.update.form.status === 'INACTIVE'"><i class="fa fa-edit fa-1x"></i></button>
+                            </div>
+                            <div role="alert" ng-show="ctrl.messages.invalidLoginErrorMessage" role="alert">
+                                <div class="text-danger">{{ctrl.messages.invalidLoginErrorMessage}}</div>
+                            </div>
+                        </div>
                     </div>
                     <!-- Login -->
 

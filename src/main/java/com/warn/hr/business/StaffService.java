@@ -35,6 +35,10 @@ public class StaffService {
         return staffDAO.findByLogin(login);
     }
 
+    public Staff findByStaffNumber(String staffNumber) {
+        return staffDAO.findByStaffNumber(staffNumber);
+    }
+
     public String findImageByStaffId(Long id) {
         return staffDAO.findImageByStaffId(id);
     }

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -73,6 +74,22 @@ public class StaffController extends AbstractController {
     @GetMapping("/hr/api/v1/staff/list-all")
     public @ResponseBody ResponseEntity<List<Staff>> listAll() {
         return list(() -> staffService.listAll());
+    }
+
+    @GetMapping("/hr/api/v1/staff/validation/login/{login}")
+    public @ResponseBody ResponseEntity<SimpleBooleanValue> validateLogin(@PathVariable("login") String login) {
+        return find(() -> SimpleBooleanValue.of(Optional
+                                                .ofNullable(staffService.findByLogin(login))
+                                                .map(s -> Boolean.TRUE)
+                                                .orElseGet(() -> Boolean.FALSE)));
+    }
+
+    @GetMapping("/hr/api/v1/staff/validation/staff-number/{staffNumber}")
+    public @ResponseBody ResponseEntity<SimpleBooleanValue> validateStaffNumber(@PathVariable("staffNumber") String staffNumber) {
+        return find(() -> SimpleBooleanValue.of(Optional
+                .ofNullable(staffService.findByStaffNumber(staffNumber))
+                .map(s -> Boolean.TRUE)
+                .orElseGet(() -> Boolean.FALSE)));
     }
 
     @AllArgsConstructor(staticName = "of")

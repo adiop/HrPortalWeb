@@ -3,6 +3,7 @@ package com.warn.hr.persistence.dao;
 import com.warn.hr.persistence.dao.common.HRAbstractDAO;
 import com.warn.hr.persistence.entity.hr.staff.Manager;
 import com.warn.hr.persistence.entity.hr.staff.common.Staff;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 public class StaffDAO extends HRAbstractDAO<Staff> {
 
@@ -61,33 +63,83 @@ public class StaffDAO extends HRAbstractDAO<Staff> {
     @Transactional(readOnly = true)
     public Staff findByLogin(String login) {
 
-        login = login.replaceAll("WARNNT\\\\", "");
+        Staff staff = null;
 
-        CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
+        try {
 
-        CriteriaQuery<Staff> query = criteriaBuilder.createQuery(Staff.class);
-        Root<Staff> root = query.from(Staff.class);
+            login = login.replaceAll("WARNNT\\\\", "");
 
-        query.where(criteriaBuilder.equal(root.get("login"), login));
+            CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
 
-        Staff staff =  getCurrentSession().createQuery(query).getSingleResult();
+            CriteriaQuery<Staff> query = criteriaBuilder.createQuery(Staff.class);
+            Root<Staff> root = query.from(Staff.class);
 
-        Hibernate.initialize(staff.getJobTitle());
-        Hibernate.initialize(staff.getManager());
+            query.where(criteriaBuilder.equal(root.get("login"), login));
 
-        staff.setImage(null);
-        staff.setStaffResources(null);
+            staff = getCurrentSession().createQuery(query).getSingleResult();
 
-        Optional.ofNullable(staff.getJobTitle().getDepartment()).ifPresent(d ->
-            d.setJobTitles(null)
-        );
+            Hibernate.initialize(staff.getJobTitle());
+            Hibernate.initialize(staff.getManager());
 
-        Optional.ofNullable(staff.getManager()).ifPresent(m -> {
-            m.setImage(null);
-            Optional.ofNullable(m.getJobTitle().getDepartment()).ifPresent(d -> {
-                d.setJobTitles(null);
+            staff.setImage(null);
+            staff.setStaffResources(null);
+
+            Optional.ofNullable(staff.getJobTitle().getDepartment()).ifPresent(d ->
+                    d.setJobTitles(null)
+            );
+
+            Optional.ofNullable(staff.getManager()).ifPresent(m -> {
+                m.setImage(null);
+                Optional.ofNullable(m.getJobTitle().getDepartment()).ifPresent(d -> {
+                    d.setJobTitles(null);
+                });
             });
-        });
+
+        } catch (Exception e) {
+            log.error("An error has occurred while trying to find the staff by the login " + login, e);
+        }
+
+        return staff;
+
+    }
+
+    @Transactional(readOnly = true)
+    public Staff findByStaffNumber(String staffNumber) {
+
+        Staff staff = null;
+
+        try {
+
+            CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
+
+            CriteriaQuery<Staff> query = criteriaBuilder.createQuery(Staff.class);
+            Root<Staff> root = query.from(Staff.class);
+
+            query.where(criteriaBuilder.equal(root.get("staffNumber"), staffNumber),
+                        criteriaBuilder.equal(root.get("status"), Staff.Status.ACTIVE));
+
+            staff = getCurrentSession().createQuery(query).list().get(0);
+
+            Hibernate.initialize(staff.getJobTitle());
+            Hibernate.initialize(staff.getManager());
+
+            staff.setImage(null);
+            staff.setStaffResources(null);
+
+            Optional.ofNullable(staff.getJobTitle().getDepartment()).ifPresent(d ->
+                    d.setJobTitles(null)
+            );
+
+            Optional.ofNullable(staff.getManager()).ifPresent(m -> {
+                m.setImage(null);
+                Optional.ofNullable(m.getJobTitle().getDepartment()).ifPresent(d -> {
+                    d.setJobTitles(null);
+                });
+            });
+
+        } catch (Exception e) {
+            log.error("An error has occurred while trying to find the staff by the staff number " + staffNumber, e);
+        }
 
         return staff;
 
