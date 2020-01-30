@@ -66,7 +66,7 @@ public class TemporaryService {
     @Transactional
     public Boolean hire(Staff hiredBy, Temporary entity, Date hireDate) {
 
-        log.info("Hiring temporary");
+        log.info("Hiring temporary ");
         log.info("Hired by: " + hiredBy.toString());
         log.info("Temporary: " + entity.toString());
 
