@@ -166,6 +166,9 @@ public class EmployeeDAO extends HRAbstractDAO<Employee> {
 
     @Override
     public Long insert(Employee entity) {
+
+        entity.setType(Staff.Type.EMPLOYEE);
+
         return super.insert(entity);
     }
 
@@ -173,6 +176,8 @@ public class EmployeeDAO extends HRAbstractDAO<Employee> {
     public Boolean update(Employee entity) {
 
         staffHistoryDAO.createStaffHistory(entity.getId());
+
+        entity.setType(Staff.Type.EMPLOYEE);
 
         return super.merge(entity);
     }

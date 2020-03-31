@@ -187,6 +187,9 @@ public class TemporaryDAO extends HRAbstractDAO<Temporary> {
     @Override
     @Transactional(value = "hibernateTransactionManagerHR")
     public Long insert(Temporary entity) {
+
+        entity.setType(Staff.Type.TEMPORARY);
+
         return super.insert(entity);
     }
 
@@ -195,6 +198,8 @@ public class TemporaryDAO extends HRAbstractDAO<Temporary> {
     public Boolean update(Temporary entity) {
 
         staffHistoryDAO.createStaffHistory(entity.getId());
+
+        entity.setType(Staff.Type.TEMPORARY);
 
         return super.merge(entity);
 

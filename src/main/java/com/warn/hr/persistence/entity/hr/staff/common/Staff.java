@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.*;
@@ -94,6 +95,14 @@ public @Data class Staff extends AbstractEntity {
     @Column(name = "COMMENTS")
     private String comments;
 
+    @Column(name = "STAFF_TYPE")
+    @Enumerated(EnumType.STRING)
+    private Type type;
+
+    public String getTypeText() {
+        return Optional.ofNullable(type).map(t -> StringUtils.capitalize(t.name().toLowerCase())).orElseGet(() -> "") ;
+    }
+
     public void addStaffResource(StaffResource staffResource) {
 
         if(Objects.isNull(staffResources)) {
@@ -114,6 +123,11 @@ public @Data class Staff extends AbstractEntity {
     public enum Status {
         ACTIVE,
         INACTIVE;
+    }
+
+    public enum Type {
+        EMPLOYEE,
+        TEMPORARY;
     }
 
 }
