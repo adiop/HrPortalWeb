@@ -117,7 +117,9 @@ public @Data class Staff extends AbstractEntity {
         DAY_4_10,
         DAY_5_8,
         SWING_4_10,
-        SWING_5_8,;
+        SWING_5_8,
+        THIRD_5_8,
+        THIRD_4_10;
     }
 
     public enum Status {

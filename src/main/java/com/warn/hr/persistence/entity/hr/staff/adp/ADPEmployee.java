@@ -143,7 +143,9 @@ public @Data class ADPEmployee {
         DAY_4_10,
         DAY_5_8,
         SWING_4_10,
-        SWING_5_8,;
+        SWING_5_8,
+        THIRD_5_8,
+        THIRD_4_10;
 
         public static Shift valueOfADP(String adpValue) {
 
@@ -162,6 +164,12 @@ public @Data class ADPEmployee {
                     break;
                 case "2 - Swing M-TH":
                     shift = SWING_4_10;
+                    break;
+                case "3 - Third":
+                    shift = THIRD_5_8;
+                    break;
+                case "3 - Third M-TH":
+                    shift = THIRD_4_10;
                     break;
                 default:
                     throw new RuntimeException("Invalid value for shift");
